@@ -1,0 +1,2 @@
+public class CalculVitesseMoyenne {
+}
