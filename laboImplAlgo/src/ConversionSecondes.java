@@ -54,9 +54,9 @@ public class ConversionSecondes {
 
             }
             else {
-                while(nbrSecondes < 0){
+                while(nbrSecondesInput < 0){
                     System.out.println(MSG_ERREUR_NBR);
-                    nbrSecondes = scanner.nextInt();
+                    nbrSecondesInput = scanner.nextInt();
                 }
             }
         }
