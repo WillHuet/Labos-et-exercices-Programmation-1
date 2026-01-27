@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CalculVitesseMoyenne {
@@ -13,12 +15,17 @@ public class CalculVitesseMoyenne {
         String MSG_ERREUR_OUI_NON = "ERREUR. Veuillez répondre par 'o' (oui) ou par 'n' (non)!: ";
 
         int nbrTroncon = 1;
-        int[] tableauKilos = {};
-        int[] tableauVitesse = {};
+        List<Integer> numKilos = new ArrayList<>();
+        List<Integer> numVitesse = new ArrayList<>();
+        List<Double> numTemps = new ArrayList<>();
+        int[] tableauKilos = {0};
+        int[] tableauVitesse = {0};
         int kiloTotal = 0;
-        int vitesseTotal = 0;
-        int vitesseMoyenne = 0;
+        double tempsTotal = 0;
+        double vitesseMoyenne = 0;
         char validation = 'o';
+        char continuer = 'o';
+        char arreter = 'n';
 
         Scanner scanner = new Scanner(System.in);
 
@@ -26,7 +33,7 @@ public class CalculVitesseMoyenne {
         System.out.println();
 
         while(validation != 'n'){
-            for (int i = 1; i <= nbrTroncon; i++){
+            for (int i = 0; i < nbrTroncon; i++){
                 System.out.println("----------");
                 System.out.println("TRONÇON #" + nbrTroncon);
                 System.out.println("----------");
@@ -39,7 +46,8 @@ public class CalculVitesseMoyenne {
                         System.out.println();
                     }
                 }
-                tableauKilos[i] = nbrKilos;
+                //tableauKilos[i] = nbrKilos;
+                numKilos.add(nbrKilos);
                 System.out.println();
                 System.out.println(MSG_VITESSE);
                 int vitesse = scanner.nextInt();
@@ -50,27 +58,42 @@ public class CalculVitesseMoyenne {
                         System.out.println();
                     }
                 }
-                tableauVitesse[i] = vitesse;
+                //tableauVitesse[i] = vitesse;
+                numVitesse.add(vitesse);
                 System.out.println();
                 System.out.println(MSG_AUTRE_TRONCON);
                 validation = scanner.next().charAt(0);
-                if (validation == 'o' || validation == 'n'){
-                    while (validation == 'o' || validation == 'n'){
+                if (validation != continuer && validation != arreter){
+                    while (validation != continuer && validation != arreter){
                         System.out.println(MSG_ERREUR_OUI_NON);
                         validation = scanner.next().charAt(0);
                         System.out.println();
                     }
                 }
+                if(validation == continuer){
+                    nbrTroncon++;
+                }
             }
         }
 
-        for (int num : tableauKilos){
-            kiloTotal += tableauKilos[num];
-            vitesseTotal += tableauVitesse[num];
+        for (int i = 0; i < numKilos.size(); i++){
+            kiloTotal += numKilos.get(i);
+            tempsTotal += (double) numKilos.get(i) / numVitesse.get(i);
         }
 
-        vitesseMoyenne = kiloTotal / vitesseTotal;
+
+//        for (int num : numKilos){
+//            kiloTotal += num;
+//
+//        }
+
+//        for (int num : numVitesse){
+//            vitesseTotal += num;
+//        }
+
+        vitesseMoyenne = kiloTotal / tempsTotal;
+        String formattedValue = String.format("%.2f", vitesseMoyenne);
         System.out.println();
-        System.out.println(MSG_FINAL + vitesseMoyenne + " km/h");
+        System.out.println(MSG_FINAL + formattedValue + " km/h");
     }
 }
