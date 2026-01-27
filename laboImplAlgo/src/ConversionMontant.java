@@ -4,16 +4,16 @@ import static java.lang.Math.round;
 
 public class ConversionMontant {
     public static void main(String[] args) {
-        double VALEUR_1C = 0.01;
-        double VALEUR_5C = 0.05;
-        double VALEUR_10C = 0.10;
-        double VALEUR_25C = 0.25;
-        String MSG_PREMIER_NBR = "Conversion d'argent Canadian Tire! Rentrez le nombre de billets que vous avez pour chaque type de billet!:";
-        String MSG_ERREUR_NBR = "Un des chiffres inscrits était négatif! Réessayez avec des chiffres plus grand que 0";
-        String MSG_1C = "Combien de 1C possédez-vous?:";
-        String MSG_5C = "Combien de 5C possédez-vous?:";
-        String MSG_10C = "Combien de 10C possédez-vous?:";
-        String MSG_25C = "Combien de 25C possédez-vous?:";
+        final double VALEUR_1C = 0.01;
+        final double VALEUR_5C = 0.05;
+        final double VALEUR_10C = 0.10;
+        final double VALEUR_25C = 0.25;
+        final String MSG_PREMIER_NBR = "Conversion d'argent Canadian Tire! Rentrez le nombre de billets que vous avez pour chaque type de billet!:";
+        final String MSG_ERREUR_NBR = "Un des chiffres inscrits était négatif! Réessayez avec des chiffres plus grand que 0";
+        final String MSG_1C = "Combien de 1C possédez-vous?:";
+        final String MSG_5C = "Combien de 5C possédez-vous?:";
+        final String MSG_10C = "Combien de 10C possédez-vous?:";
+        final String MSG_25C = "Combien de 25C possédez-vous?:";
 
         int nbr1cInput;
         int nbr5cInput;
