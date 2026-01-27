@@ -3,7 +3,7 @@ import java.util.Scanner;
 import static java.lang.Math.round;
 
 public class ConversionMontant {
-    void main() {
+    public static void main(String[] args) {
         double VALEUR_1C = 0.01;
         double VALEUR_5C = 0.05;
         double VALEUR_10C = 0.10;

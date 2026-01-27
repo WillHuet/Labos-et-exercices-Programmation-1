@@ -3,7 +3,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CalculVitesseMoyenne {
-    void main() {
+    public static void main(String[] args) {
+
         String MSG_ACCUEIL = "Ce programme calcule la vitesse moyenne pour un trajet effectue en plusieurs tronçons.";
         String MSG_NBR_KILO = "Entrez le nombre de kilometre(s) pour ce tronçon:";
         String MSG_VITESSE = "Entrez la vitesse (Km/h) pour ce tronçon:";
@@ -23,7 +24,9 @@ public class CalculVitesseMoyenne {
         int kiloTotal = 0;
         double tempsTotal = 0;
         double vitesseMoyenne = 0;
-        char validation = 'o';
+        boolean validation = true;
+        //char validation = 'o';
+        char validationInput;
         char continuer = 'o';
         char arreter = 'n';
 
@@ -32,7 +35,7 @@ public class CalculVitesseMoyenne {
         System.out.println(MSG_ACCUEIL);
         System.out.println();
 
-        while(validation != 'n'){
+        while(validation){
             for (int i = 0; i < nbrTroncon; i++){
                 System.out.println("----------");
                 System.out.println("TRONÇON #" + nbrTroncon);
@@ -62,16 +65,20 @@ public class CalculVitesseMoyenne {
                 numVitesse.add(vitesse);
                 System.out.println();
                 System.out.println(MSG_AUTRE_TRONCON);
-                validation = scanner.next().charAt(0);
-                if (validation != continuer && validation != arreter){
-                    while (validation != continuer && validation != arreter){
+                validationInput = scanner.next().charAt(0);
+                if (validationInput != continuer && validationInput != arreter){
+                    while (validationInput != continuer && validationInput != arreter){
                         System.out.println(MSG_ERREUR_OUI_NON);
-                        validation = scanner.next().charAt(0);
+                        validationInput = scanner.next().charAt(0);
                         System.out.println();
                     }
                 }
-                if(validation == continuer){
+
+                if(validationInput == continuer){
                     nbrTroncon++;
+                }
+                else if (validationInput == arreter){
+                    validation = false;
                 }
             }
         }

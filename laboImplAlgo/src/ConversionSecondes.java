@@ -1,14 +1,14 @@
 import java.util.Scanner;
 
 public class ConversionSecondes {
-    void main() {
+    public static void main(String[] args) {
+
         int NBR_SECONDES_JOUR = 86400;
         int NBR_SECONDES_HEURE = 3600;
         int NBR_SECONDES_MINUTE = 60;
         String MSG_PREMIER_NBR = "Entrez un nombre de secondes! Nous allons convertir le tout en jours, heures, minutes et secondes:";
         String MSG_NOUVEAU_NBR = "Entrez un nouveau nombre de secondes! Nous allons convertir le tout en jours, heures, minutes et secondes:";
         String MSG_ERREUR_NBR = "Nombre de secondes rentré est négatif ou nul! Réessayez avec un nombre plus grand que 0";
-
 
         int nbrSecondesInput;
         int nbrSecondes;
