@@ -5,15 +5,18 @@ import java.util.Scanner;
 public class CalculVitesseMoyenne {
     public static void main(String[] args) {
 
-        String MSG_ACCUEIL = "Ce programme calcule la vitesse moyenne pour un trajet effectue en plusieurs tronçons.";
-        String MSG_NBR_KILO = "Entrez le nombre de kilometre(s) pour ce tronçon:";
-        String MSG_VITESSE = "Entrez la vitesse (Km/h) pour ce tronçon:";
-        String MSG_AUTRE_TRONCON = "Voulez-vous comptabiliser un autre tronçon? (o/n): ";
-        String MSG_FINAL = "La vitesse moyenne est de: ";
+        final String MSG_ACCUEIL = "Ce programme calcule la vitesse moyenne pour un trajet effectue en plusieurs tronçons.";
+        final String MSG_NBR_KILO = "Entrez le nombre de kilometre(s) pour ce tronçon:";
+        final String MSG_VITESSE = "Entrez la vitesse (Km/h) pour ce tronçon:";
+        final String MSG_AUTRE_TRONCON = "Voulez-vous comptabiliser un autre tronçon? (o/n): ";
+        final String MSG_FINAL = "La vitesse moyenne est de: ";
 
-        String MSG_ERREUR_KILO_NEGATIF = "ERREUR. Le nombre de kilomètre(s) doit être supérieur ou égal a 0.";
-        String MSG_ERREUR_VITESSE_NEGATIVE = "ERREUR. La vitesse doit etre superieure ou egale a 0.";
-        String MSG_ERREUR_OUI_NON = "ERREUR. Veuillez répondre par 'o' (oui) ou par 'n' (non)!: ";
+        final String MSG_ERREUR_KILO_NEGATIF = "ERREUR. Le nombre de kilomètre(s) doit être supérieur ou égal a 0.";
+        final String MSG_ERREUR_VITESSE_NEGATIVE = "ERREUR. La vitesse doit etre superieure ou egale a 0.";
+        final String MSG_ERREUR_OUI_NON = "ERREUR. Veuillez répondre par 'o' (oui) ou par 'n' (non)!: ";
+
+        final char CARAC_CONTINUER = 'o';
+        final char CARAC_ARRETER = 'n';
 
         int nbrTroncon = 1;
         List<Integer> numKilos = new ArrayList<>();
@@ -27,8 +30,6 @@ public class CalculVitesseMoyenne {
         boolean validation = true;
         //char validation = 'o';
         char validationInput;
-        char continuer = 'o';
-        char arreter = 'n';
 
         Scanner scanner = new Scanner(System.in);
 
@@ -66,18 +67,18 @@ public class CalculVitesseMoyenne {
                 System.out.println();
                 System.out.println(MSG_AUTRE_TRONCON);
                 validationInput = scanner.next().charAt(0);
-                if (validationInput != continuer && validationInput != arreter){
-                    while (validationInput != continuer && validationInput != arreter){
+                if (validationInput != CARAC_CONTINUER && validationInput != CARAC_ARRETER){
+                    while (validationInput != CARAC_CONTINUER && validationInput != CARAC_ARRETER){
                         System.out.println(MSG_ERREUR_OUI_NON);
                         validationInput = scanner.next().charAt(0);
                         System.out.println();
                     }
                 }
 
-                if(validationInput == continuer){
+                if(validationInput == CARAC_CONTINUER){
                     nbrTroncon++;
                 }
-                else if (validationInput == arreter){
+                else if (validationInput == CARAC_ARRETER){
                     validation = false;
                 }
             }
