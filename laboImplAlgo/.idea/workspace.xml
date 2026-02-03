@@ -35,6 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "laboSelections",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/williamhuet/Documents/Labos et exercices Programmation 1/laboImplAlgo",
     "nodejs_package_manager_path": "npm",
@@ -93,6 +94,8 @@
       <workItem from="1769437874939" duration="592000" />
       <workItem from="1769438524995" duration="9756000" />
       <workItem from="1769523649921" duration="8598000" />
+      <workItem from="1770134097603" duration="77000" />
+      <workItem from="1770134214833" duration="2253000" />
     </task>
     <servers />
   </component>
@@ -109,21 +112,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ConversionSecondes.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/CalculVitesseMoyenne.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

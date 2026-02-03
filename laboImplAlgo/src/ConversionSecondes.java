@@ -6,9 +6,9 @@ public class ConversionSecondes {
         final int NBR_SECONDES_JOUR = 86400;
         final int NBR_SECONDES_HEURE = 3600;
         final int NBR_SECONDES_MINUTE = 60;
-        final String MSG_PREMIER_NBR = "Entrez un nombre de secondes! Nous allons convertir le tout en jours, heures, minutes et secondes:";
-        final String MSG_NOUVEAU_NBR = "Entrez un nouveau nombre de secondes! Nous allons convertir le tout en jours, heures, minutes et secondes:";
-        final String MSG_ERREUR_NBR = "Nombre de secondes rentré est négatif ou nul! Réessayez avec un nombre plus grand que 0";
+        final String MSG_PREMIER_NBR = "Entrez un nombre de secondes! Nous allons convertir le tout en jours, heures, minutes et secondes : ";
+        final String MSG_NOUVEAU_NBR = "Entrez un nouveau nombre de secondes! Nous allons convertir le tout en jours, heures, minutes et secondes : ";
+        final String MSG_ERREUR_NBR = "Nombre de secondes rentré est négatif ou nul! Réessayez avec un nombre plus grand que 0 : ";
 
         int nbrSecondesInput;
         int nbrSecondes;
@@ -17,11 +17,8 @@ public class ConversionSecondes {
         int heures;
         int jours;
 
-        //Scanner scanner = new Scanner(System.in);
-
-        System.out.println(MSG_PREMIER_NBR);
+        System.out.print(MSG_PREMIER_NBR);
         nbrSecondesInput = Clavier.lireInt();
-        //nbrSecondesInput = scanner.nextInt();
 
         while(nbrSecondesInput != 0){
             nbrSecondes = nbrSecondesInput;
@@ -34,37 +31,29 @@ public class ConversionSecondes {
                     if(nbrSecondes >= NBR_SECONDES_JOUR){
                         jours++;
                         nbrSecondes = nbrSecondes - NBR_SECONDES_JOUR;
-                    }
-                    else if(nbrSecondes >= NBR_SECONDES_HEURE){
+                    } else if(nbrSecondes >= NBR_SECONDES_HEURE){
                         heures++;
                         nbrSecondes = nbrSecondes - NBR_SECONDES_HEURE;
-                    }
-                    else if(nbrSecondes >= NBR_SECONDES_MINUTE){
+                    } else if(nbrSecondes >= NBR_SECONDES_MINUTE){
                         minutes++;
                         nbrSecondes = nbrSecondes - NBR_SECONDES_MINUTE;
-                    }
-                    else{
+                    } else{
                         secondes = nbrSecondes;
                         nbrSecondes = 0;
                     }
                 }
                 System.out.println("("+ jours +","+ heures +","+ minutes +","+ secondes +")");
                 System.out.println();
-                System.out.println(MSG_NOUVEAU_NBR);
+                System.out.print(MSG_NOUVEAU_NBR);
                 nbrSecondesInput = Clavier.lireInt();
 
-            }
-            else {
+            } else {
                 while(nbrSecondesInput < 0){
-                    System.out.println(MSG_ERREUR_NBR);
+                    System.out.print(MSG_ERREUR_NBR);
                     nbrSecondesInput = Clavier.lireInt();
                 }
             }
         }
-
-        //for (int i = 1; i <= 5; i++) {
-        //IO.println("i = " + i);
-        //}
     }
 
 }
