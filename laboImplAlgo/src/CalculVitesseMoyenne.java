@@ -31,7 +31,7 @@ public class CalculVitesseMoyenne {
         //char validation = 'o';
         char validationInput;
 
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
 
         System.out.println(MSG_ACCUEIL);
         System.out.println();
@@ -42,11 +42,11 @@ public class CalculVitesseMoyenne {
                 System.out.println("TRONÇON #" + nbrTroncon);
                 System.out.println("----------");
                 System.out.println(MSG_NBR_KILO);
-                int nbrKilos = scanner.nextInt();
+                int nbrKilos = Clavier.lireInt();
                 if (nbrKilos < 0){
                     while(nbrKilos < 0){
                         System.out.println(MSG_ERREUR_KILO_NEGATIF);
-                        nbrKilos = scanner.nextInt();
+                        nbrKilos = Clavier.lireInt();
                         System.out.println();
                     }
                 }
@@ -54,11 +54,11 @@ public class CalculVitesseMoyenne {
                 numKilos.add(nbrKilos);
                 System.out.println();
                 System.out.println(MSG_VITESSE);
-                int vitesse = scanner.nextInt();
+                int vitesse = Clavier.lireInt();
                 if (vitesse < 0){
                     while(vitesse < 0){
                         System.out.println(MSG_ERREUR_VITESSE_NEGATIVE);
-                        vitesse = scanner.nextInt();
+                        vitesse = Clavier.lireInt();
                         System.out.println();
                     }
                 }
@@ -66,11 +66,11 @@ public class CalculVitesseMoyenne {
                 numVitesse.add(vitesse);
                 System.out.println();
                 System.out.println(MSG_AUTRE_TRONCON);
-                validationInput = scanner.next().charAt(0);
+                validationInput = Clavier.lireChar();
                 if (validationInput != CARAC_CONTINUER && validationInput != CARAC_ARRETER){
                     while (validationInput != CARAC_CONTINUER && validationInput != CARAC_ARRETER){
                         System.out.println(MSG_ERREUR_OUI_NON);
-                        validationInput = scanner.next().charAt(0);
+                        validationInput = Clavier.lireChar();
                         System.out.println();
                     }
                 }

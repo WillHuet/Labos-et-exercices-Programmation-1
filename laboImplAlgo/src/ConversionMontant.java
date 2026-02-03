@@ -21,17 +21,17 @@ public class ConversionMontant {
         int nbr25cInput;
         double valeurTotale = 0;
 
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
 
         System.out.println(MSG_PREMIER_NBR);
         System.out.println(MSG_1C);
-        nbr1cInput = scanner.nextInt();
+        nbr1cInput = Clavier.lireInt();
         System.out.println(MSG_5C);
-        nbr5cInput = scanner.nextInt();
+        nbr5cInput = Clavier.lireInt();
         System.out.println(MSG_10C);
-        nbr10cInput = scanner.nextInt();
+        nbr10cInput = Clavier.lireInt();
         System.out.println(MSG_25C);
-        nbr25cInput = scanner.nextInt();
+        nbr25cInput = Clavier.lireInt();
         System.out.println();
 
 
@@ -39,13 +39,13 @@ public class ConversionMontant {
             while(nbr1cInput < 0 || nbr5cInput < 0 || nbr10cInput < 0 || nbr25cInput < 0){
                 System.out.println(MSG_ERREUR_NBR);
                 System.out.println(MSG_1C);
-                nbr1cInput = scanner.nextInt();
+                nbr1cInput = Clavier.lireInt();
                 System.out.println(MSG_5C);
-                nbr5cInput = scanner.nextInt();
+                nbr5cInput = Clavier.lireInt();
                 System.out.println(MSG_10C);
-                nbr10cInput = scanner.nextInt();
+                nbr10cInput = Clavier.lireInt();
                 System.out.println(MSG_25C);
-                nbr25cInput = scanner.nextInt();
+                nbr25cInput = Clavier.lireInt();
             }
         }
 

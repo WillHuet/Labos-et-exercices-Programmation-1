@@ -17,10 +17,11 @@ public class ConversionSecondes {
         int heures;
         int jours;
 
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
 
         System.out.println(MSG_PREMIER_NBR);
-        nbrSecondesInput = scanner.nextInt();
+        nbrSecondesInput = Clavier.lireInt();
+        //nbrSecondesInput = scanner.nextInt();
 
         while(nbrSecondesInput != 0){
             nbrSecondes = nbrSecondesInput;
@@ -50,13 +51,13 @@ public class ConversionSecondes {
                 System.out.println("("+ jours +","+ heures +","+ minutes +","+ secondes +")");
                 System.out.println();
                 System.out.println(MSG_NOUVEAU_NBR);
-                nbrSecondesInput = scanner.nextInt();
+                nbrSecondesInput = Clavier.lireInt();
 
             }
             else {
                 while(nbrSecondesInput < 0){
                     System.out.println(MSG_ERREUR_NBR);
-                    nbrSecondesInput = scanner.nextInt();
+                    nbrSecondesInput = Clavier.lireInt();
                 }
             }
         }
