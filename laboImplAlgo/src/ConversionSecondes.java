@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class ConversionSecondes {
+
     public static void main(String[] args) {
 
         final int NBR_SECONDES_JOUR = 86400;
@@ -19,6 +20,7 @@ public class ConversionSecondes {
 
         System.out.print(MSG_PREMIER_NBR);
         nbrSecondesInput = Clavier.lireInt();
+
 
         while(nbrSecondesInput != 0){
             nbrSecondes = nbrSecondesInput;
@@ -55,5 +57,4 @@ public class ConversionSecondes {
             }
         }
     }
-
 }

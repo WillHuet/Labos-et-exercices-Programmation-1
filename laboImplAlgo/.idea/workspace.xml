@@ -44,7 +44,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.CalculVitesseMoyenne">
+  <component name="RunManager" selected="Application.ConversionSecondes">
     <configuration name="CalculVitesseMoyenne" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CalculVitesseMoyenne" />
       <module name="laboImplAlgo" />
@@ -68,9 +68,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ConversionSecondes" />
         <item itemvalue="Application.CalculVitesseMoyenne" />
         <item itemvalue="Application.ConversionMontant" />
-        <item itemvalue="Application.ConversionSecondes" />
       </list>
     </recent_temporary>
   </component>
@@ -95,7 +95,9 @@
       <workItem from="1769438524995" duration="9756000" />
       <workItem from="1769523649921" duration="8598000" />
       <workItem from="1770134097603" duration="77000" />
-      <workItem from="1770134214833" duration="2253000" />
+      <workItem from="1770134214833" duration="2661000" />
+      <workItem from="1770139586595" duration="409000" />
+      <workItem from="1770215555856" duration="6498000" />
     </task>
     <servers />
   </component>
