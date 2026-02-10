@@ -35,6 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "laboSelections",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/williamhuet/Documents/Labos et exercices Programmation 1/laboImplAlgo",
     "nodejs_package_manager_path": "npm",
@@ -43,7 +44,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.CalculVitesseMoyenne">
+  <component name="RunManager" selected="Application.ConversionSecondes">
     <configuration name="CalculVitesseMoyenne" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CalculVitesseMoyenne" />
       <module name="laboImplAlgo" />
@@ -67,9 +68,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ConversionSecondes" />
         <item itemvalue="Application.CalculVitesseMoyenne" />
         <item itemvalue="Application.ConversionMontant" />
-        <item itemvalue="Application.ConversionSecondes" />
       </list>
     </recent_temporary>
   </component>
@@ -93,6 +94,10 @@
       <workItem from="1769437874939" duration="592000" />
       <workItem from="1769438524995" duration="9756000" />
       <workItem from="1769523649921" duration="8598000" />
+      <workItem from="1770134097603" duration="77000" />
+      <workItem from="1770134214833" duration="2661000" />
+      <workItem from="1770139586595" duration="409000" />
+      <workItem from="1770215555856" duration="6498000" />
     </task>
     <servers />
   </component>
@@ -109,21 +114,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ConversionSecondes.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/CalculVitesseMoyenne.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
