@@ -18,13 +18,13 @@ public class LaboSelections1B {
         switch (inputMenu){
             case LETTRE_A :
                 System.out.println(MSG_CONFIRM + LETTRE_A);
-                break;
+                //break;
             case LETTRE_B :
                 System.out.println(MSG_CONFIRM + LETTRE_B);
-                break;
+                //break;
             case LETTRE_Q :
                 System.out.println(MSG_CONFIRM + LETTRE_Q);
-                break;
+                //break;
             default :
                 System.out.println(MSG_ERROR_INPUT);
                 break;

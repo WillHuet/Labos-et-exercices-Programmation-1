@@ -21,7 +21,6 @@ public class ConversionSecondes {
         System.out.print(MSG_PREMIER_NBR);
         nbrSecondesInput = Clavier.lireInt();
 
-
         while(nbrSecondesInput != 0){
             nbrSecondes = nbrSecondesInput;
             secondes = 0;
