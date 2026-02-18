@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Clavier">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Clavier.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Labo2-IDEBlueJ/Clavier.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
