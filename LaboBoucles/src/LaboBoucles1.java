@@ -9,7 +9,7 @@ public class LaboBoucles1 {
         while (valeurInput != FERMER_PROGRAM) {
             System.out.print(MSG_INPUT);
             valeurInput = Clavier.lireInt();
-            if (valeurInput != -1) {
+            if (valeurInput != FERMER_PROGRAM) {
                 somme += valeurInput;
             }
         }
