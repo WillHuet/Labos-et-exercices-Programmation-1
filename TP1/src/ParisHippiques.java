@@ -59,25 +59,27 @@ public class ParisHippiques {
     final static String MSG_CHOIX_UNIQUE_CHEVAL = "Entrez le numero du cheval : ";
     final static String MSG_CHOIX_PREMIER_CHEVAL = "Entrez le numero du premier cheval : ";
     final static String MSG_CHOIX_DEUXIEME_CHEVAL = "Entrez le numero du deuxième cheval : ";
-    final static String MSG_FIN_PROGRAMME = "Fin du programme. Aurevoir!";
+    final static String MSG_FIN_PROGRAMME = "\n"+"FIN DU PROGRAMME. Aurevoir!";
+    final static String MSG_AJOUT_BANQUE = "Entrez le montant a ajouter (0 pour annuler) : ";
 
     //MESSAGES D'ERREURS
     final static String MSG_ERREUR_MONTANT_BANQUE = "Erreur, le montant doit être plus grand ou égal a 0! Recommencez...";
     final static String MSG_ERREUR_CHOIX_MENU = "Erreur, entrez un choix entre 1 et 3! Recommencez...";
     final static String MSG_ERREUR_CHOIX_PARI = "Erreur, entrez un choix entre 1 et 5! Recommencez...";
     final static String MSG_ERREUR_CHOIX_CHEVAL = "Erreur, entrez un choix entre 1 et 6! Recommencez...";
+    final static String MSG_ERREUR_CHOIX_BANQUE = "Erreur, entrez A, V ou R! Recommencez...";
 
     //VALEURS BYTES POUR SELECTION DE MENU
-    final static byte SELECTION_1 = '1';
-    final static byte SELECTION_2 = '2';
-    final static byte SELECTION_3 = '3';
-    final static byte SELECTION_4 = '4';
-    final static byte SELECTION_5 = '5';
-    final static byte SELECTION_6 = '6';
+    final static char SELECTION_1 = '1';
+    final static char SELECTION_2 = '2';
+    final static char SELECTION_3 = '3';
+    final static char SELECTION_4 = '4';
+    final static char SELECTION_5 = '5';
+    final static char SELECTION_6 = '6';
 
-    final static byte AJOUTER_BANQUE = 'A';
-    final static byte VIDER_BANQUE = 'V';
-    final static byte REVENIR_BANQUE = 'R';
+    final static char AJOUTER_BANQUE = 'A';
+    final static char VIDER_BANQUE = 'V';
+    final static char REVENIR_BANQUE = 'R';
 
 
     public static void main(String[] args) {
@@ -86,81 +88,68 @@ public class ParisHippiques {
         boolean boolPari = false;
         boolean boolBanque = false;
 
-        String menuPrincipalInput;
-        String menuPariInput;
-        String menuChevauxInput;
-        String menuBanqueInput;
-        String menuSelection1erChevalInput;
-        String menuSelection2emeChevalInput;
+        char menuPrincipalInput;
+        char menuPariInput;
+        char menuChevauxInput;
+        char menuBanqueInput;
+        char menuSelection1erChevalInput;
+        char menuSelection2emeChevalInput;
+
+        double montantAjoutInput = 0.00;
         double montantBanqueInput = 0.00;
         double montantBanque = 0.00;
-        byte menuPrincipal;
-        byte menuPari;
-        byte menuBanque;
-        byte menu1erCheval;
-        byte menu2emeCheval;
 
         /*DEBUT DU PROGRAMME*/
         System.out.println(MSG_BIENVENUE);
 
-        System.out.println(MSG_METTRE_MONTANT_BANQUE);
+        System.out.print(MSG_METTRE_MONTANT_BANQUE);
         montantBanqueInput = Clavier.lireDoubleLn();
-
+        montantBanque = montantBanqueInput;
         //AFFICHAGE DU PREMIER MENU (PRINCIPAL)
         do{
             if (montantBanqueInput > 0){
-                montantBanque = montantBanqueInput;
+                System.out.print(MSG_MENU_PRINCIPAL);
+                menuPrincipalInput = Clavier.lireCharLn();
 
-                System.out.println(MSG_MENU_PRINCIPAL);
-                menuPrincipalInput = Clavier.lireString();
-                menuBanque = (byte) menuPrincipalInput.charAt(0);
-
-                //SELECTION PREMIER MENU (PARI, BANQUE OU QUITTER)
+                //SELECTION MENU PRINCIPAL (PARI, BANQUE OU QUITTER)
                 do{
-                    switch (menuBanque){
+                    switch (menuPrincipalInput){
                         //PARI
                         case SELECTION_1:
-                            System.out.println(MSG_MENU_PARI);
-                            menuPariInput = Clavier.lireString();
-                            menuPari = (byte) menuPariInput.charAt(0);
+                            System.out.print(MSG_MENU_PARI);
+                            menuPariInput = Clavier.lireCharLn();
                             boolPari = true;
                             while (boolPari){
-                                switch (menuPari){
+                                switch (menuPariInput){
                                     //PARI SIMPLE
                                     case SELECTION_1:
                                         System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireString();
-                                        menu1erCheval = (byte) menuSelection1erChevalInput.charAt(0);
+                                        menuSelection1erChevalInput = Clavier.lireCharLn();
                                         //TODO
                                         break;
 
                                     //PARI PLACE
                                     case SELECTION_2:
                                         System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireString();
-                                        menu1erCheval = (byte) menuSelection1erChevalInput.charAt(0);
+                                        menuSelection1erChevalInput = Clavier.lireCharLn();
                                         //TODO
                                         break;
 
                                     //PARI COUPLE GAGNANT ORDONNE
                                     case SELECTION_3:
                                         System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireString();
-                                        menu1erCheval = (byte) menuSelection1erChevalInput.charAt(0);
+                                        menuSelection1erChevalInput = Clavier.lireCharLn();
                                         System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection2emeChevalInput = Clavier.lireString();
-                                        menu2emeCheval = (byte) menuSelection2emeChevalInput.charAt(0);
+                                        menuSelection2emeChevalInput = Clavier.lireCharLn();
                                         //TODO
                                         break;
 
                                     //PARI COUPLE GAGNANT NON ORDONNE
                                     case SELECTION_4:
                                         System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireString();
-                                        menu1erCheval = (byte) menuSelection1erChevalInput.charAt(0);
+                                        menuSelection1erChevalInput = Clavier.lireCharLn();
                                         System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection2emeChevalInput = Clavier.lireString();
-                                        menu2emeCheval = (byte) menuSelection2emeChevalInput.charAt(0);
+                                        menuSelection2emeChevalInput = Clavier.lireCharLn();
                                         //TODO
                                         break;
 
@@ -173,17 +162,46 @@ public class ParisHippiques {
                                     default:
                                         System.out.println(MSG_ERREUR_CHOIX_PARI);
                                         System.out.println(MSG_MENU_PARI);
-                                        menuPariInput = Clavier.lireString();
-                                        menuPari = (byte) menuPariInput.charAt(0);
+                                        //menuPariInput = Clavier.lireString();
+                                        //menuPari = menuPariInput.charAt(0);
                                 }
                             }
                             break;
 
                         //GERER BANQUE
                         case SELECTION_2:
-                            System.out.print(MSG_DEBUT_GERER_BANQUE + montantBanque + MSG_FIN_GERER_BANQUE);
-                            menuPariInput = Clavier.lireString();
-                            //TODO
+                            boolBanque = true;
+                            while (boolBanque){
+                                System.out.print(MSG_DEBUT_GERER_BANQUE + montantBanque + MSG_FIN_GERER_BANQUE);
+                                menuBanqueInput = Clavier.lireCharLn();
+                                menuBanqueInput = Character.toUpperCase(menuBanqueInput);
+                                switch (menuBanqueInput){
+                                    case AJOUTER_BANQUE:
+                                        System.out.print(MSG_AJOUT_BANQUE);
+                                        montantAjoutInput = Clavier.lireDoubleLn();
+                                        if (montantAjoutInput >= 0){
+                                            montantBanque += montantAjoutInput;
+                                        } else {
+                                           while (montantAjoutInput < 0){
+                                               System.out.println(MSG_ERREUR_MONTANT_BANQUE);
+                                               System.out.print(MSG_AJOUT_BANQUE);
+                                               montantAjoutInput = Clavier.lireDoubleLn();
+                                           }
+                                        }
+                                        break;
+                                    case VIDER_BANQUE:
+                                        montantBanque = 0.00;
+                                        menuPrincipalInput = 3;
+                                        boolBanque = false;
+                                        boolMenu = false;
+                                        break;
+                                    case REVENIR_BANQUE:
+                                        boolBanque = false;
+                                        break;
+                                    default:
+                                        System.out.print(MSG_ERREUR_CHOIX_BANQUE);
+                                }
+                            }
                             break;
 
                         //QUITTER PROGRAMME
@@ -194,7 +212,7 @@ public class ParisHippiques {
                             System.out.println(MSG_ERREUR_CHOIX_MENU);
                     }
                 }
-                while (menuBanque >= 1 && menuBanque <= 2);
+                while (menuPrincipalInput >= 1 && menuPrincipalInput <= 2);
             } else if (montantBanqueInput < 0) {
                 System.out.println(MSG_ERREUR_MONTANT_BANQUE);
                 montantBanqueInput = Clavier.lireDoubleLn();
