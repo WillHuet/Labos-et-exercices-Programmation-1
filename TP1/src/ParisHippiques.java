@@ -8,22 +8,28 @@
 public class ParisHippiques {
     /*CONSTANTES*/
     //LONG MESSAGES ET INTERFACES DE MENU
-    final static String MSG_MENU_PRINCIPAL =
+    final static String ENTETE_MENU_PRINCIPAL =
             "\n" +
-            "----\n" +
-            "MENU\n" +
-            "----\n" +
+            "--------------\n" +
+            "MENU PRINCIPAL\n" +
+            "--------------\n";
+    final static String ENTETE_MENU_PARI =
+            "\n" +
+            "--------------\n" +
+            "PLACER UN PARI\n" +
+            "--------------\n";
+    final static String ENTETE_MENU_BANQUE =
+            "\n" +
+            "---------------\n" +
+            "GÉRER LA BANQUE\n" +
+            "---------------\n";
+    final static String MSG_MENU_PRINCIPAL =
             "1. Placer un pari\n" +
             "2. Gérer la banque\n" +
             "3. Quitter\n" +
             "\n" +
             "Entrez votre choix : ";
     final static String MSG_MENU_PARI =
-            "\n" +
-            "--------------\n" +
-            "PLACER UN PARI\n" +
-            "--------------\n" +
-            "\n" +
             "Type de pari\n" +
             "  1. Pari simple gagnant\n" +
             "  2. Pari simple placé\n" +
@@ -41,13 +47,7 @@ public class ParisHippiques {
             "  5. Romarin\n" +
             "  6. Canelle\n" +
             "\n";
-    final static String MSG_DEBUT_GERER_BANQUE =
-            "\n" +
-            "---------------\n" +
-            "GÉRER LA BANQUE\n" +
-            "---------------\n" +
-            "\n" +
-            "** Montant en banque : ";
+    final static String MSG_DEBUT_GERER_BANQUE = "** Montant en banque : ";
     final static String MSG_FIN_GERER_BANQUE =
             "$ **\n" +
             "\n" +
@@ -108,15 +108,15 @@ public class ParisHippiques {
         //AFFICHAGE DU PREMIER MENU (PRINCIPAL)
         do{
             if (montantBanqueInput > 0){
-                System.out.print(MSG_MENU_PRINCIPAL);
+                System.out.print(ENTETE_MENU_PRINCIPAL + MSG_MENU_PRINCIPAL);
                 menuPrincipalInput = Clavier.lireCharLn();
 
                 //SELECTION MENU PRINCIPAL (PARI, BANQUE OU QUITTER)
-                do{
+                //do{
                     switch (menuPrincipalInput){
                         //PARI
                         case SELECTION_1:
-                            System.out.print(MSG_MENU_PARI);
+                            System.out.print(ENTETE_MENU_PARI + MSG_MENU_PARI);
                             menuPariInput = Clavier.lireCharLn();
                             boolPari = true;
                             while (boolPari){
@@ -172,7 +172,7 @@ public class ParisHippiques {
                         case SELECTION_2:
                             boolBanque = true;
                             while (boolBanque){
-                                System.out.print(MSG_DEBUT_GERER_BANQUE + montantBanque + MSG_FIN_GERER_BANQUE);
+                                System.out.print(ENTETE_MENU_BANQUE + MSG_DEBUT_GERER_BANQUE + montantBanque + MSG_FIN_GERER_BANQUE);
                                 menuBanqueInput = Clavier.lireCharLn();
                                 menuBanqueInput = Character.toUpperCase(menuBanqueInput);
                                 switch (menuBanqueInput){
@@ -211,8 +211,8 @@ public class ParisHippiques {
                         default:
                             System.out.println(MSG_ERREUR_CHOIX_MENU);
                     }
-                }
-                while (menuPrincipalInput >= 1 && menuPrincipalInput <= 2);
+                //}
+                //while (menuPrincipalInput >= 1 && menuPrincipalInput <= 2);
             } else if (montantBanqueInput < 0) {
                 System.out.println(MSG_ERREUR_MONTANT_BANQUE);
                 montantBanqueInput = Clavier.lireDoubleLn();
