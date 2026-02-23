@@ -23,6 +23,10 @@ public class ParisHippiques {
             "---------------\n" +
             "GÉRER LA BANQUE\n" +
             "---------------\n";
+    final static String ENTETE_OPERATION_ANNULEE =
+            "\n" +
+            "----> OPERATION ANNULÉE <----\n" +
+            "\n";
     final static String MSG_MENU_PRINCIPAL =
             "1. Placer un pari\n" +
             "2. Gérer la banque\n" +
@@ -47,7 +51,6 @@ public class ParisHippiques {
             "  5. Romarin\n" +
             "  6. Canelle\n" +
             "\n";
-    final static String MSG_DEBUT_GERER_BANQUE = "** Montant en banque : ";
     final static String MSG_FIN_GERER_BANQUE =
             "$ **\n" +
             "\n" +
@@ -56,18 +59,30 @@ public class ParisHippiques {
     //PETITS MESSAGES
     final static String MSG_BIENVENUE = "Ce programme permet de placer des paris sur des courses hippiques virtuelles.\n";
     final static String MSG_METTRE_MONTANT_BANQUE = "Votre banque est vide.\n" + "Pour continuer, entrez un montant à mettre en banque (0 pour quitter) : ";
-    final static String MSG_CHOIX_UNIQUE_CHEVAL = "Entrez le numero du cheval : ";
-    final static String MSG_CHOIX_PREMIER_CHEVAL = "Entrez le numero du premier cheval : ";
-    final static String MSG_CHOIX_DEUXIEME_CHEVAL = "Entrez le numero du deuxième cheval : ";
+    final static String MSG_CHOIX_UNIQUE_CHEVAL = "Entrez le numéro du cheval : ";
+    final static String MSG_CHOIX_PREMIER_CHEVAL = "Entrez le numéro du premier cheval : ";
+    final static String MSG_CHOIX_DEUXIEME_CHEVAL = "Entrez le numéro du deuxième cheval : ";
     final static String MSG_FIN_PROGRAMME = "\n"+"FIN DU PROGRAMME. Aurevoir!";
-    final static String MSG_AJOUT_BANQUE = "Entrez le montant a ajouter (0 pour annuler) : ";
+    final static String MSG_AJOUT_BANQUE = "Entrez le montant à ajouter (0 pour annuler) : ";
+    final static String MSG_MONTANT_MISE = "Entrez le montant de la mise (0 pour annuler) : ";
+    final static String MSG_DEBUT_GERER_BANQUE = "** Montant en banque : ";
+    final static String MSG_RETOUR_MENU_PRINCIPAL = "Appuyez sur <ENTREE> pour revenir au menu principal...";
+    final static String MSG_PARI_GAGNE = "BRAVO ! Vous avez gagné ";
+    final static String MSG_PARI_PERDU = "DÉSOLÉ ! Vous avez perdu votre pari.";
+    final static String MSG_GAIN_CUMULE= "\n" + "GAIN CUMULÉ       : ";
+    final static String MSG_PERTE_CUMULE= "\n" + "PERTE CUMULÉE     : ";
+    final static String MSG_BANQUE_APRES_GAIN = "BANQUE            : ";
+
 
     //MESSAGES D'ERREURS
-    final static String MSG_ERREUR_MONTANT_BANQUE = "Erreur, le montant doit être plus grand ou égal a 0! Recommencez...";
-    final static String MSG_ERREUR_CHOIX_MENU = "Erreur, entrez un choix entre 1 et 3! Recommencez...";
-    final static String MSG_ERREUR_CHOIX_PARI = "Erreur, entrez un choix entre 1 et 5! Recommencez...";
-    final static String MSG_ERREUR_CHOIX_CHEVAL = "Erreur, entrez un choix entre 1 et 6! Recommencez...";
-    final static String MSG_ERREUR_CHOIX_BANQUE = "Erreur, entrez A, V ou R! Recommencez...";
+    final static String MSG_ERREUR_MONTANT_BANQUE = "Erreur, le montant doit être plus grand ou égal a 0! Recommencez... ";
+    final static String MSG_ERREUR_CHOIX_MENU = "Erreur, entrez un choix entre 1 et 3! Recommencez... ";
+    final static String MSG_ERREUR_CHOIX_PARI = "Erreur, entrez un choix entre 1 et 5! Recommencez... ";
+    final static String MSG_ERREUR_CHOIX_CHEVAL = "Erreur, entrez un choix entre 1 et 6! Recommencez... ";
+    final static String MSG_ERREUR_CHOIX_BANQUE = "Erreur, entrez A, V ou R! Recommencez... ";
+    final static String MSG_ERREUR_MONTANT_MISE = "Erreur, la mise doit être entre 0.00$ et ";
+
+
 
     //VALEURS BYTES POUR SELECTION DE MENU
     final static char SELECTION_1 = '1';
@@ -97,14 +112,22 @@ public class ParisHippiques {
 
         double montantAjoutInput = 0.00;
         double montantBanqueInput = 0.00;
+        double montantMiseInput = 0.00;
         double montantBanque = 0.00;
+        double gain = 0.00;
+
+        int classement;
 
         /*DEBUT DU PROGRAMME*/
         System.out.println(MSG_BIENVENUE);
-
         System.out.print(MSG_METTRE_MONTANT_BANQUE);
         montantBanqueInput = Clavier.lireDoubleLn();
+        while (montantBanqueInput < 0) {
+            System.out.print(MSG_ERREUR_MONTANT_BANQUE);
+            montantBanqueInput = Clavier.lireDoubleLn();
+        }
         montantBanque = montantBanqueInput;
+
         //AFFICHAGE DU PREMIER MENU (PRINCIPAL)
         do{
             if (montantBanqueInput > 0){
@@ -112,110 +135,153 @@ public class ParisHippiques {
                 menuPrincipalInput = Clavier.lireCharLn();
 
                 //SELECTION MENU PRINCIPAL (PARI, BANQUE OU QUITTER)
-                //do{
-                    switch (menuPrincipalInput){
-                        //PARI
-                        case SELECTION_1:
-                            System.out.print(ENTETE_MENU_PARI + MSG_MENU_PARI);
-                            menuPariInput = Clavier.lireCharLn();
-                            boolPari = true;
-                            while (boolPari){
-                                switch (menuPariInput){
-                                    //PARI SIMPLE
-                                    case SELECTION_1:
-                                        System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
+                switch (menuPrincipalInput){
+                    //PARI
+                    case SELECTION_1:
+                        System.out.print(ENTETE_MENU_PARI + MSG_MENU_PARI);
+                        menuPariInput = Clavier.lireCharLn();
+                        boolPari = true;
+                        do{
+                            switch (menuPariInput){
+                                //PARI SIMPLE
+                                case SELECTION_1:
+                                    System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
+                                    menuSelection1erChevalInput = Clavier.lireCharLn();
+                                    while((byte)menuSelection1erChevalInput < (byte)SELECTION_1 || (byte)menuSelection1erChevalInput > (byte)SELECTION_6){
+                                        System.out.println(MSG_ERREUR_CHOIX_CHEVAL + MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
                                         menuSelection1erChevalInput = Clavier.lireCharLn();
-                                        //TODO
-                                        break;
+                                    }
 
-                                    //PARI PLACE
-                                    case SELECTION_2:
-                                        System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireCharLn();
-                                        //TODO
-                                        break;
+                                    System.out.print(MSG_MONTANT_MISE);
+                                    montantMiseInput = Clavier.lireDoubleLn();
+                                    while(montantMiseInput < 0 || montantMiseInput > montantBanque){
+                                        System.out.println(MSG_ERREUR_MONTANT_MISE + String.format("%.2f", montantBanque) + "$! Recommencez...");
+                                        System.out.print(MSG_MONTANT_MISE);
+                                        montantMiseInput = Clavier.lireDoubleLn();
+                                    }
 
-                                    //PARI COUPLE GAGNANT ORDONNE
-                                    case SELECTION_3:
-                                        System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireCharLn();
-                                        System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection2emeChevalInput = Clavier.lireCharLn();
-                                        //TODO
-                                        break;
+                                    if (montantMiseInput > 0 && montantMiseInput <= montantBanque){
+                                        montantBanque -= montantMiseInput;
+                                        gain -= montantMiseInput;
 
-                                    //PARI COUPLE GAGNANT NON ORDONNE
-                                    case SELECTION_4:
-                                        System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection1erChevalInput = Clavier.lireCharLn();
-                                        System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
-                                        menuSelection2emeChevalInput = Clavier.lireCharLn();
-                                        //TODO
-                                        break;
+                                        classement = TP1Utils.executerCourse();
+                                        int premierePlace = classement / 100000;
+                                        if((char)premierePlace == menuSelection1erChevalInput){
+                                            gain += montantMiseInput * 3;
+                                        }
 
-                                    //QUITTER MENU PARI
-                                    case SELECTION_5:
+                                        if (gain >= 0){
+                                            System.out.println(MSG_GAIN_CUMULE + String.format("%.2f", gain) +"$");
+                                            System.out.println(MSG_BANQUE_APRES_GAIN + String.format("%.2f", montantBanque) +"$");
+                                        } else {
+                                            System.out.println(MSG_PERTE_CUMULE + String.format("%.2f", Math.abs(gain)) +"$");
+                                            System.out.println(MSG_BANQUE_APRES_GAIN + String.format("%.2f", montantBanque) +"$");
+                                        }
+                                        System.out.println(MSG_RETOUR_MENU_PRINCIPAL);
+                                        Clavier.lireFinLigne();
                                         boolPari = false;
-                                        break;
 
-                                    //ERREUR
-                                    default:
-                                        System.out.println(MSG_ERREUR_CHOIX_PARI);
-                                        System.out.println(MSG_MENU_PARI);
-                                        //menuPariInput = Clavier.lireString();
-                                        //menuPari = menuPariInput.charAt(0);
-                                }
+                                        if(montantBanque == 0){
+                                            System.out.print(MSG_METTRE_MONTANT_BANQUE);
+                                            montantBanqueInput = Clavier.lireDoubleLn();
+                                            while (montantBanqueInput < 0) {
+                                                System.out.print(MSG_ERREUR_MONTANT_BANQUE);
+                                                montantBanqueInput = Clavier.lireDoubleLn();
+                                            }
+                                            if(montantBanqueInput == 0){
+                                                boolMenu = false;
+                                            }
+                                            montantBanque = montantBanqueInput;
+                                        }
+                                    } else {
+                                        System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
+                                        Clavier.lireFinLigne();
+                                        boolPari = false;
+                                    }
+                                    break;
+
+                                //PARI PLACE
+                                case SELECTION_2:
+                                    System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
+                                    menuSelection1erChevalInput = Clavier.lireCharLn();
+                                    //TODO
+                                    break;
+
+                                //PARI COUPLE GAGNANT ORDONNE
+                                case SELECTION_3:
+                                    System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
+                                    menuSelection1erChevalInput = Clavier.lireCharLn();
+                                    System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
+                                    menuSelection2emeChevalInput = Clavier.lireCharLn();
+                                    //TODO
+                                    break;
+
+                                //PARI COUPLE GAGNANT NON ORDONNE
+                                case SELECTION_4:
+                                    System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
+                                    menuSelection1erChevalInput = Clavier.lireCharLn();
+                                    System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_PREMIER_CHEVAL);
+                                    menuSelection2emeChevalInput = Clavier.lireCharLn();
+                                    //TODO
+                                    break;
+
+                                //QUITTER MENU PARI
+                                case SELECTION_5:
+                                    boolPari = false;
+                                    break;
+
+                                //ERREUR
+                                default:
+                                    System.out.println(MSG_ERREUR_CHOIX_PARI);
+                                    System.out.print(MSG_MENU_PARI);
+                                    menuPariInput = Clavier.lireCharLn();
                             }
-                            break;
+                            //si le banque se vide
+                        }
+                        while (boolPari);
+                        break;
 
-                        //GERER BANQUE
-                        case SELECTION_2:
-                            boolBanque = true;
-                            while (boolBanque){
-                                System.out.print(ENTETE_MENU_BANQUE + MSG_DEBUT_GERER_BANQUE + montantBanque + MSG_FIN_GERER_BANQUE);
-                                menuBanqueInput = Clavier.lireCharLn();
-                                menuBanqueInput = Character.toUpperCase(menuBanqueInput);
-                                switch (menuBanqueInput){
-                                    case AJOUTER_BANQUE:
+                    //GERER BANQUE
+                    case SELECTION_2:
+                        boolBanque = true;
+                        while (boolBanque){
+                            System.out.print(ENTETE_MENU_BANQUE + MSG_DEBUT_GERER_BANQUE + String.format("%.2f", montantBanque) + MSG_FIN_GERER_BANQUE);
+                            menuBanqueInput = Clavier.lireCharLn();
+                            menuBanqueInput = Character.toUpperCase(menuBanqueInput);
+                            switch (menuBanqueInput){
+                                case AJOUTER_BANQUE:
+                                    System.out.print(MSG_AJOUT_BANQUE);
+                                    montantAjoutInput = Clavier.lireDoubleLn();
+                                    while (montantAjoutInput < 0){
+                                        System.out.println(MSG_ERREUR_MONTANT_BANQUE);
                                         System.out.print(MSG_AJOUT_BANQUE);
                                         montantAjoutInput = Clavier.lireDoubleLn();
-                                        if (montantAjoutInput >= 0){
-                                            montantBanque += montantAjoutInput;
-                                        } else {
-                                           while (montantAjoutInput < 0){
-                                               System.out.println(MSG_ERREUR_MONTANT_BANQUE);
-                                               System.out.print(MSG_AJOUT_BANQUE);
-                                               montantAjoutInput = Clavier.lireDoubleLn();
-                                           }
-                                        }
-                                        break;
-                                    case VIDER_BANQUE:
-                                        montantBanque = 0.00;
-                                        menuPrincipalInput = 3;
-                                        boolBanque = false;
-                                        boolMenu = false;
-                                        break;
-                                    case REVENIR_BANQUE:
-                                        boolBanque = false;
-                                        break;
-                                    default:
-                                        System.out.print(MSG_ERREUR_CHOIX_BANQUE);
-                                }
+                                    }
+                                    if (montantAjoutInput >= 0){
+                                        montantBanque += montantAjoutInput;
+                                    }
+                                    break;
+                                case VIDER_BANQUE:
+                                    montantBanque = 0.00;
+                                    boolBanque = false;
+                                    boolMenu = false;
+                                    break;
+                                case REVENIR_BANQUE:
+                                    boolBanque = false;
+                                    break;
+                                default:
+                                    System.out.print(MSG_ERREUR_CHOIX_BANQUE);
                             }
-                            break;
+                        }
+                        break;
 
-                        //QUITTER PROGRAMME
-                        case SELECTION_3:
-                            boolMenu = false;
-                            break;
-                        default:
-                            System.out.println(MSG_ERREUR_CHOIX_MENU);
-                    }
-                //}
-                //while (menuPrincipalInput >= 1 && menuPrincipalInput <= 2);
-            } else if (montantBanqueInput < 0) {
-                System.out.println(MSG_ERREUR_MONTANT_BANQUE);
-                montantBanqueInput = Clavier.lireDoubleLn();
+                    //QUITTER PROGRAMME
+                    case SELECTION_3:
+                        boolMenu = false;
+                        break;
+                    default:
+                        System.out.println(MSG_ERREUR_CHOIX_MENU);
+                }
             } else if (montantBanqueInput == 0) {
                 boolMenu = false;
             }
