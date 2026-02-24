@@ -1,8 +1,32 @@
 /**
- * Cette classe contient... TODO
+ * Cette classe contient une méthode permettant de faire des paris hippiques.
  *
+ * Lorsque l'application se lance, on demande déposer un montant dans la banque. Celui-ci doit être plus grand que zéro (0).
+ * Par la suite, un menu principal avec trois options s'affiche: [ 1. Placer un pari, 2. Gérer la banque et 3. Quitter ]
+ *
+ * Si l'on sélectionne la PREMIÈRE option (Placer un pari), un nouveau menu s'affiche avec cinq nouvelles options :
+ *   1. Pari simple gagnant (le cheval sélectionné arrive en première place / cote de 3)
+ *   2. Pari simple placé (le cheval sélectionné arrive en première ou deuxième place / cote de 2)
+ *   3. Pari couplé gagnant ordonné (les chevaux sélectionnés arrivent respectivement en première et deuxième place / cote de 3.5)
+ *   4. Pari couplé gagnant non ordonné (les chevaux sélectionnés arrivent en première et deuxième place, peu importe l'ordre / cote de 2.5)
+ *   5. Revenir au menu principal
+ * Pour chaque type de pari, on nous demande de rentrer la valeur de un ou deux chevaux ainsi que la valeur de notre pari.
+ * Par la suite la course se déroule et affiche les résultats après quelques secondes.
+ * Une petite interface apparaît ensuite pour nous montrer nos gains ou pertes totaux et nous révèle notre nouveau montant en banque.
+ * Une requête d'appuyer sur «ENTRÉE» apparaît et nous ramène au menu principal
+ *
+ * Si l'on sélectionne la DEUXIÈME option (Gérer la banque), un nouveau menu s'affiche avec trois nouvelles options :
+ *   « (A)jouter, (V)ider, ou (R)evenir au menu principal : »
+ * Ajouter nous permet de, bien évidemment, ajouter des fonds dans notre banque. La valeur doit être plus grande que zéro (0).
+ * Vider permet de retirer tous les fonds de notre banque et met fin au programme.
+ * Revenir au menu principal nous ramène au menu précédent.
+ *
+ * Si l'on sélectionne la TROISIÈME option (Quitter), cela met fin au programme.
+ *
+ * -------------------------------------
  * @author : William Huet (HUEW75120205)
- * @version : 10 février 2026
+ * @version : 24 février 2026
+ * -------------------------------------
  */
 
 public class ParisHippiques {
@@ -44,6 +68,7 @@ public class ParisHippiques {
             "\n" +
             "Entrez le type de pari : ";
     public final static String MSG_LISTE_CHEVAUX =
+            "\n" +
             "Chevaux\n" +
             "  1. Gaspard\n" +
             "  2. Bubulle\n" +
@@ -64,9 +89,9 @@ public class ParisHippiques {
     public final static String MSG_CHOIX_PREMIER_CHEVAL = "Entrez le numéro du premier cheval : ";
     public final static String MSG_CHOIX_DEUXIEME_CHEVAL = "Entrez le numéro du deuxième cheval : ";
     public final static String MSG_FIN_PROGRAMME = "\n"+"FIN DU PROGRAMME. Au revoir!";
-    public final static String MSG_AJOUT_BANQUE = "Entrez le montant à ajouter (0 pour annuler) : ";
+    public final static String MSG_AJOUT_BANQUE = "\n" + "Entrez le montant à ajouter (0 pour annuler) : ";
     public final static String MSG_MONTANT_MISE = "Entrez le montant de la mise (0 pour annuler) : ";
-    public final static String MSG_DEBUT_GERER_BANQUE = "** Montant en banque : ";
+    public final static String MSG_DEBUT_GERER_BANQUE = "\n" + "** Montant en banque : ";
     public final static String MSG_RETOUR_MENU_PRINCIPAL = "Appuyez sur <ENTREE> pour revenir au menu principal...";
     public final static String MSG_BRAVO = "\n" + "BRAVO ! Vous avez gagné ";
     public final static String MSG_DESOLE = "\n" + "DÉSOLÉ ! Vous avez perdu votre pari.";
@@ -74,16 +99,13 @@ public class ParisHippiques {
     public final static String MSG_PERTE_CUMULE= "\n" + "PERTE CUMULÉE     : ";
     public final static String MSG_BANQUE_APRES_GAIN = "BANQUE            : ";
 
-
     //MESSAGES D'ERREURS
-    public final static String MSG_ERREUR_MONTANT_BANQUE = "\n" + "Erreur, le montant doit être plus grand ou égal a 0! Recommencez... ";
-    public final static String MSG_ERREUR_CHOIX_MENU = "\n" + "Erreur, entrez un choix entre 1 et 3! Recommencez... ";
-    public final static String MSG_ERREUR_CHOIX_PARI = "\n" + "Erreur, entrez un choix entre 1 et 5! Recommencez... ";
-    public final static String MSG_ERREUR_CHOIX_CHEVAL = "\n" + "Erreur, entrez un choix entre 1 et 6! Recommencez... ";
-    public final static String MSG_ERREUR_CHOIX_BANQUE = "\n" + "Erreur, entrez A, V ou R! Recommencez... ";
-    public final static String MSG_ERREUR_MONTANT_MISE = "\n" + "Erreur, la mise doit être entre 0.00$ et ";
-
-
+    public final static String MSG_ERREUR_MONTANT_BANQUE = "\n" + "ERREUR, le montant doit être plus grand ou égal a 0! Recommencez... ";
+    public final static String MSG_ERREUR_CHOIX_MENU = "\n" + "ERREUR, entrez un choix entre 1 et 3! Recommencez... ";
+    public final static String MSG_ERREUR_CHOIX_PARI = "\n" + "ERREUR, entrez un choix entre 1 et 5! Recommencez... ";
+    public final static String MSG_ERREUR_CHOIX_CHEVAL = "\n" + "ERREUR, entrez un choix entre 1 et 6! Recommencez... ";
+    public final static String MSG_ERREUR_CHOIX_BANQUE = "\n" + "ERREUR, entrez A, V ou R! Recommencez..." + "\n";
+    public final static String MSG_ERREUR_MONTANT_MISE = "\n" + "ERREUR, la mise doit être entre 0.00$ et ";
 
     //VALEURS BYTES POUR SELECTION DE MENU
     public final static char SELECTION_1 = '1';
@@ -93,16 +115,19 @@ public class ParisHippiques {
     public final static char SELECTION_5 = '5';
     public final static char SELECTION_6 = '6';
 
-    public final static char AJOUTER_BANQUE = 'A';
-    public final static char VIDER_BANQUE = 'V';
-    public final static char REVENIR_BANQUE = 'R';
-
+    public final static char AJOUTER_BANQUE_MAJ = 'A';
+    public final static char AJOUTER_BANQUE_MIN = 'a';
+    public final static char VIDER_BANQUE_MAJ = 'V';
+    public final static char VIDER_BANQUE_MIN = 'v';
+    public final static char REVENIR_BANQUE_MAJ = 'R';
+    public final static char REVENIR_BANQUE_MIN = 'r';
 
     public static void main(String[] args) {
         /*VARIABLES*/
         boolean boolMenu = true;
         boolean boolPari = false;
         boolean boolBanque = false;
+        boolean boolAffichageGainPerte = false;
 
         char menuPrincipalInput;
         char menuPariInput;
@@ -119,6 +144,8 @@ public class ParisHippiques {
         double gain = 0.00;
 
         int classement;
+        int premierChevalInput;
+        int deuxiemeChevalInput;
         int premierePlace;
         int deuxiemePlace;
 
@@ -161,7 +188,7 @@ public class ParisHippiques {
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
-                                        System.out.println(MSG_ERREUR_MONTANT_MISE + String.format("%.2f", montantBanque) + "$! Recommencez...");
+                                        System.out.printf(MSG_ERREUR_MONTANT_MISE + "%.2f" + "$! Recommencez...\n",  montantBanque);
                                         System.out.print(MSG_MONTANT_MISE);
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
@@ -171,8 +198,9 @@ public class ParisHippiques {
                                         gain -= montantMiseInput;
 
                                         classement = TP1Utils.executerCourse();
-                                        premierePlace = classement / 100000;
-                                        if((char)premierePlace == menuSelection1erChevalInput){
+                                        premierChevalInput = menuSelection1erChevalInput - '0';
+                                        premierePlace = (classement / 100000);
+                                        if(premierePlace == premierChevalInput){
                                             System.out.println(MSG_BRAVO);
                                             montantGagne += montantMiseInput * 3;
                                             gain += montantGagne;
@@ -180,6 +208,7 @@ public class ParisHippiques {
                                         } else {
                                             System.out.println(MSG_DESOLE);
                                         }
+                                        boolAffichageGainPerte = true;
                                     } else {
                                         System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
@@ -199,7 +228,7 @@ public class ParisHippiques {
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
-                                        System.out.println(MSG_ERREUR_MONTANT_MISE + String.format("%.2f", montantBanque) + "$! Recommencez...");
+                                        System.out.printf(MSG_ERREUR_MONTANT_MISE + "%.2f" + "$! Recommencez...\n",  montantBanque);
                                         System.out.print(MSG_MONTANT_MISE);
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
@@ -209,9 +238,10 @@ public class ParisHippiques {
                                         gain -= montantMiseInput;
 
                                         classement = TP1Utils.executerCourse();
-                                        premierePlace = classement / 100000;
-                                        deuxiemePlace = classement / 10000 % 10;
-                                        if((char)premierePlace == menuSelection1erChevalInput || (char)deuxiemePlace == menuSelection1erChevalInput){
+                                        premierChevalInput = menuSelection1erChevalInput - '0';
+                                        premierePlace = (classement / 100000);
+                                        deuxiemePlace = (classement / 10000 % 10);
+                                        if(premierePlace == premierChevalInput || deuxiemePlace == premierChevalInput){
                                             System.out.println(MSG_BRAVO);
                                             montantGagne += montantMiseInput * 2;
                                             gain += montantGagne;
@@ -219,6 +249,7 @@ public class ParisHippiques {
                                         } else {
                                             System.out.println(MSG_DESOLE);
                                         }
+                                        boolAffichageGainPerte = true;
                                     } else {
                                         System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
@@ -245,7 +276,7 @@ public class ParisHippiques {
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
-                                        System.out.println(MSG_ERREUR_MONTANT_MISE + String.format("%.2f", montantBanque) + "$! Recommencez...");
+                                        System.out.printf(MSG_ERREUR_MONTANT_MISE + "%.2f" + "$! Recommencez...\n",  montantBanque);
                                         System.out.print(MSG_MONTANT_MISE);
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
@@ -255,9 +286,11 @@ public class ParisHippiques {
                                         gain -= montantMiseInput;
 
                                         classement = TP1Utils.executerCourse();
-                                        premierePlace = classement / 100000;
-                                        deuxiemePlace = classement / 10000 % 10;
-                                        if((char)premierePlace == menuSelection1erChevalInput && (char)deuxiemePlace == menuSelection2emeChevalInput){
+                                        premierChevalInput = menuSelection1erChevalInput - '0';
+                                        deuxiemeChevalInput = menuSelection2emeChevalInput - '0';
+                                        premierePlace = (classement / 100000);
+                                        deuxiemePlace = (classement / 10000 % 10);
+                                        if(premierePlace == premierChevalInput && deuxiemePlace == deuxiemeChevalInput){
                                             System.out.println(MSG_BRAVO);
                                             montantGagne += montantMiseInput * 3.5;
                                             gain += montantGagne;
@@ -265,6 +298,7 @@ public class ParisHippiques {
                                         } else {
                                             System.out.println(MSG_DESOLE);
                                         }
+                                        boolAffichageGainPerte = true;
                                     } else {
                                         System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
@@ -291,7 +325,7 @@ public class ParisHippiques {
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
-                                        System.out.println(MSG_ERREUR_MONTANT_MISE + String.format("%.2f", montantBanque) + "$! Recommencez...");
+                                        System.out.printf(MSG_ERREUR_MONTANT_MISE + "%.2f" + "$! Recommencez...\n",  montantBanque);
                                         System.out.print(MSG_MONTANT_MISE);
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
@@ -301,10 +335,12 @@ public class ParisHippiques {
                                         gain -= montantMiseInput;
 
                                         classement = TP1Utils.executerCourse();
-                                        premierePlace = classement / 100000;
-                                        deuxiemePlace = classement / 10000 % 10;
-                                        if(((char)premierePlace == menuSelection1erChevalInput && (char)deuxiemePlace == menuSelection2emeChevalInput) ||
-                                        ((char)premierePlace == menuSelection2emeChevalInput && (char)deuxiemePlace == menuSelection1erChevalInput)){
+                                        premierChevalInput = menuSelection1erChevalInput - '0';
+                                        deuxiemeChevalInput = menuSelection2emeChevalInput - '0';
+                                        premierePlace = (classement / 100000);
+                                        deuxiemePlace = (classement / 10000 % 10);
+                                        if((premierePlace == premierChevalInput && deuxiemePlace == deuxiemeChevalInput) ||
+                                        (premierePlace == deuxiemeChevalInput && deuxiemePlace == premierChevalInput)){
                                             System.out.println(MSG_BRAVO);
                                             montantGagne += montantMiseInput * 2.5;
                                             gain += montantGagne;
@@ -313,6 +349,7 @@ public class ParisHippiques {
                                         } else {
                                             System.out.println(MSG_DESOLE);
                                         }
+                                        boolAffichageGainPerte = true;
                                     } else {
                                         System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
@@ -332,19 +369,22 @@ public class ParisHippiques {
                                     menuPariInput = Clavier.lireCharLn();
                             }
                             //AFFICHER GAIN OU PERTE & AJOUT À LA BANQUE SI ELLE EST VIDE
-                            if (gain >= 0){
-                                System.out.printf(MSG_GAIN_CUMULE + "%.2f" + "$\n",  gain);
-                                System.out.printf(MSG_BANQUE_APRES_GAIN + "%.2f" + "$\n", montantBanque);
-                            } else {
-                                gain *= -1;
-                                System.out.printf(MSG_PERTE_CUMULE + "%.2f" + "$\n", gain);
-                                System.out.printf(MSG_BANQUE_APRES_GAIN + "%.2f" + "$\n", montantBanque);
-                                gain *= -1;
-                                //J'aurais utilisé la méthode "Math.abs() pour éviter d'avoir le signe de moins devant mais je n'ai pas le droit"
+                            while(boolAffichageGainPerte){
+                                if (gain >= 0){
+                                    System.out.printf(MSG_GAIN_CUMULE + "%.2f" + "$\n",  gain);
+                                    System.out.printf(MSG_BANQUE_APRES_GAIN + "%.2f" + "$\n", montantBanque);
+                                } else {
+                                    gain *= -1;
+                                    System.out.printf(MSG_PERTE_CUMULE + "%.2f" + "$\n", gain);
+                                    System.out.printf(MSG_BANQUE_APRES_GAIN + "%.2f" + "$\n", montantBanque);
+                                    gain *= -1;
+                                    //J'aurais utilisé la méthode "Math.abs() pour éviter d'avoir le signe de moins devant mais je n'ai pas le droit"
+                                }
+                                System.out.println(MSG_RETOUR_MENU_PRINCIPAL);
+                                Clavier.lireFinLigne();
+                                boolAffichageGainPerte = false;
+                                boolPari = false;
                             }
-                            System.out.println(MSG_RETOUR_MENU_PRINCIPAL);
-                            Clavier.lireFinLigne();
-                            boolPari = false;
 
                             if(montantBanque == 0){
                                 System.out.print(MSG_METTRE_MONTANT_BANQUE);
@@ -365,33 +405,29 @@ public class ParisHippiques {
                     //GERER BANQUE
                     case SELECTION_2:
                         boolBanque = true;
+                        System.out.print(ENTETE_MENU_BANQUE);
                         while (boolBanque){
-                            System.out.print(ENTETE_MENU_BANQUE + MSG_DEBUT_GERER_BANQUE + String.format("%.2f", montantBanque) + MSG_FIN_GERER_BANQUE);
+                            System.out.printf(MSG_DEBUT_GERER_BANQUE + "%.2f" + MSG_FIN_GERER_BANQUE,  montantBanque);
                             menuBanqueInput = Clavier.lireCharLn();
-                            menuBanqueInput = Character.toUpperCase(menuBanqueInput);
-                            switch (menuBanqueInput){
-                                case AJOUTER_BANQUE:
+                            if (menuBanqueInput == AJOUTER_BANQUE_MAJ || menuBanqueInput == AJOUTER_BANQUE_MIN) {
+                                System.out.print(MSG_AJOUT_BANQUE);
+                                montantAjoutInput = Clavier.lireDoubleLn();
+                                while (montantAjoutInput < 0){
+                                    System.out.println(MSG_ERREUR_MONTANT_BANQUE);
                                     System.out.print(MSG_AJOUT_BANQUE);
                                     montantAjoutInput = Clavier.lireDoubleLn();
-                                    while (montantAjoutInput < 0){
-                                        System.out.println(MSG_ERREUR_MONTANT_BANQUE);
-                                        System.out.print(MSG_AJOUT_BANQUE);
-                                        montantAjoutInput = Clavier.lireDoubleLn();
-                                    }
-                                    if (montantAjoutInput >= 0){
-                                        montantBanque += montantAjoutInput;
-                                    }
-                                    break;
-                                case VIDER_BANQUE:
-                                    montantBanque = 0.00;
-                                    boolBanque = false;
-                                    boolMenu = false;
-                                    break;
-                                case REVENIR_BANQUE:
-                                    boolBanque = false;
-                                    break;
-                                default:
-                                    System.out.print(MSG_ERREUR_CHOIX_BANQUE);
+                                }
+                                if (montantAjoutInput >= 0){
+                                    montantBanque += montantAjoutInput;
+                                }
+                            } else if (menuBanqueInput == VIDER_BANQUE_MAJ || menuBanqueInput == VIDER_BANQUE_MIN){
+                                montantBanque = 0.00;
+                                boolBanque = false;
+                                boolMenu = false;
+                            } else if(menuBanqueInput == REVENIR_BANQUE_MAJ || menuBanqueInput == REVENIR_BANQUE_MIN){
+                                boolBanque = false;
+                            } else {
+                                System.out.print(MSG_ERREUR_CHOIX_BANQUE);
                             }
                         }
                         break;
