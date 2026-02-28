@@ -30,8 +30,11 @@
  */
 
 public class ParisHippiques {
-    /*CONSTANTES*/
-    //LONG MESSAGES ET INTERFACES DE MENU (PLUS DE DEUX LIGNES)
+    //----------
+    //CONSTANTES
+    //----------
+
+    //Long messages et interfaces de menu (plus de deux lignes).
     public final static String ENTETE_MENU_PRINCIPAL =
             "\n" +
             "--------------\n" +
@@ -82,7 +85,7 @@ public class ParisHippiques {
             "\n" +
             "(A)jouter, (V)ider, ou (R)evenir au menu principal : ";
 
-    //PETITS MESSAGES (UNE OU DEUX LIGNES MAX)
+    //Petits messages (une ou deux lignes max).
     public final static String MSG_BIENVENUE = "Ce programme permet de placer des paris sur des courses hippiques virtuelles.\n";
     public final static String MSG_METTRE_MONTANT_BANQUE = "Votre banque est vide.\n" + "Pour continuer, entrez un montant à mettre en banque (0 pour quitter) : ";
     public final static String MSG_CHOIX_UNIQUE_CHEVAL = "Entrez le numéro du cheval : ";
@@ -99,7 +102,7 @@ public class ParisHippiques {
     public final static String MSG_PERTE_CUMULE= "\n" + "PERTE CUMULÉE     : ";
     public final static String MSG_BANQUE_APRES_GAIN = "BANQUE            : ";
 
-    //MESSAGES D'ERREURS
+    //Messages d'erreurs.
     public final static String MSG_ERREUR_MONTANT_BANQUE = "\n" + "ERREUR, le montant doit être plus grand ou égal a 0! Recommencez... ";
     public final static String MSG_ERREUR_CHOIX_MENU = "\n" + "ERREUR, entrez un choix entre 1 et 3! Recommencez... ";
     public final static String MSG_ERREUR_CHOIX_PARI = "\n" + "ERREUR, entrez un choix entre 1 et 5! Recommencez... ";
@@ -107,7 +110,7 @@ public class ParisHippiques {
     public final static String MSG_ERREUR_CHOIX_BANQUE = "\n" + "ERREUR, entrez A, V ou R! Recommencez..." + "\n";
     public final static String MSG_ERREUR_MONTANT_MISE = "\n" + "ERREUR, la mise doit être entre 0.00$ et ";
 
-    //VALEURS CHAR POUR SÉLECTION DANS LES MULTIPLES MENUS
+    //Valeurs pour sélection dans les multiples menus.
     public final static char SELECTION_1 = '1';
     public final static char SELECTION_2 = '2';
     public final static char SELECTION_3 = '3';
@@ -123,7 +126,10 @@ public class ParisHippiques {
     public final static char REVENIR_BANQUE_MIN = 'r';
 
     public static void main(String[] args) {
-        /*VARIABLES*/
+        //---------
+        //VARIABLES
+        //---------
+
         boolean boolMenu = true;
         boolean boolPari = false;
         boolean boolBanque = false;
@@ -149,8 +155,8 @@ public class ParisHippiques {
         int premierePlace;
         int deuxiemePlace;
 
-        /* DÉBUT DU PROGRAMME */
-        //DEMANDE À L'UTILISATEUR DE RENTRER UN MONTANT POUR LA BANQUE
+        //DÉBUT DU PROGRAMME
+        //Demande à l'utilisateur de rentrer un montant pour la banque.
         System.out.println(MSG_BIENVENUE);
         System.out.print(MSG_METTRE_MONTANT_BANQUE);
         montantBanqueInput = Clavier.lireDoubleLn();
@@ -162,16 +168,16 @@ public class ParisHippiques {
         }
         montantBanque = montantBanqueInput;
 
-        //AFFICHAGE DU PREMIER MENU (PRINCIPAL)
+        //Affichage du premier menu (principal).
         do{
             if (montantBanqueInput > 0){
                 System.out.print(ENTETE_MENU_PRINCIPAL + MSG_MENU_PRINCIPAL);
                 menuPrincipalInput = Clavier.lireCharLn();
 
-                //SÉLECTION MENU PRINCIPAL (PARI, BANQUE OU QUITTER)
+                //Sélection pour le menu principal (pari, banque ou quitter).
                 switch (menuPrincipalInput){
 
-                    //MENU PRINCIPAL -> PLACER UN PARI (1)
+                    //Menu principal --> Placer un pari (1)
                     case SELECTION_1:
                         System.out.print(ENTETE_MENU_PARI + MSG_MENU_PARI);
                         menuPariInput = Clavier.lireCharLn();
@@ -179,14 +185,14 @@ public class ParisHippiques {
                         montantGagne = 0;
                         do{
 
-                            // SÉLECTION MENU « PLACER UN PARI » (4 DIFFÉRENTS TYPES DE PARI ET L'OPTION POUR REVENIR EN ARRIÈRE)
+                            //Sélection pour le menu « Placer un pari » (4 différents types de pari et l'option pour revenir en arrière).
                             switch (menuPariInput){
 
-                                //MENU MENU PLACER UN PARI -> PARI SIMPLE (1)
-                                //CHOIX D'UN SEUL CHEVAL. LE PARI EST GAGNANT SI CELUI-CI TERMINE PREMIER.
+                                //Menu placer un pari --> Pari simple (1)
+                                //On choisi un seul cheval. Le pari est gagnant si celui-ci termine premier.
                                 case SELECTION_1:
 
-                                    //CHOIX CHEVAL
+                                    //Choix du cheval.
                                     System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
                                     menuSelection1erChevalInput = Clavier.lireCharLn();
                                     while((byte)menuSelection1erChevalInput < (byte)SELECTION_1 || (byte)menuSelection1erChevalInput > (byte)SELECTION_6){
@@ -194,7 +200,7 @@ public class ParisHippiques {
                                         menuSelection1erChevalInput = Clavier.lireCharLn();
                                     }
 
-                                    //MONTANT DE LA MISE
+                                    //Montant de la mise.
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
@@ -203,7 +209,7 @@ public class ParisHippiques {
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
 
-                                    //EXÉCUTION DE LA COURSE (SI LA MISE N'EST PAS DE 0)
+                                    //Exécution de la course (si la mise n'est pas de 0).
                                     if (montantMiseInput > 0 && montantMiseInput <= montantBanque){
                                         montantBanque -= montantMiseInput;
                                         gain -= montantMiseInput;
@@ -221,17 +227,17 @@ public class ParisHippiques {
                                         }
                                         boolAffichageGainPerte = true;
                                     } else {
-                                        System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
+                                        System.out.print(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
                                         boolPari = false;
                                     }
                                     break;
 
-                                //MENU PLACER UN PARI -> PARI PLACE (2)
-                                //CHOIX D'UN SEUL CHEVAL. LE PARI EST GAGNANT SI CELUI-CI TERMINE PREMIER OU DEUXIÈME.
+                                //Menu placer un pari --> Pari place (2)
+                                //On choisit un seul cheval. Le pari est gagnant si celui-ci termine premier ou deuxième.
                                 case SELECTION_2:
 
-                                    //CHOIX CHEVAL
+                                    //Choix du cheval.
                                     System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
                                     menuSelection1erChevalInput = Clavier.lireCharLn();
                                     while((byte)menuSelection1erChevalInput < (byte)SELECTION_1 || (byte)menuSelection1erChevalInput > (byte)SELECTION_6){
@@ -239,7 +245,7 @@ public class ParisHippiques {
                                         menuSelection1erChevalInput = Clavier.lireCharLn();
                                     }
 
-                                    //MONTANT DE LA MISE
+                                    //Montant de la mise.
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
@@ -248,7 +254,7 @@ public class ParisHippiques {
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
 
-                                    //EXÉCUTION DE LA COURSE (SI LA MISE N'EST PAS DE 0)
+                                    //Exécution de la course (si la mise n'est pas de 0).
                                     if (montantMiseInput > 0 && montantMiseInput <= montantBanque){
                                         montantBanque -= montantMiseInput;
                                         gain -= montantMiseInput;
@@ -267,17 +273,17 @@ public class ParisHippiques {
                                         }
                                         boolAffichageGainPerte = true;
                                     } else {
-                                        System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
+                                        System.out.print(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
                                         boolPari = false;
                                     }
                                     break;
 
-                                //MENU PLACER UN PARI -> PARI COUPLE GAGNANT ORDONNÉ (3)
-                                //CHOIX DE DEUX CHEVAUX. LE PARI EST GAGNANT SI CEUX-CI TERMINE RESPECTIVEMENT PREMIER ET DEUXIÈME.
+                                //Menu placer un pari --> Pari couple gagnant ordonné (3)
+                                //On choisi deux chevaux. Le pari est gagnant si ceux-ci termine respectivement premier et deuxième.
                                 case SELECTION_3:
 
-                                    //CHOIX CHEVAUX
+                                    //Choix des chevaux.
                                     System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
                                     menuSelection1erChevalInput = Clavier.lireCharLn();
                                     while((byte)menuSelection1erChevalInput < (byte)SELECTION_1 || (byte)menuSelection1erChevalInput > (byte)SELECTION_6){
@@ -291,7 +297,7 @@ public class ParisHippiques {
                                         menuSelection1erChevalInput = Clavier.lireCharLn();
                                     }
 
-                                    //MONTANT DE LA MISE
+                                    //Montant de la mise.
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
@@ -300,7 +306,7 @@ public class ParisHippiques {
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
 
-                                    //EXÉCUTION DE LA COURSE (SI LA MISE N'EST PAS DE 0)
+                                    //Exécution de la course (si la mise n'est pas de 0).
                                     if (montantMiseInput > 0 && montantMiseInput <= montantBanque){
                                         montantBanque -= montantMiseInput;
                                         gain -= montantMiseInput;
@@ -320,17 +326,17 @@ public class ParisHippiques {
                                         }
                                         boolAffichageGainPerte = true;
                                     } else {
-                                        System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
+                                        System.out.print(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
                                         boolPari = false;
                                     }
                                     break;
 
-                                //MENU PLACER UN PARI -> PARI COUPLE GAGNANT NON ORDONNÉ (4)
-                                //CHOIX DE DEUX CHEVAUX. LE PARI EST GAGNANT SI CEUX-CI TERMINE PREMIER ET DEUXIÈME (PEU IMPORTE L'ORDRE).
+                                //Menu placer un pari --> Pari couple gagnant non ordonné (4)
+                                //Choix de deux chevaux. Le pari est gagnant si ceux-ci termine premier et deuxième (peu importe l'ordre).
                                 case SELECTION_4:
 
-                                    //CHOIX CHEVAUX
+                                    //Choix des chevaux.
                                     System.out.print(MSG_LISTE_CHEVAUX + MSG_CHOIX_UNIQUE_CHEVAL);
                                     menuSelection1erChevalInput = Clavier.lireCharLn();
                                     while((byte)menuSelection1erChevalInput < (byte)SELECTION_1 || (byte)menuSelection1erChevalInput > (byte)SELECTION_6){
@@ -344,7 +350,7 @@ public class ParisHippiques {
                                         menuSelection1erChevalInput = Clavier.lireCharLn();
                                     }
 
-                                    //MONTANT DE LA MISE
+                                    //Montant de la mise.
                                     System.out.print(MSG_MONTANT_MISE);
                                     montantMiseInput = Clavier.lireDoubleLn();
                                     while(montantMiseInput < 0 || montantMiseInput > montantBanque){
@@ -353,7 +359,7 @@ public class ParisHippiques {
                                         montantMiseInput = Clavier.lireDoubleLn();
                                     }
 
-                                    //EXÉCUTION DE LA COURSE (SI LA MISE N'EST PAS DE 0)
+                                    //Exécution de la course (si la mise n'est pas de 0).
                                     if (montantMiseInput > 0 && montantMiseInput <= montantBanque){
                                         montantBanque -= montantMiseInput;
                                         gain -= montantMiseInput;
@@ -374,27 +380,27 @@ public class ParisHippiques {
                                         }
                                         boolAffichageGainPerte = true;
                                     } else {
-                                        System.out.println(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
+                                        System.out.print(ENTETE_OPERATION_ANNULEE + MSG_RETOUR_MENU_PRINCIPAL);
                                         Clavier.lireFinLigne();
                                         boolPari = false;
                                     }
                                     break;
 
-                                //MENU PLACER UN PARI -> REVENIR AU MENU PRINCIPAL (5)
-                                //CHANGE LE BOOLÉEN « boolPari » À FALSE AFIN DE SORTIR DE NOTRE BOUCLE « do/while »
+                                //Menu placer un pari --> Revenir au menu principal (5)
+                                //Change la valeur du booléen « boolPari » pour false afin de sortir de notre boucle « do/while ».
                                 case SELECTION_5:
                                     boolPari = false;
                                     break;
 
-                                //ERREUR DE SÉLECTION POUR LE MENU « PLACER UN PARI »
+                                //Erreur de sélection pour le menu « Placer un pari ».
                                 default:
                                     System.out.println(MSG_ERREUR_CHOIX_PARI);
                                     System.out.print(MSG_MENU_PARI);
                                     menuPariInput = Clavier.lireCharLn();
                             }
 
-                            //AFFICHER GAIN OU PERTE & AJOUT À LA BANQUE SI ELLE EST VIDE
-                            //S'EXÉCUTE SEULEMENT SI UNE COURSE À LIEU (PAS SI L'UTILISATEUR A VOULU RETOURNER EN ARRIÈRE)
+                            //Afficher « gain ou perte » & ajout à la banque si jamais celle-ci est maintenant vide.
+                            //S'exécute seulement si une course à lieu (pas si l'utilisateur a voulu retourner en arrière).
                             while(boolAffichageGainPerte){
                                 if (gain >= 0){
                                     System.out.printf(MSG_GAIN_CUMULE + "%.2f" + "$\n",  gain);
@@ -404,16 +410,16 @@ public class ParisHippiques {
                                     System.out.printf(MSG_PERTE_CUMULE + "%.2f" + "$\n", gain);
                                     System.out.printf(MSG_BANQUE_APRES_GAIN + "%.2f" + "$\n", montantBanque);
                                     gain *= -1;
-                                    //J'aurais utilisé la méthode "Math.abs() pour éviter d'avoir le signe de moins devant mais je n'ai pas le droit"
+                                    //J'aurais utilisé la méthode "Math.abs()" pour éviter d'avoir le signe de moins devant mais je n'ai pas le droit.
                                 }
-                                System.out.println(MSG_RETOUR_MENU_PRINCIPAL);
+                                System.out.print(MSG_RETOUR_MENU_PRINCIPAL);
                                 Clavier.lireFinLigne();
                                 boolAffichageGainPerte = false;
                                 boolPari = false;
                             }
 
-                            //INTERFACE POUR AJOUTER DES FONDS DANS LA BANQUE
-                            //S'EXÉCUTE SEULEMENT SI LE DERNIER PARI EFFECTUÉ A VIDÉ LA BANQUE DE L'UTILISATEUR
+                            //Interface pour ajouter des fonds dans la banque.
+                            //S'exécute seulement si le dernier pari effectué a vidé la banque de l'utilisateur.
                             if(montantBanque == 0){
                                 System.out.print(MSG_METTRE_MONTANT_BANQUE);
                                 montantBanqueInput = Clavier.lireDoubleLn();
@@ -429,18 +435,18 @@ public class ParisHippiques {
                         } while (boolPari);
                         break;
 
-                    //AFFICHAGE DU MENU « GÉRER LA BANQUE »
+                    //Affichage du menu « Gérer la banque ».
                     case SELECTION_2:
                         boolBanque = true;
                         System.out.print(ENTETE_MENU_BANQUE);
 
-                        // SÉLECTION MENU « GÉRER LA BANQUE » (AJOUTER, VIDER OU REVENIR EN ARRIÈRE)
+                        //Sélection pour menu « Gérer la banque » (ajouter, vider ou revenir en arrière).
                         do{
                             System.out.printf(MSG_DEBUT_GERER_BANQUE + "%.2f" + MSG_FIN_GERER_BANQUE,  montantBanque);
                             menuBanqueInput = Clavier.lireCharLn();
 
-                            //GÉRER LA BANQUE -> AJOUTER DES FONDS ('A' ou 'a').
-                            //LE MONTANT DOIT ÊTRE PLUS GRAND QUE 0.
+                            //Gérer la banque --> Ajouter des fonds ('A' ou 'a').
+                            //Le montant doit être plus grand que 0.
                             if (menuBanqueInput == AJOUTER_BANQUE_MAJ || menuBanqueInput == AJOUTER_BANQUE_MIN) {
                                 System.out.print(MSG_AJOUT_BANQUE);
                                 montantAjoutInput = Clavier.lireDoubleLn();
@@ -453,26 +459,26 @@ public class ParisHippiques {
                                     montantBanque += montantAjoutInput;
                                 }
 
-                            //GÉRER LA BANQUE -> VIDER LE COMPTE ('V' ou 'v').
-                            //VIDE LE COMPTE DE BANQUE ET MET FIN AU PROGRAMME.
+                            //Gérer la banque --> Vider le compte ('V' ou 'v').
+                            //Vide le compte de banque et met fin au programme.
                             } else if (menuBanqueInput == VIDER_BANQUE_MAJ || menuBanqueInput == VIDER_BANQUE_MIN){
                                 montantBanque = 0.00;
                                 boolBanque = false;
                                 boolMenu = false;
 
-                            //GÉRER LA BANQUE -> RETOUR AU MENU PRINCIPAL ('R' ou 'r').
-                            //RETOURNE L'UTILISATEUR AU MENU PRINCIPAL.
+                            //Gérer la banque --> Retour au menu principal ('R' ou 'r').
+                            //Retourne l'utilisateur au menu principal.
                             } else if(menuBanqueInput == REVENIR_BANQUE_MAJ || menuBanqueInput == REVENIR_BANQUE_MIN){
                                 boolBanque = false;
 
-                            //ERREUR SI LA VALEUR RENTRÉE N'EST PAS PARMI LES OPTIONS.
+                            //Erreur si la valeur rentrée n'est pas parmi les options.
                             } else {
                                 System.out.print(MSG_ERREUR_CHOIX_BANQUE);
                             }
                         } while(boolBanque);
                         break;
 
-                    //MENU PRINCIPAL -> QUITTER LE PROGRAMME (3)
+                    //Menu principal --> Quitter le programme (3)
                     case SELECTION_3:
                         boolMenu = false;
                         break;
@@ -480,7 +486,7 @@ public class ParisHippiques {
                         System.out.println(MSG_ERREUR_CHOIX_MENU);
                 }
 
-            //SI LE MONTANT RENTRÉ AU TOUT DÉBUT DU PROGRAMME EST '0', MET FIN AU PROGRAMME.
+            //Si le montant rentré au tout début du programme est '0', cela met fin au programme.
             } else if (montantBanqueInput == 0) {
                 boolMenu = false;
             }
