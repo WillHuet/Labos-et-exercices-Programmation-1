@@ -25,7 +25,7 @@
  *
  * -------------------------------------
  * @author : William Huet (HUEW75120205)
- * @version : 24 février 2026
+ * @version : 25 février 2026
  * -------------------------------------
  */
 
@@ -182,7 +182,7 @@ public class ParisHippiques {
                             // SÉLECTION MENU « PLACER UN PARI » (4 DIFFÉRENTS TYPES DE PARI ET L'OPTION POUR REVENIR EN ARRIÈRE)
                             switch (menuPariInput){
 
-                                //MENU MENU PLACER UN PARI -> PARI SIMPLE (1)
+                                //MENU PLACER UN PARI -> PARI SIMPLE (1)
                                 //CHOIX D'UN SEUL CHEVAL. LE PARI EST GAGNANT SI CELUI-CI TERMINE PREMIER.
                                 case SELECTION_1:
 
