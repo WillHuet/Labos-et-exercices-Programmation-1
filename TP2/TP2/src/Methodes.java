@@ -1,19 +1,42 @@
 public class Methodes {
-    //CONSTANTES
+    //  ++++++++++++++
+    //  + CONSTANTES +
+    //  ++++++++++++++
+
+    //MESSAGE TRADITIONNEL
     public final static String MSG_INPUT_CLE = "CLE DE CRYPTAGE : ";
-    public final static String MSG_ERREUR_CLE = "ERREUR, cle invalide ! Recommencez...";
+    public final static String MSG_INPUT_MSG = "MESSAGE A CRYPTER (ENTREE pour annuler) : ";
 
-    public static void validerTexte(String texte) {
+    //MESSAGE D'ERREUR
+    public final static String MSG_ERREUR_CLE = "ERREUR, clé invalide ! Recommencez...";
+    public final static String MSG_ERREUR_MSG = "ERREUR, message invalide :\n" +
+            "\tLe message ne peut contenir que des lettres, des chiffres, des\n" +
+            "\tespaces, et les caractères .!?,;:'-\"";
+
+
+    //  ++++++++++++
+    //  + MÉTHODES +
+    //  ++++++++++++
+
+    public static void validerTexte(String message) {
         boolean valide = false;
+        int nbrErreur = 0;
+        String texte = message;
 
-//        while (valide == false) {
-//            if(){
-//
-//            }else{
-//
-//            }
-//
-//        }
+        while (valide == false) {
+            for (int i = 0; i < texte.length(); i++) {
+                boolean caractereValide = validationChar(texte.charAt(i));
+                if (!caractereValide) {
+                    nbrErreur++;
+                }
+            }
+
+            if(nbrErreur == 0) {
+                valide = true;
+            } else{
+                texte = affichageErreurMessage();
+            }
+        }
     }
 
     /**
@@ -29,6 +52,7 @@ public class Methodes {
      *
      * @param cle la clé de cryptage
      */
+
     public static void validerCle(String cle) {
         boolean valide = false;
 
@@ -78,14 +102,51 @@ public class Methodes {
         }
     }
 
+    public static boolean validationChar(char c) {
+        if ((c >= 'a' && c <= 'z') ||
+            (c >= 'A' && c <= 'Z') ||
+            (c >= '0' && c <= '9') ||
+            (c == ' ') ||
+            (c == '.' || c == '!' || c == '?' || c == ',' || c == ';' || c == ':' || c == '\'' || c == '-' || c == '"')){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static String affichageErreurCle() {
         System.out.println(MSG_ERREUR_CLE);
         System.out.print(MSG_INPUT_CLE);
         return Clavier.lireString();
     }
 
-    public static void validerChoixMenu(String texte) {
-        IO.println(String.format("Hello World!"));
+    public static String affichageErreurMessage() {
+        System.out.println(MSG_ERREUR_MSG);
+        System.out.print(MSG_INPUT_MSG);
+        return Clavier.lireString();
+    }
+
+    /**
+     * Cette methode saisit et valide le choix de l'utilisateur
+     * entre borneInf et borneSup.
+     * @param msgSoll le msg de sollicitation du choix de l'utilisateur.
+     * @param msgErr le msg d'erreur lorsqu'un choix est invalide.
+     * @param borneInf la borne inferieure pour un choix valide.
+     * @param borneSup la borne superieure pour un choix valide.
+     * @return le choix valide de l'utilisateur, entre borneInf et
+     * borneSup.
+     */
+    public static char validerChoixMenu (String msgSoll, String
+            msgErr, char borneInf, char borneSup) {
+        char choixMenu;
+        System.out.print ("\n" + msgSoll);
+        choixMenu = Clavier.lireCharLn();
+        while (choixMenu < borneInf || choixMenu > borneSup) {
+            System.out.println(msgErr);
+            System.out.print (msgSoll);
+            choixMenu = Clavier.lireCharLn();
+        }
+        return choixMenu;
     }
 
     /**
