@@ -18,25 +18,28 @@ public class Methodes {
     //  + MÉTHODES +
     //  ++++++++++++
 
-    public static void validerTexte(String message) {
+    /**
+     * Cette méthode saisit et valide le message entré par l'utilisateur.
+     *
+     * @param msgSoll le msg de sollicitation du choix de l'utilisateur.
+     * @param msgErr le msg d'erreur lorsqu'un choix est invalide.
+     * @return le message valide.
+     */
+    public static String validerTexte(String msgSoll, String msgErr) {
         boolean valide = false;
+        boolean caractereValide;
         int nbrErreur = 0;
-        String texte = message;
+        String texte;
 
-        while (valide == false) {
-            for (int i = 0; i < texte.length(); i++) {
-                boolean caractereValide = validationChar(texte.charAt(i));
-                if (!caractereValide) {
-                    nbrErreur++;
-                }
-            }
+        System.out.print ("\n" + msgSoll);
+        texte = Clavier.lireString();
 
-            if(nbrErreur == 0) {
-                valide = true;
-            } else{
-                texte = affichageErreurMessage();
-            }
+        while (!validationCaracteres(texte)) {
+            System.out.println(msgErr);
+            System.out.print (msgSoll);
+            texte = Clavier.lireString();
         }
+        return texte;
     }
 
     /**
@@ -102,16 +105,20 @@ public class Methodes {
         }
     }
 
-    public static boolean validationChar(char c) {
-        if ((c >= 'a' && c <= 'z') ||
-            (c >= 'A' && c <= 'Z') ||
-            (c >= '0' && c <= '9') ||
-            (c == ' ') ||
-            (c == '.' || c == '!' || c == '?' || c == ',' || c == ';' || c == ':' || c == '\'' || c == '-' || c == '"')){
-            return true;
-        } else {
-            return false;
+    public static boolean validationCaracteres(String message) {
+        boolean resulat = true;
+        for(int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            if ((c >= 'a' && c <= 'z') ||
+               (c >= 'A' && c <= 'Z') ||
+               (c >= '0' && c <= '9') ||
+               (c == ' ') ||
+               (c == '.' || c == '!' || c == '?' || c == ',' || c == ';' || c == ':' || c == '\'' || c == '-' || c == '"')){
+            } else {
+                resulat = false;
+            }
         }
+        return resulat;
     }
 
     public static String affichageErreurCle() {
@@ -161,7 +168,7 @@ public class Methodes {
      */
     public static String crypter(String cle, String msg){
         validerCle(cle);
-        validerTexte(msg);
+        //validerTexte(msg);
 
         return null;
     }
