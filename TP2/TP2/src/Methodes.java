@@ -20,15 +20,13 @@ public class Methodes {
 
     /**
      * Cette méthode saisit et valide le message entré par l'utilisateur.
+     * (utilise la méthode « validationCaracteres() » pour s'assurer que le message est conforme)
      *
      * @param msgSoll le msg de sollicitation du choix de l'utilisateur.
      * @param msgErr le msg d'erreur lorsqu'un choix est invalide.
-     * @return le message valide.
+     * @return le message validé.
      */
-    public static String validerTexte(String msgSoll, String msgErr) {
-        boolean valide = false;
-        boolean caractereValide;
-        int nbrErreur = 0;
+    public static String validerMessage(String msgSoll, String msgErr) {
         String texte;
 
         System.out.print ("\n" + msgSoll);
@@ -43,68 +41,32 @@ public class Methodes {
     }
 
     /**
-     * Cette méthode valide si la clé de cryptage est valide.
-     * La validation s'effectue sur plusieurs étapes :
-     *  1) Valider le nombre de caractères (doit être divisible par 4).
-     *  2) Diviser notre clé en blocs de quatre caractères.
-     *  3) Valider si les deux premiers caractères du bloc sont valides (RG, RD, PE, PI, ou IV).
-     *  4) Valider si les deux derniers caractères du bloc sont des chiffres et s'ils sont valides (entre 00 et 99).
+     * Cette méthode saisit et valide la clé entré par l'utilisateur.
+     * (utilise la méthode « validationBlocsCle() » pour s'assurer que la clé est conforme)
      *
-     * Ces quatre étapes s'effectuent autant de fois qu'il y a de bloc de quatre caractères.
-     * Si aucune erreur n'a été repéré au cours de l'exécution de la boucle, le programme continue.
-     *
-     * @param cle la clé de cryptage
+     * @param msgSoll le msg de sollicitation du choix de l'utilisateur.
+     * @param msgErr le msg d'erreur lorsqu'un choix est invalide.
+     * @return la clé validée.
      */
+    public static String validerCle(String msgSoll, String msgErr) {
+        String cle;
 
-    public static void validerCle(String cle) {
-        boolean valide = false;
+        System.out.print ("\n" + msgSoll);
+        cle = Clavier.lireString();
 
-        int position = 0;
-        int nbrDeManipulation = 0;
-        int nbrErreur = 0;
-
-        String texte = cle;
-        String texteEnMaj = "";
-        String bloc = "";
-        String deuxLettres = "";
-        String deuxChiffres = "";
-
-        while (valide == false) {
-            position = 0;
-            nbrErreur = 0;
-            if(texte.length() % 4 == 0){
-                texteEnMaj = texte.toUpperCase();
-                nbrDeManipulation = texte.length() / 4;
-                for (int i = 0; i < nbrDeManipulation; i++) {
-                    bloc = texteEnMaj.substring(position , position + 4);
-                    deuxLettres = bloc.substring(0,2);
-                    deuxChiffres = bloc.substring(2,4);
-                    if(deuxLettres.equals("RG") || deuxLettres.equals("RD") || deuxLettres.equals("PE") || deuxLettres.equals("PI") || deuxLettres.equals("IV")) {
-                        if(Character.isDigit(deuxChiffres.charAt(0)) && Character.isDigit(deuxChiffres.charAt(1))) {
-                            if(Integer.parseInt(deuxChiffres) >= 0 || Integer.parseInt(deuxChiffres) <= 99){
-
-                            } else {
-                                nbrErreur++;
-                            }
-                        } else{
-                            nbrErreur++;
-                        }
-                    } else {
-                        nbrErreur++;
-                    }
-                    position = position + 4;
-                }
-                if(nbrErreur == 0) {
-                    valide = true;
-                } else {
-                    texte = affichageErreurCle();
-                }
-            } else{
-                texte = affichageErreurCle();
-            }
+        while (!validationBlocsCle(cle)) {
+            System.out.println(msgErr);
+            System.out.print (msgSoll);
+            cle = Clavier.lireString();
         }
+        return cle;
     }
 
+    /**
+     * Cette méthode permet de valider si tous les caractères d'un message sont valides.
+     * @param message le message que l'on souhaite analyser.
+     * @return TRUE si tous les caractères sont valides, FALSE si l'un ou plusieurs sont interdits.
+     */
     public static boolean validationCaracteres(String message) {
         boolean resulat = true;
         for(int i = 0; i < message.length(); i++) {
@@ -121,16 +83,48 @@ public class Methodes {
         return resulat;
     }
 
-    public static String affichageErreurCle() {
-        System.out.println(MSG_ERREUR_CLE);
-        System.out.print(MSG_INPUT_CLE);
-        return Clavier.lireString();
-    }
+    /**
+     * Cette méthode valide si la clé de cryptage est valide.
+     * La validation s'effectue sur plusieurs étapes :
+     *  1) Valider le nombre de caractères (doit être divisible par 4).
+     *  2) Diviser notre clé en blocs de quatre caractères.
+     *  3) Valider si les deux premiers caractères du bloc sont valides (RG, RD, PE, PI, ou IV).
+     *  4) Valider si les deux derniers caractères du bloc sont des chiffres et s'ils sont valides (entre 00 et 99).
+     * Ces quatre étapes s'effectuent autant de fois qu'il y a de bloc de quatre caractères.
+     *
+     * @param cle la clé que l'on souhaite valider bloc par bloc.
+     * @return TRUE tous les blocs sont acceptables, FALSE si au minimum l'un d'entre eux possède une erreur.
+     */
+    public static boolean validationBlocsCle(String cle) {
+        boolean resulat = true;
 
-    public static String affichageErreurMessage() {
-        System.out.println(MSG_ERREUR_MSG);
-        System.out.print(MSG_INPUT_MSG);
-        return Clavier.lireString();
+        String texteEnMaj = "";
+        String deuxLettres = "";
+        String deuxChiffres = "";
+
+        int nbrDeManipulation = 0;
+        int position = 0;
+
+        if(cle.length() % 4 == 0){
+            texteEnMaj = cle.toUpperCase();
+            nbrDeManipulation = texteEnMaj.length() / 4;
+            for (int i = 0; i < nbrDeManipulation; i++) {
+                String bloc = texteEnMaj.substring(position , position + 4);
+                deuxLettres = bloc.substring(0,2);
+                deuxChiffres = bloc.substring(2,4);
+                if(!deuxLettres.equals("RG") && !deuxLettres.equals("RD") && !deuxLettres.equals("PE") && !deuxLettres.equals("PI") && !deuxLettres.equals("IV")) {
+                    resulat = false;
+                } else if(Character.isDigit(deuxChiffres.charAt(0)) && Character.isDigit(deuxChiffres.charAt(1))) {
+                    if(Integer.parseInt(deuxChiffres) < 0 || Integer.parseInt(deuxChiffres) > 100){
+                        resulat = false;
+                    }
+                }
+                position = position + 4;
+            }
+        } else {
+            resulat = false;
+        }
+        return resulat;
     }
 
     /**
@@ -167,7 +161,7 @@ public class Methodes {
      * @return le message crypte
      */
     public static String crypter(String cle, String msg){
-        validerCle(cle);
+        //validerCle(cle);
         //validerTexte(msg);
 
         return null;
