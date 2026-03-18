@@ -28,6 +28,7 @@ public class Methodes {
      */
     public static String validerMessage(String msgSoll, String msgErr) {
         String texte;
+        boolean valide = false;
 
         System.out.print ("\n" + msgSoll);
         texte = Clavier.lireString();
@@ -114,6 +115,8 @@ public class Methodes {
                 deuxChiffres = bloc.substring(2,4);
                 if(!deuxLettres.equals("RG") && !deuxLettres.equals("RD") && !deuxLettres.equals("PE") && !deuxLettres.equals("PI") && !deuxLettres.equals("IV")) {
                     resulat = false;
+                } else if(!Character.isDigit(deuxChiffres.charAt(0)) || !Character.isDigit(deuxChiffres.charAt(1))){
+                    resulat = false;
                 } else if(Character.isDigit(deuxChiffres.charAt(0)) && Character.isDigit(deuxChiffres.charAt(1))) {
                     if(Integer.parseInt(deuxChiffres) < 0 || Integer.parseInt(deuxChiffres) > 100){
                         resulat = false;
@@ -161,11 +164,136 @@ public class Methodes {
      * @return le message crypte
      */
     public static String crypter(String cle, String msg){
-        //validerCle(cle);
-        //validerTexte(msg);
+        String message = msg;
+        int nbrDeManipulation = cle.length() / 4;
+        int position = 0;
 
-        return null;
+        validerCle(cle, msg);
+        validerMessage(msg, msg);
+
+        for (int i = 0; i < nbrDeManipulation; i++) {
+            String bloc = message.substring(position , position + 4);
+            String deuxLettres = bloc.substring(0,2);
+            int deuxChiffres = Integer.parseInt(bloc.substring(2,4));
+
+            if(deuxLettres.equals("RG")){
+                message = crypterRotationGauche(message, deuxChiffres);
+            } else if(deuxLettres.equals("RD")){
+                message = crypterRotationDroite(message, deuxChiffres);
+            } else if(deuxLettres.equals("PE")){
+                message = crypterPermutationExterieure(message, deuxChiffres);
+            } else if(deuxLettres.equals("PI")){
+                message = crypterPermutationInterieure(message, deuxChiffres);
+            } else if(deuxLettres.equals("IV")){
+                message = crypterInversion(message, deuxChiffres);
+            }
+            position = position + 4;
+        }
+
+        return message;
     }
+
+    public static String crypterRotationGauche(String message, int iteration){
+        String m = message;
+        for(int i = 0; i < iteration; i++){
+            m = m.substring(1) + m.charAt(0);
+        }
+        return m;
+    }
+
+    public static String crypterRotationDroite(String message, int iteration){
+        String m = message;
+        for(int i = 0; i < iteration; i++){
+            m = m.charAt(m.length() - 1) + m.substring(0, m.length() - 2);
+        }
+        return m;
+    }
+
+    public static String crypterPermutationExterieure(String message, int iteration){
+        String m = message;
+        int indexDernierCarac = m.length() - 1;
+        int positionPermutation = 0;
+
+        if (indexDernierCarac != 0){
+            for(int i = 0; i < iteration; i++){
+                if (positionPermutation == 0){
+                    m = m.charAt(indexDernierCarac) +
+                        m.substring(1, indexDernierCarac) +
+                        m.charAt(positionPermutation);
+                } else {
+                    m = m.substring(0, positionPermutation) +
+                        m.charAt(indexDernierCarac - positionPermutation) +
+                        m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
+                        m.charAt(positionPermutation) +
+                        m.substring(indexDernierCarac - positionPermutation + 1);
+                }
+
+                if (m.length() % 2 == 0) {
+                    if (positionPermutation+1 == m.length()/2) {
+                        positionPermutation = 0;
+                    } else {
+                        positionPermutation++;
+                    }
+                } else {
+                    if (positionPermutation+1 >= m.length()/2) {
+                        positionPermutation = 0;
+                    } else {
+                        positionPermutation++;
+                    }
+                }
+
+            }
+        }
+
+        return m;
+    }
+
+    public static String crypterPermutationInterieure(String message, int iteration){
+        String m = message;
+        int indexDernierCarac = m.length() - 1;
+        int positionPermutation = m.length()/2 -1;
+
+        if (indexDernierCarac != 0){
+            for(int i = 0; i < iteration; i++){
+                if (positionPermutation == 0){
+                    m = m.charAt(indexDernierCarac) +
+                        m.substring(1, indexDernierCarac) +
+                        m.charAt(positionPermutation);
+                } else {
+                    m = m.substring(0, positionPermutation) +
+                        m.charAt(indexDernierCarac - positionPermutation) +
+                        m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
+                        m.charAt(positionPermutation) +
+                        m.substring(indexDernierCarac - positionPermutation + 1);
+                }
+
+                if (positionPermutation == 0) {
+                    positionPermutation = m.length()/2 -1;
+                } else {
+                    positionPermutation--;
+                }
+            }
+        }
+
+        return m;
+    }
+
+    public static String crypterInversion(String message, int iteration){
+        String m = message;
+        String resultat = "";
+        int nbrCaracteres = m.length();
+        int indexDernierCarac = nbrCaracteres - 1;
+
+        if (nbrCaracteres >= iteration){
+            
+        } else {
+            return m;
+        }
+
+        return m;
+    }
+
+
 
     /**
      * Décrypte le msg donne avec la clé de cryptage donnée, et retourne

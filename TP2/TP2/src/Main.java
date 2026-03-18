@@ -3,9 +3,12 @@
 void main() {
 
     String test;
-    String msgSollicitation = "Rentrez une clé : ";
-    String msgErreur = "Erreur, veuillez réessayer... : ";
-    test = Methodes.validerCle(msgSollicitation, msgErreur);
+//    String msgSollicitation = "Rentrez une clé : ";
+//    String msgErreur = "Erreur, veuillez réessayer... : ";
+//    System.out.println(7/2);
+//    test = Methodes.validerCle(msgSollicitation, msgErreur);
+
+    test = Methodes.crypterPermutationInterieure("Salut mon pote", 5);
 
     System.out.println(test);
 
