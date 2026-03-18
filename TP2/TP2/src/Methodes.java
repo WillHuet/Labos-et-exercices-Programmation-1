@@ -280,17 +280,31 @@ public class Methodes {
 
     public static String crypterInversion(String message, int iteration){
         String m = message;
-        String resultat = "";
+        String resultatPremiereInversion = "";
+        String resultatDeuxiemeInversion = "";
+        String resultatInversion = "";
         int nbrCaracteres = m.length();
+        int nbrInversion = iteration-1;
         int indexDernierCarac = nbrCaracteres - 1;
 
-        if (nbrCaracteres >= iteration){
-            
+        if (nbrCaracteres >= nbrInversion && nbrInversion != 0){
+            //Inversion avant
+            for (int i = nbrInversion; i >= 0; i--){
+                resultatPremiereInversion += m.charAt(i);
+            }
+            resultatPremiereInversion += m.substring(iteration);
+
+            //Inversion arrière
+            for (int i = indexDernierCarac; i >= (indexDernierCarac-nbrInversion); i--){
+                resultatDeuxiemeInversion += resultatPremiereInversion.charAt(i);
+
+            }
+            resultatInversion = resultatPremiereInversion.substring(0, indexDernierCarac - nbrInversion) + resultatDeuxiemeInversion;
+
+            return resultatInversion;
         } else {
             return m;
         }
-
-        return m;
     }
 
 

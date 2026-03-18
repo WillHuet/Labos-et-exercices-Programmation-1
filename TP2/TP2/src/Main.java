@@ -8,7 +8,7 @@ void main() {
 //    System.out.println(7/2);
 //    test = Methodes.validerCle(msgSollicitation, msgErreur);
 
-    test = Methodes.crypterPermutationInterieure("Salut mon pote", 5);
+    test = Methodes.crypterInversion("abcdefg", 9);
 
     System.out.println(test);
 
