@@ -1,7 +1,9 @@
-public class Methodes {
+public class Cryptage {
+    /*
     //  ++++++++++++++
     //  + CONSTANTES +
     //  ++++++++++++++
+    */
 
     //MESSAGE TRADITIONNEL
     public final static String MSG_INPUT_CLE = "CLE DE CRYPTAGE : ";
@@ -13,10 +15,38 @@ public class Methodes {
             "\tLe message ne peut contenir que des lettres, des chiffres, des\n" +
             "\tespaces, et les caractères .!?,;:'-\"";
 
+    /*
+    //  ++++++++++++++++++++++
+    //  + MÉTHODES INTERFACE +
+    //  ++++++++++++++++++++++
+    */
+    /**
+     * Cette methode affiche la presentation de ce programme.
+     */
+    public static void presenterLogiciel() {
+        System.out.println("Ce logiciel permet de crypter et de décrypter des messages secrets. \n");
+    }
 
-    //  ++++++++++++
-    //  + MÉTHODES +
-    //  ++++++++++++
+    /**
+     * Cette methode affiche un message disant a l'utilisateur
+     * d'appuyer sur ENTREE pour continuer.
+     */
+    public static void pause() {
+        System.out.print("Tapez <ENTRÉE> pour continuer...");
+        Clavier.lireFinLigne();
+    }
+    /**
+     * Cette methode affiche un message de fin du programme.
+     */
+    public static void finProgramme() {
+        System.out.println("AUREVOIR !");
+    }
+
+    /*
+    //  +++++++++++++++++++++++
+    //  + MÉTHODES VALIDATION +
+    //  +++++++++++++++++++++++
+    */
 
     /**
      * Cette méthode saisit et valide le message entré par l'utilisateur.
@@ -135,8 +165,8 @@ public class Methodes {
      * entre borneInf et borneSup.
      * @param msgSoll le msg de sollicitation du choix de l'utilisateur.
      * @param msgErr le msg d'erreur lorsqu'un choix est invalide.
-     * @param borneInf la borne inferieure pour un choix valide.
-     * @param borneSup la borne superieure pour un choix valide.
+     * @param borneInf la borne inférieure pour un choix valide.
+     * @param borneSup la borne supérieure pour un choix valide.
      * @return le choix valide de l'utilisateur, entre borneInf et
      * borneSup.
      */
@@ -153,6 +183,28 @@ public class Methodes {
         return choixMenu;
     }
 
+    public static void selectionMenu(){
+        char selection;
+        do {
+            selection = validerChoixMenu(MSG_SOLLICITATION_MENU, MSG_ERREUR_MENU, '1', '3');
+
+            if (selection == '1'){
+                String messageCrypte = crypter(validerCle(MSG_INPUT_CLE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG, MSG_ERREUR_MSG));
+                System.out.println("MESSAGE CRYPTÉ : [" + messageCrypte +"]");
+                pause();
+            } else if (selection == '2'){
+                //String messageDecrypte = decrypter()
+                pause();
+            }
+        } while (selection != '3');
+    }
+
+    /*
+    //  ++++++++++++++++++++
+    //  + MÉTHODES CRYPTER +
+    //  ++++++++++++++++++++
+    */
+
     /**
      * Crypte le msg donne avec la cle de cryptage donnee, et retourne
      * le message crypte.
@@ -168,11 +220,8 @@ public class Methodes {
         int nbrDeManipulation = cle.length() / 4;
         int position = 0;
 
-        validerCle(cle, msg);
-        validerMessage(msg, msg);
-
         for (int i = 0; i < nbrDeManipulation; i++) {
-            String bloc = message.substring(position , position + 4);
+            String bloc = cle.substring(position , position + 4);
             String deuxLettres = bloc.substring(0,2);
             int deuxChiffres = Integer.parseInt(bloc.substring(2,4));
 
@@ -204,7 +253,7 @@ public class Methodes {
     public static String crypterRotationDroite(String message, int iteration){
         String m = message;
         for(int i = 0; i < iteration; i++){
-            m = m.charAt(m.length() - 1) + m.substring(0, m.length() - 2);
+            m = m.charAt(m.length() - 1) + m.substring(0, m.length() - 1);
         }
         return m;
     }
@@ -307,7 +356,11 @@ public class Methodes {
         }
     }
 
-
+    /*
+    //  ++++++++++++++++++++++
+    //  + MÉTHODES DÉCRYPTER +
+    //  ++++++++++++++++++++++
+    */
 
     /**
      * Décrypte le msg donne avec la clé de cryptage donnée, et retourne
@@ -321,5 +374,34 @@ public class Methodes {
      */
     public static String decrypter(String cle, String msg){
         return null;
+    }
+
+    //CONSTANTES
+
+    //Messages sollicitation
+    public static final String MSG_OPERATION_ANNULEE = "--> OPERATION ANNULÉE <--";
+    public static final String MSG_SOLLICITATION_MENU =
+            "----\n" +
+            "MENU\n" +
+            "----\n" +
+            "1. Crypter un message\n" +
+            "2. Decrypter un message\n" +
+            "3. Quitter\n" +
+            "\n" +
+            "Entrez votre choix : ";
+
+    //Messages erreur
+    public static final String MSG_ERREUR_MENU =
+            "\n" +
+            "ERREUR, choix de menu invalide ! Recommencez..." +
+            "\n";
+
+
+    public static void main(String [] args) {
+        presenterLogiciel();
+        pause();
+        selectionMenu();
+
+        finProgramme();
     }
 }
