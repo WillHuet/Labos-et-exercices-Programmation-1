@@ -228,9 +228,9 @@ public class Cryptage {
     }
 
     /*
-    //  ++++++++++++++++++++
-    //  + MÉTHODES CRYPTER +
-    //  ++++++++++++++++++++
+    //  ++++++++++++++++++++++++
+    //  + MÉTHODES (DÉ)CRYPTER +
+    //  ++++++++++++++++++++++++
     */
 
     /**
@@ -273,9 +273,61 @@ public class Cryptage {
         }
     }
 
+    /**
+     * Décrypte le msg donne avec la clé de cryptage donnée, et retourne
+     * le message décrypté.
+     *
+     * ANTECEDENT : la clé et le msg doivent être valides.
+     *
+     * @param cle la cle de cryptage
+     * @param msg le message à décrypter avec la clé donnée
+     * @return le message décrypte
+     */
+    public static String decrypter(String cle, String msg){
+        String message = msg;
+        int nbrDeManipulation = cle.length() / 4;
+        int position = cle.length();
+
+        if (message == ""){
+            return MSG_OPERATION_ANNULEE;
+        } else {
+            for (int i = 0; i < nbrDeManipulation; i++) {
+                String bloc = cle.substring(position -4, position);
+                String deuxLettres = bloc.substring(0,2);
+                int deuxChiffres = Integer.parseInt(bloc.substring(2,4));
+
+                if(deuxLettres.equals("RG")){
+                    message = operationRotationDroite(message, deuxChiffres);
+                } else if(deuxLettres.equals("RD")){
+                    message = operationRotationGauche(message, deuxChiffres);
+                } else if(deuxLettres.equals("PE")){
+                    message = operationPermutationInterieure(message, deuxChiffres, 'd');
+                } else if(deuxLettres.equals("PI")){
+                    message = operationPermutationExterieure(message, deuxChiffres, 'd');
+                } else if(deuxLettres.equals("IV")){
+                    message = operationInversion(message, deuxChiffres, 'd');
+                }
+                position = position - 4;
+            }
+            return message;
+        }
+    }
+
+    /*
+    //  +++++++++++++++++++++++
+    //  + MÉTHODES OPÉRATIONS +
+    //  +++++++++++++++++++++++
+    */
+
     public static String operationRotationGauche(String message, int iteration){
         String m = message;
-        for(int i = 0; i < iteration; i++){
+        int nbrDeTransformation = iteration;
+
+        if (nbrDeTransformation >= m.length()){
+            nbrDeTransformation = nbrDeTransformation % m.length();
+        }
+
+        for(int i = 1; i <= nbrDeTransformation; i++){
             m = m.substring(1) + m.charAt(0);
         }
         return m;
@@ -283,7 +335,13 @@ public class Cryptage {
 
     public static String operationRotationDroite(String message, int iteration){
         String m = message;
-        for(int i = 0; i < iteration; i++){
+        int nbrDeTransformation = iteration;
+
+        if (nbrDeTransformation >= m.length()){
+            nbrDeTransformation = nbrDeTransformation % m.length();
+        }
+
+        for(int i = 1; i <= nbrDeTransformation; i++){
             m = m.charAt(m.length() - 1) + m.substring(0, m.length() - 1);
         }
         return m;
@@ -292,8 +350,9 @@ public class Cryptage {
     public static String operationPermutationExterieure(String message, int iteration, char typeOperation){
         String m = message;
         int indexDernierCarac = m.length() - 1;
+        int nbrDeTransformation = iteration;
         int positionPermutation = 0;
-
+            
         if (indexDernierCarac != 0){
             if (typeOperation == 'c'){
                 for(int i = 0; i < iteration; i++){
@@ -399,146 +458,10 @@ public class Cryptage {
     }
 
     /*
-    //  ++++++++++++++++++++++
-    //  + MÉTHODES DÉCRYPTER +
-    //  ++++++++++++++++++++++
+    //  ++++++++++++++++++++++++++
+    //  + CLASSE EXÉCUTABLE MAIN +
+    //  ++++++++++++++++++++++++++
     */
-
-    /**
-     * Décrypte le msg donne avec la clé de cryptage donnée, et retourne
-     * le message décrypté.
-     *
-     * ANTECEDENT : la clé et le msg doivent être valides.
-     *
-     * @param cle la cle de cryptage
-     * @param msg le message à décrypter avec la clé donnée
-     * @return le message décrypte
-     */
-    public static String decrypter(String cle, String msg){
-        String message = msg;
-        int nbrDeManipulation = cle.length() / 4;
-        int position = cle.length();
-
-        if (message == ""){
-            return MSG_OPERATION_ANNULEE;
-        } else {
-            for (int i = 0; i < nbrDeManipulation; i++) {
-                String bloc = cle.substring(position -4, position);
-                String deuxLettres = bloc.substring(0,2);
-                int deuxChiffres = Integer.parseInt(bloc.substring(2,4));
-
-                if(deuxLettres.equals("RG")){
-                    message = operationRotationDroite(message, deuxChiffres);
-                } else if(deuxLettres.equals("RD")){
-                    message = operationRotationGauche(message, deuxChiffres);
-                } else if(deuxLettres.equals("PE")){
-                    message = operationPermutationInterieure(message, deuxChiffres, 'd');
-                } else if(deuxLettres.equals("PI")){
-                    message = operationPermutationExterieure(message, deuxChiffres, 'd');
-                } else if(deuxLettres.equals("IV")){
-                    message = operationInversion(message, deuxChiffres, 'd');
-                }
-                position = position - 4;
-            }
-            return message;
-        }
-    }
-
-    public static String decrypterPermutationExterieure(String message, int iteration){
-        String m = message;
-        int indexDernierCarac = m.length() - 1;
-        int positionPermutation = 0;
-
-        if (indexDernierCarac != 0){
-            for(int i = 0; i < iteration; i++){
-                if (positionPermutation == 0){
-                    m = m.charAt(indexDernierCarac) +
-                            m.substring(1, indexDernierCarac) +
-                            m.charAt(positionPermutation);
-                } else {
-                    m = m.substring(0, positionPermutation) +
-                            m.charAt(indexDernierCarac - positionPermutation) +
-                            m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
-                            m.charAt(positionPermutation) +
-                            m.substring(indexDernierCarac - positionPermutation + 1);
-                }
-
-                if (m.length() % 2 == 0) {
-                    if (positionPermutation+1 == m.length()/2) {
-                        positionPermutation = 0;
-                    } else {
-                        positionPermutation++;
-                    }
-                } else {
-                    if (positionPermutation+1 >= m.length()/2) {
-                        positionPermutation = 0;
-                    } else {
-                        positionPermutation++;
-                    }
-                }
-
-            }
-        }
-        return m;
-    }
-
-    public static String decrypterPermutationInterieure(String message, int iteration){
-        String m = message;
-        int indexDernierCarac = m.length() - 1;
-        int positionPermutation = m.length()/2 -1;
-
-        if (indexDernierCarac != 0){
-            for(int i = 0; i < iteration; i++){
-                if (positionPermutation == 0){
-                    m = m.charAt(indexDernierCarac) +
-                            m.substring(1, indexDernierCarac) +
-                            m.charAt(positionPermutation);
-                } else {
-                    m = m.substring(0, positionPermutation) +
-                            m.charAt(indexDernierCarac - positionPermutation) +
-                            m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
-                            m.charAt(positionPermutation) +
-                            m.substring(indexDernierCarac - positionPermutation + 1);
-                }
-
-                if (positionPermutation == 0) {
-                    positionPermutation = m.length()/2 -1;
-                } else {
-                    positionPermutation--;
-                }
-            }
-        }
-        return m;
-    }
-
-    public static String decrypterInversion(String message, int iteration){
-        String m = message;
-        String resultatPremiereInversion = "";
-        String resultatDeuxiemeInversion = "";
-        String resultatInversion = "";
-        int nbrCaracteres = m.length();
-        int nbrInversion = iteration-1;
-        int indexDernierCarac = nbrCaracteres - 1;
-
-        if (nbrCaracteres >= nbrInversion && nbrInversion != 0){
-            //Inversion arrière
-            for (int i = indexDernierCarac; i >= (indexDernierCarac-nbrInversion); i--){
-                resultatPremiereInversion += m.charAt(i);
-            }
-
-            resultatPremiereInversion += m.substring(iteration);
-
-            //Inversion avant
-            for (int i = nbrInversion; i >= 0; i--){
-                resultatDeuxiemeInversion += resultatPremiereInversion.charAt(i);
-            }
-            resultatInversion = resultatPremiereInversion.substring(0, indexDernierCarac - nbrInversion) + resultatDeuxiemeInversion;
-
-            return resultatInversion;
-        } else {
-            return m;
-        }
-    }
 
     public static void main(String [] args) {
         presenterLogiciel();
