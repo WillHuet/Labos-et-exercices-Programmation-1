@@ -5,6 +5,11 @@ public class Cryptage {
     //  ++++++++++++++
     */
 
+    public final static char exterieure = 'e';
+    public final static char interieure = 'i';
+    public final static char cryptage = 'c';
+    public final static char decryptage = 'd';
+
     //MESSAGE TRADITIONNEL
     public final static String MSG_INPUT_CLE = "CLE DE CRYPTAGE : ";
     public final static String MSG_INPUT_MSG = "MESSAGE A CRYPTER (ENTREE pour annuler) : ";
@@ -149,7 +154,7 @@ public class Cryptage {
         int nbrDeManipulation = 0;
         int position = 0;
 
-        if(cle.length() % 4 == 0){
+        if(cle.length() % 4 == 0 && !cle.isEmpty()){
             texteEnMaj = cle.toUpperCase();
             nbrDeManipulation = texteEnMaj.length() / 4;
             for (int i = 0; i < nbrDeManipulation; i++) {
@@ -249,10 +254,6 @@ public class Cryptage {
         int nbrDeManipulation = cle.length() / 4;
         int position = 0;
 
-        char exterieure = 'e';
-        char interieure = 'i';
-        char cryptage = 'c';
-
         if (message == ""){
             return MSG_OPERATION_ANNULEE;
         } else {
@@ -293,10 +294,6 @@ public class Cryptage {
 
         int nbrDeManipulation = cle.length() / 4;
         int position = cle.length();
-
-        char exterieure = 'e';
-        char interieure = 'i';
-        char decryptage = 'd';
 
         if (message == ""){
             return MSG_OPERATION_ANNULEE;
@@ -360,25 +357,21 @@ public class Cryptage {
     public static String operationsPermutation(String message, int iteration, char typePermutation, char typeOperation){
         String m = message;
 
-        char exterieure = 'e';
-        char interieure = 'i';
-        char cryptage = 'c';
-        char decryptage = 'd';
-
         int indexDernierCarac = m.length() - 1;
         int nbrDeTransformation = iteration;
         int positionPermutation;
 
-        //Optimise le nombre d'opération.
-        //Détermine si le nombre de transformation est plus grand que la longueur du texte.
-        //Si c'est le cas, on réduit le nombre de transformation par le nombre restant après une division (modulo).
+        //Optimise le nombre d'opérations.
+        //Détermine si le nombre de transformations est plus grand que la longueur du texte.
+        //Si c'est le cas, on réduit le nombre de transformations par le nombre restant après une division (modulo).
         if (m.length() % 2 == 0 && nbrDeTransformation >= m.length()){
             nbrDeTransformation = nbrDeTransformation % m.length();
         } else if (m.length() % 2 != 0 && nbrDeTransformation >= m.length() -1){
             nbrDeTransformation = nbrDeTransformation % (m.length() - 1);
         }
 
-        //Détermine si c'est une permutation intérieure ou extérieure et si c'est du cryptage ou décryptage (change la position de départ).
+        //Détermine si c'est une permutation intérieure ou extérieure.
+        //Détermine également si c'est du cryptage ou décryptage (change la position de départ).
         if (typeOperation == cryptage) {
             //Pour le cryptage, on commence au début pour la permutation extérieure, et au milieu pour la permutation intérieure.
             if (typePermutation == exterieure){
@@ -388,22 +381,27 @@ public class Cryptage {
             }
         } else {
             //Pour le décryptage, c'est pas mal plus complex.
-
-            //Si permutation externe, la position de départ n'est pas la même si le nombre de transformation est plus grand que la moitié de la longueur du texte.
-            //Si c'est le cas, on doit ..........................
+            //-----------------------------------------------
+            //Pour la permutation extérieure, on détermine la position de départ par la longueur du texte modulo le nombre de transformations.
             if (typePermutation == exterieure){
                 positionPermutation = m.length() % nbrDeTransformation;
+                //Si jamais cette position dépasse le milieu du texte, on calcule le nombre de transformations modulo la moitié du texte.
                 if (positionPermutation > m.length()/2){
                     positionPermutation = nbrDeTransformation % m.length()/2;
                 }
             } else {
+                //Pour la permutation intérieure, la position de départ varie selon plusieurs critères.
                 if (nbrDeTransformation > m.length()/2){
+                    //Si le nombre de transformations surpassent la longueur de la moitié du texte,
+                    //On doit ensuite déterminer si le nombre de caractères est pair ou impair (on doit retirer un si impair).
                     if (m.length() % 2 == 0){
                         positionPermutation = nbrDeTransformation - m.length()/2;
                     } else {
                         positionPermutation = (nbrDeTransformation - m.length()/2) -1;
                     }
                 } else {
+                    //Si le nombre de transformations ne surpassent pas la longueur de la moitié du texte,
+                    //On réduit le nombre de transformations à la longueur de la moitié du texte.
                     positionPermutation = m.length()/2 - nbrDeTransformation;
                 }
             }
@@ -412,7 +410,7 @@ public class Cryptage {
         //Début du code pour qui effectue les modifications sur le texte.
         if (indexDernierCarac != 0){
             for(int i = 0; i < nbrDeTransformation; i++){
-                //Si en première position, on doit inverser le premier et dernier caractère, et mettre les reste entre les deux.
+                //Si en première position, on doit inverser le premier et dernier caractère, et mettre le reste entre les deux.
                 if (positionPermutation == 0){
                     m = m.charAt(indexDernierCarac) +
                     m.substring(1, indexDernierCarac) +
@@ -430,7 +428,7 @@ public class Cryptage {
                 //Le changement de position est le même pour crypter en permutation extérieure, ou décrypter en permutation intérieure.
                 if ((typePermutation == exterieure && typeOperation == cryptage) || (typePermutation == interieure && typeOperation == decryptage)){
                     //Quand on arrive au milieu, on souhaite que la prochaine modification se fasse sur le premier caractère.
-                    //Sinon, on augmente de un.
+                    //Sinon, on augmente d'un.
                     if (m.length() % 2 == 0) {
                         if (positionPermutation+1 == m.length()/2) {
                             positionPermutation = 0;
@@ -440,7 +438,7 @@ public class Cryptage {
                     }
                 } else {
                     //Même chose pour la permutation intérieure, mais lorsqu'on arrive au début, on doit retourner au milieu.
-                    //Également, on part du milieu et descends d'un caractère au lieu de monter de un.
+                    //Également, on part du milieu et descend d'un caractère au lieu de monter d'un.
                     if (positionPermutation == 0) {
                         positionPermutation = m.length() / 2 - 1;
                     } else {
@@ -457,12 +455,14 @@ public class Cryptage {
         String resultatPremiereInversion = "";
         String resultatDeuxiemeInversion = "";
         String resultatInversion = "";
+
         int nbrCaracteres = m.length();
         int nbrInversion = iteration-1;
         int indexDernierCarac = nbrCaracteres - 1;
 
         if (nbrCaracteres >= nbrInversion && nbrInversion != 0){
-            if(typeOperation == 'c'){
+            //Modification pour du cryptage (inversion avant suivie d'une inversion arrière)
+            if(typeOperation == cryptage){
                 //Inversion avant
                 for (int i = nbrInversion; i >= 0; i--){
                     resultatPremiereInversion += m.charAt(i);
@@ -470,16 +470,31 @@ public class Cryptage {
                 resultatPremiereInversion += m.substring(iteration);
 
                 //Inversion arrière
-                for (int i = indexDernierCarac; i >= (indexDernierCarac-nbrInversion); i--){
+                for (int i = indexDernierCarac; i >= (indexDernierCarac - nbrInversion); i--){
                     resultatDeuxiemeInversion += resultatPremiereInversion.charAt(i);
-
                 }
                 resultatInversion = resultatPremiereInversion.substring(0, indexDernierCarac - nbrInversion) + resultatDeuxiemeInversion;
 
                 return resultatInversion;
             } else {
-                // ...
-                return null;
+                //Modification pour du décryptage (inversion arrière suivie d'une inversion avant)
+
+                //Inversion arrière
+                for (int i = indexDernierCarac; i >= (indexDernierCarac - nbrInversion); i--){
+                    resultatPremiereInversion += m.charAt(i);
+                }
+
+                resultatPremiereInversion = m.substring(0, (indexDernierCarac - nbrInversion)) + resultatPremiereInversion;
+
+                //Inversion avant
+                for (int i = nbrInversion; i >= 0; i--){
+                    resultatDeuxiemeInversion += resultatPremiereInversion.charAt(i);
+                }
+
+                resultatInversion = resultatDeuxiemeInversion +
+                                    resultatPremiereInversion.substring(iteration, m.length());
+
+                return resultatInversion;
             }
         } else {
             return m;
