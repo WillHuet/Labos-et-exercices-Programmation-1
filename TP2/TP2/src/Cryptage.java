@@ -245,8 +245,13 @@ public class Cryptage {
      */
     public static String crypter(String cle, String msg){
         String message = msg;
+
         int nbrDeManipulation = cle.length() / 4;
         int position = 0;
+
+        char exterieure = 'e';
+        char interieure = 'i';
+        char cryptage = 'c';
 
         if (message == ""){
             return MSG_OPERATION_ANNULEE;
@@ -261,11 +266,11 @@ public class Cryptage {
                 } else if(deuxLettres.equals("RD")){
                     message = operationRotationDroite(message, deuxChiffres);
                 } else if(deuxLettres.equals("PE")){
-                    message = operationPermutationExterieure(message, deuxChiffres, 'c');
+                    message = operationsPermutation(message, deuxChiffres, exterieure, cryptage);
                 } else if(deuxLettres.equals("PI")){
-                    message = operationPermutationInterieure(message, deuxChiffres, 'c');
+                    message = operationsPermutation(message, deuxChiffres, interieure, cryptage);
                 } else if(deuxLettres.equals("IV")){
-                    message = operationInversion(message, deuxChiffres, 'c');
+                    message = operationInversion(message, deuxChiffres, cryptage);
                 }
                 position = position + 4;
             }
@@ -285,8 +290,13 @@ public class Cryptage {
      */
     public static String decrypter(String cle, String msg){
         String message = msg;
+
         int nbrDeManipulation = cle.length() / 4;
         int position = cle.length();
+
+        char exterieure = 'e';
+        char interieure = 'i';
+        char decryptage = 'd';
 
         if (message == ""){
             return MSG_OPERATION_ANNULEE;
@@ -301,11 +311,11 @@ public class Cryptage {
                 } else if(deuxLettres.equals("RD")){
                     message = operationRotationGauche(message, deuxChiffres);
                 } else if(deuxLettres.equals("PE")){
-                    message = operationPermutationInterieure(message, deuxChiffres, 'd');
+                    message = operationsPermutation(message, deuxChiffres, exterieure, decryptage);
                 } else if(deuxLettres.equals("PI")){
-                    message = operationPermutationExterieure(message, deuxChiffres, 'd');
+                    message = operationsPermutation(message, deuxChiffres, interieure, decryptage);
                 } else if(deuxLettres.equals("IV")){
-                    message = operationInversion(message, deuxChiffres, 'd');
+                    message = operationInversion(message, deuxChiffres, decryptage);
                 }
                 position = position - 4;
             }
@@ -347,79 +357,98 @@ public class Cryptage {
         return m;
     }
 
-    public static String operationPermutationExterieure(String message, int iteration, char typeOperation){
+    public static String operationsPermutation(String message, int iteration, char typePermutation, char typeOperation){
         String m = message;
+
+        char exterieure = 'e';
+        char interieure = 'i';
+        char cryptage = 'c';
+        char decryptage = 'd';
+
         int indexDernierCarac = m.length() - 1;
         int nbrDeTransformation = iteration;
-        int positionPermutation = 0;
-            
-        if (indexDernierCarac != 0){
-            if (typeOperation == 'c'){
-                for(int i = 0; i < iteration; i++){
-                    if (positionPermutation == 0){
-                        m = m.charAt(indexDernierCarac) +
-                                m.substring(1, indexDernierCarac) +
-                                m.charAt(positionPermutation);
-                    } else {
-                        m = m.substring(0, positionPermutation) +
-                                m.charAt(indexDernierCarac - positionPermutation) +
-                                m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
-                                m.charAt(positionPermutation) +
-                                m.substring(indexDernierCarac - positionPermutation + 1);
-                    }
+        int positionPermutation;
 
+        //Optimise le nombre d'opération.
+        //Détermine si le nombre de transformation est plus grand que la longueur du texte.
+        //Si c'est le cas, on réduit le nombre de transformation par le nombre restant après une division (modulo).
+        if (m.length() % 2 == 0 && nbrDeTransformation >= m.length()){
+            nbrDeTransformation = nbrDeTransformation % m.length();
+        } else if (m.length() % 2 != 0 && nbrDeTransformation >= m.length() -1){
+            nbrDeTransformation = nbrDeTransformation % (m.length() - 1);
+        }
+
+        //Détermine si c'est une permutation intérieure ou extérieure et si c'est du cryptage ou décryptage (change la position de départ).
+        if (typeOperation == cryptage) {
+            //Pour le cryptage, on commence au début pour la permutation extérieure, et au milieu pour la permutation intérieure.
+            if (typePermutation == exterieure){
+                positionPermutation = 0;
+            } else {
+                positionPermutation = m.length()/2 -1;
+            }
+        } else {
+            //Pour le décryptage, c'est pas mal plus complex.
+
+            //Si permutation externe, la position de départ n'est pas la même si le nombre de transformation est plus grand que la moitié de la longueur du texte.
+            //Si c'est le cas, on doit ..........................
+            if (typePermutation == exterieure){
+                positionPermutation = m.length() % nbrDeTransformation;
+                if (positionPermutation > m.length()/2){
+                    positionPermutation = nbrDeTransformation % m.length()/2;
+                }
+            } else {
+                if (nbrDeTransformation > m.length()/2){
+                    if (m.length() % 2 == 0){
+                        positionPermutation = nbrDeTransformation - m.length()/2;
+                    } else {
+                        positionPermutation = (nbrDeTransformation - m.length()/2) -1;
+                    }
+                } else {
+                    positionPermutation = m.length()/2 - nbrDeTransformation;
+                }
+            }
+        }
+
+        //Début du code pour qui effectue les modifications sur le texte.
+        if (indexDernierCarac != 0){
+            for(int i = 0; i < nbrDeTransformation; i++){
+                //Si en première position, on doit inverser le premier et dernier caractère, et mettre les reste entre les deux.
+                if (positionPermutation == 0){
+                    m = m.charAt(indexDernierCarac) +
+                    m.substring(1, indexDernierCarac) +
+                    m.charAt(positionPermutation);
+                } else {
+                    //Dans toutes les autres situations, on doit mettre ce qui avant, entre et après les deux caractères que l'on souhaite interchanger.
+                    m = m.substring(0, positionPermutation) +
+                    m.charAt(indexDernierCarac - positionPermutation) +
+                    m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
+                    m.charAt(positionPermutation) +
+                    m.substring(indexDernierCarac - positionPermutation + 1);
+                }
+
+                //La position de la manipulation varie selon l'opération souhaitée.
+                //Le changement de position est le même pour crypter en permutation extérieure, ou décrypter en permutation intérieure.
+                if ((typePermutation == exterieure && typeOperation == cryptage) || (typePermutation == interieure && typeOperation == decryptage)){
+                    //Quand on arrive au milieu, on souhaite que la prochaine modification se fasse sur le premier caractère.
+                    //Sinon, on augmente de un.
                     if (m.length() % 2 == 0) {
                         if (positionPermutation+1 == m.length()/2) {
                             positionPermutation = 0;
                         } else {
                             positionPermutation++;
                         }
-                    } else {
-                        if (positionPermutation+1 >= m.length()/2) {
-                            positionPermutation = 0;
-                        } else {
-                            positionPermutation++;
-                        }
                     }
-                }
-            } else {
-                // ...
-            }
-        }
-        return m;
-    }
-
-    public static String operationPermutationInterieure(String message, int iteration, char typeOperation){
-        String m = message;
-        int indexDernierCarac = m.length() - 1;
-        int positionPermutation = m.length()/2 -1;
-
-        if (indexDernierCarac != 0){
-            if(typeOperation == 'c'){
-                for(int i = 0; i < iteration; i++){
-                    if (positionPermutation == 0){
-                        m = m.charAt(indexDernierCarac) +
-                                m.substring(1, indexDernierCarac) +
-                                m.charAt(positionPermutation);
-                    } else {
-                        m = m.substring(0, positionPermutation) +
-                                m.charAt(indexDernierCarac - positionPermutation) +
-                                m.substring(positionPermutation + 1, indexDernierCarac - positionPermutation) +
-                                m.charAt(positionPermutation) +
-                                m.substring(indexDernierCarac - positionPermutation + 1);
-                    }
-
+                } else {
+                    //Même chose pour la permutation intérieure, mais lorsqu'on arrive au début, on doit retourner au milieu.
+                    //Également, on part du milieu et descends d'un caractère au lieu de monter de un.
                     if (positionPermutation == 0) {
-                        positionPermutation = m.length()/2 -1;
+                        positionPermutation = m.length() / 2 - 1;
                     } else {
                         positionPermutation--;
                     }
                 }
-            } else {
-                // ...
             }
         }
-
         return m;
     }
 
