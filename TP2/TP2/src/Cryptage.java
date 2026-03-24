@@ -11,9 +11,11 @@ public class Cryptage {
     public final static char decryptage = 'd';
 
     //MESSAGE TRADITIONNEL
-    public final static String MSG_INPUT_CLE = "CLE DE CRYPTAGE : ";
-    public final static String MSG_INPUT_MSG = "MESSAGE A CRYPTER (ENTREE pour annuler) : ";
-    public static final String MSG_OPERATION_ANNULEE = "--> OPERATION ANNULÉE <--";
+    public final static String MSG_INPUT_CLE_CRYPTAGE = "CLÉ DE CRYPTAGE : ";
+    public final static String MSG_INPUT_MSG_CRYPTAGE = "MESSAGE À CRYPTER (ENTRÉE pour annuler) : ";
+    public final static String MSG_INPUT_CLE_DECRYPTAGE = "CLÉ DE DÉCRYPTAGE : ";
+    public final static String MSG_INPUT_MSG_DECRYPTAGE = "MESSAGE À DÉCRYPTER (ENTRÉE pour annuler) : ";
+    public static final String MSG_OPERATION_ANNULEE = "--> OPÉRATION ANNULÉE <--";
     public static final String MSG_SOLLICITATION_MENU = "----\n" +
             "MENU\n" +
             "----\n" +
@@ -213,7 +215,7 @@ public class Cryptage {
             selection = validerChoixMenu(MSG_SOLLICITATION_MENU, MSG_ERREUR_MENU, '1', '3');
 
             if (selection == '1'){
-                String messageCrypte = crypter(validerCle(MSG_INPUT_CLE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG, MSG_ERREUR_MSG));
+                String messageCrypte = crypter(validerCle(MSG_INPUT_CLE_CRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_CRYPTAGE, MSG_ERREUR_MSG));
                 if (messageCrypte.equals(MSG_OPERATION_ANNULEE)){
                     System.out.println(MSG_OPERATION_ANNULEE);
                 } else {
@@ -221,7 +223,7 @@ public class Cryptage {
                     pause();
                 }
             } else if (selection == '2'){
-                String messageDecrypte = decrypter(validerCle(MSG_INPUT_CLE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG, MSG_ERREUR_MSG));
+                String messageDecrypte = decrypter(validerCle(MSG_INPUT_CLE_DECRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_DECRYPTAGE, MSG_ERREUR_MSG));
                 if (messageDecrypte.equals(MSG_OPERATION_ANNULEE)){
                     System.out.println(MSG_OPERATION_ANNULEE);
                 } else {
@@ -386,10 +388,10 @@ public class Cryptage {
             //Pour la permutation extérieure, on détermine la position de départ par la longueur du texte modulo le nombre de transformations.
             /// PROBLEME ICI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (typePermutation == exterieure){
-                positionPermutation = m.length() % nbrDeTransformation;
-                //Si jamais cette position dépasse le milieu du texte, on calcule le nombre de transformations modulo la moitié du texte.
-                if (positionPermutation > m.length()/2){
-                    positionPermutation = nbrDeTransformation % m.length()/2;
+                if (nbrDeTransformation > indexMilieu){
+                    positionPermutation = nbrDeTransformation - indexMilieu -1;
+                } else {
+                    positionPermutation = nbrDeTransformation;
                 }
             } else {
                 //Pour la permutation intérieure, la position de départ varie selon plusieurs critères.
