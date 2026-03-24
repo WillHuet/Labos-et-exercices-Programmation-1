@@ -358,6 +358,7 @@ public class Cryptage {
         String m = message;
 
         int indexDernierCarac = m.length() - 1;
+        int indexMilieu = m.length() /2;
         int nbrDeTransformation = iteration;
         int positionPermutation;
 
@@ -383,6 +384,7 @@ public class Cryptage {
             //Pour le décryptage, c'est pas mal plus complex.
             //-----------------------------------------------
             //Pour la permutation extérieure, on détermine la position de départ par la longueur du texte modulo le nombre de transformations.
+            /// PROBLEME ICI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (typePermutation == exterieure){
                 positionPermutation = m.length() % nbrDeTransformation;
                 //Si jamais cette position dépasse le milieu du texte, on calcule le nombre de transformations modulo la moitié du texte.
@@ -429,18 +431,25 @@ public class Cryptage {
                 if ((typePermutation == exterieure && typeOperation == cryptage) || (typePermutation == interieure && typeOperation == decryptage)){
                     //Quand on arrive au milieu, on souhaite que la prochaine modification se fasse sur le premier caractère.
                     //Sinon, on augmente d'un.
-                    if (m.length() % 2 == 0) {
-                        if (positionPermutation+1 == m.length()/2) {
+                    if (m.length() % 2 == 0){
+                        if (positionPermutation+1 > indexMilieu) {
+                            positionPermutation = 0;
+                        } else {
+                            positionPermutation++;
+                        }
+                    } else {
+                        if (positionPermutation+1 >= (indexMilieu)) {
                             positionPermutation = 0;
                         } else {
                             positionPermutation++;
                         }
                     }
+
                 } else {
                     //Même chose pour la permutation intérieure, mais lorsqu'on arrive au début, on doit retourner au milieu.
                     //Également, on part du milieu et descend d'un caractère au lieu de monter d'un.
                     if (positionPermutation == 0) {
-                        positionPermutation = m.length() / 2 - 1;
+                        positionPermutation = indexMilieu - 1;
                     } else {
                         positionPermutation--;
                     }
