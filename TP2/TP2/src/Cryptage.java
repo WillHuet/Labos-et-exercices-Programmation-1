@@ -1,16 +1,20 @@
+
+
 public class Cryptage {
+
     /*
     //  ++++++++++++++
     //  + CONSTANTES +
     //  ++++++++++++++
     */
 
+    //CHAR
     public final static char exterieure = 'e';
     public final static char interieure = 'i';
     public final static char cryptage = 'c';
     public final static char decryptage = 'd';
 
-    //MESSAGE TRADITIONNEL
+    //MESSAGES TRADITIONNELS
     public final static String MSG_INPUT_CLE_CRYPTAGE = "CLÉ DE CRYPTAGE : ";
     public final static String MSG_INPUT_MSG_CRYPTAGE = "MESSAGE À CRYPTER (ENTRÉE pour annuler) : ";
     public final static String MSG_INPUT_CLE_DECRYPTAGE = "CLÉ DE DÉCRYPTAGE : ";
@@ -25,7 +29,7 @@ public class Cryptage {
             "\n" +
             "Entrez votre choix : ";
 
-    //MESSAGE D'ERREUR
+    //MESSAGES D'ERREURS
     public final static String MSG_ERREUR_CLE = "ERREUR, clé invalide ! Recommencez...";
     public final static String MSG_ERREUR_MSG = "ERREUR, message invalide :\n" +
             "\tLe message ne peut contenir que des lettres, des chiffres, des\n" +
@@ -34,34 +38,6 @@ public class Cryptage {
             "\n" +
             "ERREUR, choix de menu invalide ! Recommencez..." +
             "\n";
-
-    /*
-    //  ++++++++++++++++++++++
-    //  + MÉTHODES INTERFACE +
-    //  ++++++++++++++++++++++
-    */
-
-    /**
-     * Cette methode affiche la presentation de ce programme.
-     */
-    public static void presenterLogiciel() {
-        System.out.println("Ce logiciel permet de crypter et de décrypter des messages secrets. \n");
-    }
-
-    /**
-     * Cette methode affiche un message disant a l'utilisateur
-     * d'appuyer sur ENTREE pour continuer.
-     */
-    public static void pause() {
-        System.out.print("Tapez <ENTRÉE> pour continuer...");
-        Clavier.lireFinLigne();
-    }
-    /**
-     * Cette methode affiche un message de fin du programme.
-     */
-    public static void finProgramme() {
-        System.out.println("AUREVOIR !");
-    }
 
     /*
     //  +++++++++++++++++++++++
@@ -180,12 +156,6 @@ public class Cryptage {
         return resulat;
     }
 
-    /*
-    //  +++++++++++++++++
-    //  + MÉTHODES MENU +
-    //  +++++++++++++++++
-    */
-
     /**
      * Cette methode saisit et valide le choix de l'utilisateur
      * entre borneInf et borneSup.
@@ -207,31 +177,6 @@ public class Cryptage {
             choixMenu = Clavier.lireCharLn();
         }
         return choixMenu;
-    }
-
-    public static void selectionMenu(){
-        char selection;
-        do {
-            selection = validerChoixMenu(MSG_SOLLICITATION_MENU, MSG_ERREUR_MENU, '1', '3');
-
-            if (selection == '1'){
-                String messageCrypte = crypter(validerCle(MSG_INPUT_CLE_CRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_CRYPTAGE, MSG_ERREUR_MSG));
-                if (messageCrypte.equals(MSG_OPERATION_ANNULEE)){
-                    System.out.println(MSG_OPERATION_ANNULEE);
-                } else {
-                    System.out.println("MESSAGE CRYPTÉ : [" + messageCrypte +"]");
-                    pause();
-                }
-            } else if (selection == '2'){
-                String messageDecrypte = decrypter(validerCle(MSG_INPUT_CLE_DECRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_DECRYPTAGE, MSG_ERREUR_MSG));
-                if (messageDecrypte.equals(MSG_OPERATION_ANNULEE)){
-                    System.out.println(MSG_OPERATION_ANNULEE);
-                } else {
-                    System.out.println("MESSAGE DÉCRYPTÉ : [" + messageDecrypte +"]");
-                    pause();
-                }
-            }
-        } while (selection != '3');
     }
 
     /*
@@ -323,9 +268,9 @@ public class Cryptage {
     }
 
     /*
-    //  +++++++++++++++++++++++
-    //  + MÉTHODES OPÉRATIONS +
-    //  +++++++++++++++++++++++
+    //  ++++++++++++++++++++++++++++++++++++++++++++
+    //  + MÉTHODES OPÉRATIONS (RG, RD, PE, PI, IV) +
+    //  ++++++++++++++++++++++++++++++++++++++++++++
     */
 
     public static String operationRotationGauche(String message, int iteration){
@@ -391,7 +336,7 @@ public class Cryptage {
                 if (nbrDeTransformation > indexMilieu){
                     positionPermutation = nbrDeTransformation - indexMilieu -1;
                 } else {
-                    positionPermutation = nbrDeTransformation;
+                    positionPermutation = nbrDeTransformation -1;
                 }
             } else {
                 //Pour la permutation intérieure, la position de départ varie selon plusieurs critères.
@@ -510,6 +455,60 @@ public class Cryptage {
         } else {
             return m;
         }
+    }
+
+    /*
+    //  ++++++++++++++++++++++
+    //  + MÉTHODES INTERFACE +
+    //  ++++++++++++++++++++++
+    */
+
+    /**
+     * Cette méthode affiche la présentation de ce programme.
+     */
+    public static void presenterLogiciel() {
+        System.out.println("Ce logiciel permet de crypter et de décrypter des messages secrets. \n");
+    }
+
+    /**
+     * Cette methode affiche un message disant a l'utilisateur
+     * d'appuyer sur ENTREE pour continuer.
+     */
+    public static void pause() {
+        System.out.print("Tapez <ENTRÉE> pour continuer...");
+        Clavier.lireFinLigne();
+    }
+
+    public static void selectionMenu(){
+        char selection;
+        do {
+            selection = validerChoixMenu(MSG_SOLLICITATION_MENU, MSG_ERREUR_MENU, '1', '3');
+
+            if (selection == '1'){
+                String messageCrypte = crypter(validerCle(MSG_INPUT_CLE_CRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_CRYPTAGE, MSG_ERREUR_MSG));
+                if (messageCrypte.equals(MSG_OPERATION_ANNULEE)){
+                    System.out.println(MSG_OPERATION_ANNULEE);
+                } else {
+                    System.out.println("MESSAGE CRYPTÉ : [" + messageCrypte +"]");
+                    pause();
+                }
+            } else if (selection == '2'){
+                String messageDecrypte = decrypter(validerCle(MSG_INPUT_CLE_DECRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_DECRYPTAGE, MSG_ERREUR_MSG));
+                if (messageDecrypte.equals(MSG_OPERATION_ANNULEE)){
+                    System.out.println(MSG_OPERATION_ANNULEE);
+                } else {
+                    System.out.println("MESSAGE DÉCRYPTÉ : [" + messageDecrypte +"]");
+                    pause();
+                }
+            }
+        } while (selection != '3');
+    }
+
+    /**
+     * Cette methode affiche un message de fin du programme.
+     */
+    public static void finProgramme() {
+        System.out.println("AUREVOIR !");
     }
 
     /*
