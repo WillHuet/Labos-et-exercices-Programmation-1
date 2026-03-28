@@ -22,7 +22,7 @@
  *  Par la suite, on demande le message que l'on souhaite décrypter (même validation que pour le cryptage).
  *  Le programme renvoient finalement le message décrypté et attend que l'utilisateur appuie sur « ENTRÉE » pour retourner au menu.
  *
- *  Si l'on sélectionne la TROISIÈME option (Quitter), cela met fin au programme.
+ *  Si l'on sélectionne la TROISIÈME option (3. Quitter), cela met fin au programme.
  *
  *  -------------------------------------
  *  @author : William Huet (HUEW75120205)
@@ -39,18 +39,22 @@ public class Cryptage {
     */
 
     //CHAR
-    public final static char exterieure = 'e';
-    public final static char interieure = 'i';
-    public final static char cryptage = 'c';
-    public final static char decryptage = 'd';
+    public final static char EXTERIEURE = 'e';
+    public final static char INTERIEURE = 'i';
+    public final static char CRYPTAGE = 'c';
+    public final static char DECRYPTAGE = 'd';
 
     //MESSAGES TRADITIONNELS
+    public final static String MSG_PRESENTATION_LOGICIEL = "\n" + "Ce logiciel permet de crypter et de décrypter des messages secrets. \n";
+    public final static String MSG_FIN_PROGRAMME = "\n\n" + "AUREVOIR !";
+    public static final String MSG_OPERATION_ANNULEE = "\n" + "--> OPÉRATION ANNULÉE <--";
+    public final static String MSG_PAUSE = "Tapez <ENTRÉE> pour continuer...";
     public final static String MSG_INPUT_CLE_CRYPTAGE = "CLÉ DE CRYPTAGE : ";
     public final static String MSG_INPUT_MSG_CRYPTAGE = "MESSAGE À CRYPTER (ENTRÉE pour annuler) : ";
     public final static String MSG_INPUT_CLE_DECRYPTAGE = "CLÉ DE DÉCRYPTAGE : ";
     public final static String MSG_INPUT_MSG_DECRYPTAGE = "MESSAGE À DÉCRYPTER (ENTRÉE pour annuler) : ";
-    public static final String MSG_OPERATION_ANNULEE = "--> OPÉRATION ANNULÉE <--";
-    public static final String MSG_SOLLICITATION_MENU = "----\n" +
+    public static final String MSG_SOLLICITATION_MENU =
+            "----\n" +
             "MENU\n" +
             "----\n" +
             "1. Crypter un message\n" +
@@ -58,12 +62,20 @@ public class Cryptage {
             "3. Quitter\n" +
             "\n" +
             "Entrez votre choix : ";
+    public static final String MSG_TITRE_CRYPTAGE = "\n"+
+            "++++++++++++\n" +
+            "+ CRYPTAGE +\n" +
+            "++++++++++++" + "\n";
+    public static final String MSG_TITRE_DECRYPTAGE = "\n"+
+            "++++++++++++++\n" +
+            "+ DÉCRYPTAGE +\n" +
+            "++++++++++++++" + "\n";
 
     //MESSAGES D'ERREURS
-    public final static String MSG_ERREUR_CLE = "ERREUR, clé invalide ! Recommencez...";
-    public final static String MSG_ERREUR_MSG = "ERREUR, message invalide :\n" +
+    public final static String MSG_ERREUR_CLE = "\n" + "ERREUR, clé invalide ! Recommencez...";
+    public final static String MSG_ERREUR_MSG = "\n" + "ERREUR, message invalide :\n" +
             "\tLe message ne peut contenir que des lettres, des chiffres, des\n" +
-            "\tespaces, et les caractères .!?,;:'-\"";
+            "\tespaces, et les caractères .!?,;:'-\"" + "\n";
     public static final String MSG_ERREUR_MENU =
             "\n" +
             "ERREUR, choix de menu invalide ! Recommencez..." +
@@ -86,7 +98,7 @@ public class Cryptage {
     public static String validerMessage(String msgSoll, String msgErr) {
         String texte;
 
-        System.out.print ("\n" + msgSoll);
+        System.out.print (msgSoll);
         texte = Clavier.lireString();
 
         while (!validationCaracteres(texte)) {
@@ -128,8 +140,7 @@ public class Cryptage {
         boolean resulat = true;
         for(int i = 0; i < message.length(); i++) {
             char c = message.charAt(i);
-            if ((c >= 'a' && c <= 'z') ||
-               (c >= 'A' && c <= 'Z') ||
+            if (Character.isLetter(c) ||
                (c >= '0' && c <= '9') ||
                (c == ' ') ||
                (c == '.' || c == '!' || c == '?' || c == ',' || c == ';' || c == ':' || c == '\'' || c == '-' || c == '"')){
@@ -244,11 +255,11 @@ public class Cryptage {
                 } else if(deuxLettres.equals("RD")){
                     message = operationRotationDroite(message, deuxChiffres);
                 } else if(deuxLettres.equals("PE")){
-                    message = operationsPermutation(message, deuxChiffres, exterieure, cryptage);
+                    message = operationsPermutation(message, deuxChiffres, EXTERIEURE, CRYPTAGE);
                 } else if(deuxLettres.equals("PI")){
-                    message = operationsPermutation(message, deuxChiffres, interieure, cryptage);
+                    message = operationsPermutation(message, deuxChiffres, INTERIEURE, CRYPTAGE);
                 } else if(deuxLettres.equals("IV")){
-                    message = operationInversion(message, deuxChiffres, cryptage);
+                    message = operationInversion(message, deuxChiffres, CRYPTAGE);
                 }
                 position = position + 4;
             }
@@ -285,11 +296,11 @@ public class Cryptage {
                 } else if(deuxLettres.equals("RD")){
                     message = operationRotationGauche(message, deuxChiffres);
                 } else if(deuxLettres.equals("PE")){
-                    message = operationsPermutation(message, deuxChiffres, exterieure, decryptage);
+                    message = operationsPermutation(message, deuxChiffres, EXTERIEURE, DECRYPTAGE);
                 } else if(deuxLettres.equals("PI")){
-                    message = operationsPermutation(message, deuxChiffres, interieure, decryptage);
+                    message = operationsPermutation(message, deuxChiffres, INTERIEURE, DECRYPTAGE);
                 } else if(deuxLettres.equals("IV")){
-                    message = operationInversion(message, deuxChiffres, decryptage);
+                    message = operationInversion(message, deuxChiffres, DECRYPTAGE);
                 }
                 position = position - 4;
             }
@@ -382,9 +393,9 @@ public class Cryptage {
         // !!! DÉFINITION DE LA POSITION DE DÉPART !!!
         // Détermine si c'est une permutation intérieure ou extérieure et s'il s'agit de cryptage ou décryptage.
         // La position de départ dépend de plusieurs éléments (4 scénarios possibles).
-        if (typeOperation == cryptage) {
+        if (typeOperation == CRYPTAGE) {
             //Pour le CRYPTAGE, on commence au début pour la permutation extérieure, et au milieu pour la permutation intérieure.
-            if (typePermutation == exterieure){
+            if (typePermutation == EXTERIEURE){
                 positionPermutation = 0;
             } else {
                 positionPermutation = indexMilieu -1;
@@ -392,7 +403,7 @@ public class Cryptage {
         } else {
             //Pour le DÉCRYPTAGE, c'est pas mal plus complex.
             //Pour la permutation extérieure, on détermine la position de départ par la longueur du texte modulo le nombre de transformations.
-            if (typePermutation == exterieure){
+            if (typePermutation == EXTERIEURE){
                 if (nbrDeTransformation > indexMilieu){
                     positionPermutation = nbrDeTransformation - indexMilieu -1;
                 } else {
@@ -437,7 +448,7 @@ public class Cryptage {
 
                 // !!! CHANGEMENT DE LA POSITION DE PERMUTATION !!!
                 //Le changement de position est le même pour crypter en permutation extérieure, ou décrypter en permutation intérieure.
-                if ((typePermutation == exterieure && typeOperation == cryptage) || (typePermutation == interieure && typeOperation == decryptage)){
+                if ((typePermutation == EXTERIEURE && typeOperation == CRYPTAGE) || (typePermutation == INTERIEURE && typeOperation == DECRYPTAGE)){
                     //Quand on arrive au milieu, on souhaite que la prochaine modification se fasse sur le premier caractère.
                     //Sinon, on augmente d'un.
                     if (longueurMessage % 2 == 0){
@@ -492,7 +503,7 @@ public class Cryptage {
 
         if (longueurMessage >= nbrInversion && nbrInversion != 0){
             //MODIFICATION POUR LE CRYPTAGE  (inversion avant suivie d'une inversion arrière)
-            if(typeOperation == cryptage){
+            if(typeOperation == CRYPTAGE){
                 //Inversion avant
                 for (int i = nbrInversion; i >= 0; i--){
                     resultatPremiereInversion += m.charAt(i);
@@ -537,7 +548,7 @@ public class Cryptage {
      * Cette méthode affiche la présentation de ce programme.
      */
     public static void presenterLogiciel() {
-        System.out.println("Ce logiciel permet de crypter et de décrypter des messages secrets. \n");
+        System.out.println(MSG_PRESENTATION_LOGICIEL);
     }
 
     /**
@@ -545,7 +556,7 @@ public class Cryptage {
      * d'appuyer sur ENTRÉE pour continuer.
      */
     public static void pause() {
-        System.out.print("Tapez <ENTRÉE> pour continuer...");
+        System.out.print(MSG_PAUSE);
         Clavier.lireFinLigne();
     }
 
@@ -562,19 +573,21 @@ public class Cryptage {
             selection = validerChoixMenu(MSG_SOLLICITATION_MENU, MSG_ERREUR_MENU, '1', '3');
 
             if (selection == '1'){
+                System.out.print(MSG_TITRE_CRYPTAGE);
                 String messageCrypte = crypter(validerCle(MSG_INPUT_CLE_CRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_CRYPTAGE, MSG_ERREUR_MSG));
                 if (messageCrypte.equals(MSG_OPERATION_ANNULEE)){
                     System.out.println(MSG_OPERATION_ANNULEE);
                 } else {
-                    System.out.println("MESSAGE CRYPTÉ : [" + messageCrypte +"]");
+                    System.out.println("\n" + "MESSAGE CRYPTÉ : [" + messageCrypte +"]" + "\n");
                     pause();
                 }
             } else if (selection == '2'){
+                System.out.print(MSG_TITRE_DECRYPTAGE);
                 String messageDecrypte = decrypter(validerCle(MSG_INPUT_CLE_DECRYPTAGE, MSG_ERREUR_CLE), validerMessage(MSG_INPUT_MSG_DECRYPTAGE, MSG_ERREUR_MSG));
                 if (messageDecrypte.equals(MSG_OPERATION_ANNULEE)){
                     System.out.println(MSG_OPERATION_ANNULEE);
                 } else {
-                    System.out.println("MESSAGE DÉCRYPTÉ : [" + messageDecrypte +"]");
+                    System.out.println("\n" + "MESSAGE DÉCRYPTÉ : [" + messageDecrypte +"]" + "\n");
                     pause();
                 }
             }
@@ -585,7 +598,7 @@ public class Cryptage {
      * Cette méthode affiche un message de fin du programme.
      */
     public static void finProgramme() {
-        System.out.println("AUREVOIR !");
+        System.out.println(MSG_FIN_PROGRAMME);
     }
 
     /*
