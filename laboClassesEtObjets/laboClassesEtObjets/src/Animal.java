@@ -10,7 +10,7 @@ public class Animal {
     // ...
 
     //CONSTRUCTEUR PAR DÉFAUT
-    private Animal(){
+    public Animal(){
         this.nom = "";
         this.sorte = 0;
         this.race = "";
@@ -60,7 +60,7 @@ public class Animal {
     private String typeAnimal(int chiffre){
         String type = "";
         if(chiffre == 0){
-            type = "Autre";
+            type = "Inconnu ou autre";
         } else if(sorte == 1){
             type = "Chat";
         } else if(sorte == 2){
