@@ -19,8 +19,7 @@ public class ConversionSecondes {
         int jours;
 
         System.out.print(MSG_PREMIER_NBR);
-        nbrSecondesInput = Clavier.lireInt();
-
+        nbrSecondesInput = (int) Clavier.lireInt();
 
         while(nbrSecondesInput != 0){
             nbrSecondes = nbrSecondesInput;

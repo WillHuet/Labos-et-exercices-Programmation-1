@@ -1,0 +1,98 @@
+
+Ce logiciel permet de crypter et de decrypter des messages secrets.
+
+Tapez <ENTREE> pour continuer...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 2
+
+++++++++++++++
++ DECRYPTAGE +
+++++++++++++++
+
+CLE DE CRYPTAGE : rg4
+
+ERREUR, cle invalide ! Recommencez...
+CLE DE CRYPTAGE : RG4
+
+ERREUR, cle invalide ! Recommencez...
+CLE DE CRYPTAGE : RG04VI23
+
+ERREUR, cle invalide ! Recommencez...
+CLE DE CRYPTAGE : HHHH
+
+ERREUR, cle invalide ! Recommencez...
+CLE DE CRYPTAGE : RG05PI
+
+ERREUR, cle invalide ! Recommencez...
+CLE DE CRYPTAGE : 
+
+ERREUR, cle invalide ! Recommencez...
+CLE DE CRYPTAGE : iv31
+MESSAGE A DECRYPTER (ENTREE pour annuler) : (allo)
+
+ERREUR, message invalide :
+	Le message ne peut contenir que des lettres, des chiffres, des
+	espaces, et les caracteres .!?,;:'-"
+
+MESSAGE A DECRYPTER (ENTREE pour annuler) : 
+
+--> OPERATION ANNULEE <--
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 2
+
+++++++++++++++
++ DECRYPTAGE +
+++++++++++++++
+
+CLE DE CRYPTAGE : iv31
+MESSAGE A DECRYPTER (ENTREE pour annuler) : ged 37 ,DRON "51.TSEUO 348.6 '43 .45 deg. 30' 32
+
+MESSAGE DECRYPTE : [45 deg. 30' 32.15" NORD, 73 deg. 34' 6.843 OUEST]
+
+Tapez <ENTREE> pour continuer...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 2
+
+++++++++++++++
++ DECRYPTAGE +
+++++++++++++++
+
+CLE DE CRYPTAGE : PI14RG23PE08IV12RD01PI05
+MESSAGE A DECRYPTER (ENTREE pour annuler) : o cuiettlesnt caro! setss //Note : il y a un espace à la fin
+
+MESSAGE DECRYPTE : [les carottes sont cuites !]
+
+Tapez <ENTREE> pour continuer...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 3
+
+
+AUREVOIR !

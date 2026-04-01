@@ -1,0 +1,71 @@
+
+Ce logiciel permet de crypter et de decrypter des messages secrets.
+
+Tapez <ENTREE> pour continuer...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 0
+
+ERREUR, choix de menu invalide ! Recommencez...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 4
+
+ERREUR, choix de menu invalide ! Recommencez...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 
+
+ERREUR, choix de menu invalide ! Recommencez...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 11
+
+ERREUR, choix de menu invalide ! Recommencez...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 2we
+
+ERREUR, choix de menu invalide ! Recommencez...
+
+----
+MENU
+----
+1. Crypter un message
+2. Decrypter un message
+3. Quitter
+
+Entrez votre choix : 3
+
+
+AUREVOIR !
