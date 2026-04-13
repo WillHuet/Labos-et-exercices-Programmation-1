@@ -39,23 +39,21 @@ public class JeuDemineur {
         this.nbrLignesGrille = validationNbrDeLignes(nbrLignesGrille);
         this.nbrColGrille = validationNbrDeLignes(nbrColGrille);
         this.nbrMines = validationNbrDeMines(this.nbrLignesGrille, this.nbrColGrille, nbrMines);
+
+
     }
 
     /*
-    //  +++++++++++++++++++++++++
-    //  + CLASSES DE VALIDATION +
-    //  +++++++++++++++++++++++++
+    //  ++++++++++++++++++++++++++
+    //  + MÉTHODES DE VALIDATION +
+    //  ++++++++++++++++++++++++++
     */
     public int validationNbrDeLignes(int nbrLignes){
         int minDeLignes = 3;
         int maxDeLignes = 8;
         if (nbrLignes <= minDeLignes){
             return minDeLignes;
-        } else if (nbrLignes >= maxDeLignes) {
-            return maxDeLignes;
-        } else {
-            return nbrLignes;
-        }
+        } else return Math.min(nbrLignes, maxDeLignes);
     }
 
     public int validationNbrDeMines(int nbrLignesGrille, int nbrColGrille, int nbrMines) {
@@ -64,10 +62,112 @@ public class JeuDemineur {
 
         if (nbrMines <= minDeMines) {
             return minDeMines;
-        } else if (nbrMines >= maxDeMines) {
-            return maxDeMines;
-        } else {
-            return nbrMines;
+        } else return Math.min(nbrMines, maxDeMines);
+    }
+
+    /*
+    //  +++++++++++
+    //  + GETTERS +
+    //  +++++++++++
+    */
+    public int getNbrLignesGrille(){
+        return this.nbrLignesGrille;
+    }
+
+    public int getNbrColGrille(){
+        return this.nbrColGrille;
+    }
+
+    public int getNbrMines(){
+        return this.nbrMines;
+    }
+
+    public int getNbrCasesSansMineDecouvertes(){
+        return this.nbrCasesSansMineDecouvertes;
+    }
+
+    public boolean isPartieGagnee(){
+        return this.partieGagnee;
+    }
+
+    public  boolean isPartiePerdue(){
+        return this.partiePerdue;
+    }
+
+    /*
+    //  ++++++++++++++++++++++++++++++++++
+    //  + MÉTHODES D'INSTANCE PUBLIQUES +
+    //  ++++++++++++++++++++++++++++++++++
+    */
+    public static void decouvrirUneCase(Case uneCase){
+
+    }
+
+    public static void reinitialiserPartie(){
+
+    }
+
+    public static String grilleToString(){
+        String resultat = "";
+
+        //EN-TÊTE
+        resultat += "  ";
+        for (int c = 1; c <= 5; c++) {
+            resultat += c + "\t";
         }
+        resultat += "\n";
+
+        for (int c = 1; c <= 5; c++) {
+            resultat += "----";
+        }
+        resultat += "-\n";
+
+        for (int c = 1; c <= 5; c++) {
+            resultat += c + " |";
+            for (int d = 1; d <= 5; d++) {
+                resultat += "\t|";
+            }
+            resultat += "\n";
+
+            for (int r = 1; r <= 5; r++) {
+                resultat += "----";
+            }
+            resultat += "-\n";
+
+        }
+
+
+        return resultat;
+    }
+
+    public static int pourcentageAcheve(){
+        return 0;
+    }
+
+    public String toString(){
+        return null;
+    }
+
+    /*
+    //  ++++++++++++++++++++++++++++++++
+    //  + MÉTHODES DE CLASSE PUBLIQUES +
+    //  ++++++++++++++++++++++++++++++++
+    */
+    public static int getNbrPartiesJouees() {
+        return nbrPartiesJouees;
+    }
+
+    public  static int getNbrPartiesPerdues() {
+        return nbrPartiesPerdues;
+    }
+
+    /*
+    //  +++++++++++++++++++
+    //  + MAIN EXÉCUTABLE +
+    //  +++++++++++++++++++
+    */
+    public static void main(String[] args){
+        JeuDemineur jeuDemineur = new JeuDemineur(3,3,4);
+        System.out.print(jeuDemineur.grilleToString());
     }
 }
