@@ -35,23 +35,23 @@ public class Employe {
     }
 
     public String getNomDeFamille(){
-        return nomDeFamille;
+        return this.nomDeFamille;
     }
 
     public String getPrenom() {
-        return prenom;
+        return this.prenom;
     }
 
     public int getNbrAnnees() {
-        return nbrAnnees;
+        return this.nbrAnnees;
     }
 
     public int getNumero() {
-        return numero;
+        return this.numero;
     }
 
     public double getSalaire() {
-        return salaire;
+        return this.salaire;
     }
 
     public void setNomDeFamille(String nomDeFamille) throws EmployeInvalideException {

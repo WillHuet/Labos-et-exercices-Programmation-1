@@ -4,4 +4,8 @@ public class EmployeInvalideException extends Exception{
     public EmployeInvalideException(String message){
         this.message = message;
     }
+
+    public String getMessage(){
+        return this.message;
+    }
 }
