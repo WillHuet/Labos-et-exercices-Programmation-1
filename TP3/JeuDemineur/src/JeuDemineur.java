@@ -111,31 +111,29 @@ public class JeuDemineur {
         String resultat = "";
 
         //EN-TÊTE
-        resultat += "  ";
-        for (int c = 1; c <= 5; c++) {
-            resultat += c + "\t";
+        resultat += "    ";
+        for (int c = 1; c <= 8; c++) {
+            resultat += c + "   ";
         }
         resultat += "\n";
 
-        for (int c = 1; c <= 5; c++) {
+        for (int c = 1; c <= 8; c++) {
             resultat += "----";
         }
-        resultat += "-\n";
+        resultat += "---\n";
 
-        for (int c = 1; c <= 5; c++) {
+        for (int c = 1; c <= 8; c++) {
             resultat += c + " |";
-            for (int d = 1; d <= 5; d++) {
-                resultat += "\t|";
+            for (int d = 1; d <= 8; d++) {
+                resultat += "   |";
             }
             resultat += "\n";
 
-            for (int r = 1; r <= 5; r++) {
+            for (int r = 1; r <= 8; r++) {
                 resultat += "----";
             }
-            resultat += "-\n";
-
+            resultat += "---\n";
         }
-
 
         return resultat;
     }
@@ -168,6 +166,6 @@ public class JeuDemineur {
     */
     public static void main(String[] args){
         JeuDemineur jeuDemineur = new JeuDemineur(3,3,4);
-        System.out.print(jeuDemineur.grilleToString());
+        System.out.print(grilleToString());
     }
 }
