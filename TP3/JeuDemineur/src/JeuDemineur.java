@@ -39,8 +39,12 @@ public class JeuDemineur {
         this.nbrLignesGrille = validationNbrDeLignes(nbrLignesGrille);
         this.nbrColGrille = validationNbrDeLignes(nbrColGrille);
         this.nbrMines = validationNbrDeMines(this.nbrLignesGrille, this.nbrColGrille, nbrMines);
+        this.grilleJeuSolution = TP3Util.construireGrilleJeuSolution(nbrLignesGrille, nbrColGrille, nbrMines);
+        this.grilleJeuCache = new char[nbrLignesGrille][nbrColGrille];
 
-
+        nbrCasesSansMineDecouvertes = 0;
+        nbrPartiesJouees = 0;
+        nbrPartiesPerdues = 0;
     }
 
     /*
@@ -90,7 +94,7 @@ public class JeuDemineur {
         return this.partieGagnee;
     }
 
-    public  boolean isPartiePerdue(){
+    public boolean isPartiePerdue(){
         return this.partiePerdue;
     }
 
@@ -99,47 +103,57 @@ public class JeuDemineur {
     //  + MÉTHODES D'INSTANCE PUBLIQUES +
     //  ++++++++++++++++++++++++++++++++++
     */
-    public static void decouvrirUneCase(Case uneCase){
+    public void decouvrirUneCase(Case uneCase){
 
     }
 
-    public static void reinitialiserPartie(){
-
+    public void reinitialiserPartie(){
+        for (char[] tab : grilleJeuCache){
+            for (char c : tab){
+                c = ESPACE;
+            }
+        }
+        nbrCasesSansMineDecouvertes = 0;
+        partieGagnee = false;
+        partiePerdue = false;
     }
 
-    public static String grilleToString(){
+    public String grilleToString(){
         String resultat = "";
 
         //EN-TÊTE
         resultat += "    ";
-        for (int c = 1; c <= 8; c++) {
+        for (int c = 1; c <= this.nbrColGrille; c++) {
             resultat += c + "   ";
         }
-        resultat += "\n";
+        resultat += "\n  ";
 
-        for (int c = 1; c <= 8; c++) {
+        for (int c = 1; c <= this.nbrColGrille; c++) {
             resultat += "----";
         }
-        resultat += "---\n";
+        resultat += "-\n";
 
-        for (int c = 1; c <= 8; c++) {
+        for (int c = 1; c <= nbrLignesGrille; c++) {
             resultat += c + " |";
-            for (int d = 1; d <= 8; d++) {
-                resultat += "   |";
+            for (int d = 1; d <= this.nbrColGrille; d++) {
+                resultat +=  "   |";
             }
-            resultat += "\n";
+            resultat += "\n  ";
 
-            for (int r = 1; r <= 8; r++) {
+            for (int r = 1; r <= this.nbrColGrille; r++) {
                 resultat += "----";
             }
-            resultat += "---\n";
+            resultat += "-\n";
         }
 
         return resultat;
     }
 
-    public static int pourcentageAcheve(){
-        return 0;
+    public int pourcentageAcheve(){
+        int nbrCasesTotalSansMine = (this.nbrColGrille * this.nbrLignesGrille) - this.nbrMines;
+
+        double pourcentage = ((double) this.nbrCasesSansMineDecouvertes / nbrCasesTotalSansMine) * 100;
+        return (int)pourcentage;
     }
 
     public String toString(){
@@ -164,8 +178,8 @@ public class JeuDemineur {
     //  + MAIN EXÉCUTABLE +
     //  +++++++++++++++++++
     */
-    public static void main(String[] args){
-        JeuDemineur jeuDemineur = new JeuDemineur(3,3,4);
-        System.out.print(grilleToString());
+    static void main(String[] args){
+        JeuDemineur jeuDemineur = new JeuDemineur(3,7,4);
+        System.out.print(jeuDemineur.grilleToString());
     }
 }
