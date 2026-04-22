@@ -5,8 +5,8 @@ public class JeuDemineur {
     //  + CONSTANTES +
     //  ++++++++++++++
     */
-    public final char ESPACE = ' ';
-    public final char MINES = '*';
+    public static final char ESPACE = ' ';
+    public static final char MINES = '*';
 
     /*
     //  ++++++++++++++++++++++++
@@ -27,8 +27,8 @@ public class JeuDemineur {
     //  + ATTRIBUTS DE CLASSE +
     //  +++++++++++++++++++++++
     */
-    public static int nbrPartiesJouees;
-    public static int nbrPartiesPerdues;
+    public static int nbrPartiesJouees = 0;
+    public static int nbrPartiesPerdues = 0;
 
     /*
     //  +++++++++++++++++++++++++
@@ -39,8 +39,15 @@ public class JeuDemineur {
         this.nbrLignesGrille = validationNbrDeLignes(nbrLignesGrille);
         this.nbrColGrille = validationNbrDeLignes(nbrColGrille);
         this.nbrMines = validationNbrDeMines(this.nbrLignesGrille, this.nbrColGrille, nbrMines);
-        this.grilleJeuSolution = TP3Util.construireGrilleJeuSolution(nbrLignesGrille, nbrColGrille, nbrMines);
-        this.grilleJeuCache = new char[nbrLignesGrille][nbrColGrille];
+
+        this.grilleJeuSolution = TP3Util.construireGrilleJeuSolution(this.nbrLignesGrille, this.nbrColGrille, this.nbrMines);
+
+        this.grilleJeuCache = new char[this.nbrLignesGrille][this.nbrColGrille];
+        for (int i = 0; i < this.nbrLignesGrille; i++) {
+            for (int j = 0; j < this.nbrColGrille; j++) {
+                grilleJeuCache[i][j] = ESPACE;
+            }
+        }
 
         nbrCasesSansMineDecouvertes = 0;
         nbrPartiesJouees = 0;
@@ -67,6 +74,18 @@ public class JeuDemineur {
         if (nbrMines <= minDeMines) {
             return minDeMines;
         } else return Math.min(nbrMines, maxDeMines);
+    }
+
+    public boolean validationEmplacementCase(int ligne, int col){
+        boolean resultat;
+
+        if (ligne < 0 || ligne >= nbrLignesGrille || col < 0 || col >= nbrColGrille) {
+            resultat = false;
+        } else {
+            resultat = true;
+        }
+
+        return resultat;
     }
 
     /*
@@ -104,15 +123,19 @@ public class JeuDemineur {
     //  ++++++++++++++++++++++++++++++++++
     */
     public void decouvrirUneCase(Case uneCase){
+        int ligne = uneCase.getNoLigne() -1;
+        int col = uneCase.getNoColonne() -1;
 
+        grilleJeuCache[ligne][col] = grilleJeuSolution[ligne][col];
     }
 
     public void reinitialiserPartie(){
-        for (char[] tab : grilleJeuCache){
-            for (char c : tab){
-                c = ESPACE;
+        for (int i = 0; i < nbrLignesGrille; i++) {
+            for (int j = 0; j < nbrColGrille; j++) {
+                grilleJeuCache[i][j] = ESPACE;
             }
         }
+
         nbrCasesSansMineDecouvertes = 0;
         partieGagnee = false;
         partiePerdue = false;
@@ -150,10 +173,16 @@ public class JeuDemineur {
     }
 
     public int pourcentageAcheve(){
-        int nbrCasesTotalSansMine = (this.nbrColGrille * this.nbrLignesGrille) - this.nbrMines;
+        double pourcentage = 0;
+        int nbrCasesTotalSansMine = (nbrColGrille * nbrLignesGrille) - nbrMines;
 
-        double pourcentage = ((double) this.nbrCasesSansMineDecouvertes / nbrCasesTotalSansMine) * 100;
-        return (int)pourcentage;
+        if(partieGagnee){
+            pourcentage = 100;
+        } else{
+            pourcentage = nbrCasesSansMineDecouvertes / nbrCasesTotalSansMine * 100;
+        }
+
+        return (int) Math.round(pourcentage);
     }
 
     public String toString(){
@@ -169,7 +198,7 @@ public class JeuDemineur {
         return nbrPartiesJouees;
     }
 
-    public  static int getNbrPartiesPerdues() {
+    public static int getNbrPartiesPerdues() {
         return nbrPartiesPerdues;
     }
 
