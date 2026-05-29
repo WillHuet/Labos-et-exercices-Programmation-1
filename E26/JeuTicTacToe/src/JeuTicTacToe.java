@@ -1,37 +1,61 @@
 import java.util.*;
 
 public class JeuTicTacToe {
-    //CONSTANTES
-    private final String LIGNE_SEPARATRICE = "***********";
-    private final String LIGNE_HORIZONTALE = Colors.GREEN + "---+---+---" + Colors.RESET;
-    private final String LIGNE_VERTICALE = Colors.GREEN + " | " + Colors.RESET;
-    private final String INPUT_CASE_SELECTION = "Choisissez une case valide : ";
+    /*
+    //  ++++++++++++++
+    //  + CONSTANTES +
+    //  ++++++++++++++
+    */
+    private final String LINE_JUMP = " \n";
+    private final String LINE_BREAK = "***********";
+    private final String BOARD_HORIZONTAL_LINE = Colors.GREEN + "---+---+---" + Colors.RESET;
+    private final String BOARD_VERTICAL_LINE = Colors.GREEN + " | " + Colors.RESET;
+    private final String MSG_WELCOME = Colors.FOND_VERT + "BIENVENUE SUR LE JEU DE TIC-TAC-TOE!" + Colors.RESET;
+    private final String MSG_INPUT_POSITION_SELECTION = "À VOTRE TOUR" + LINE_JUMP + "Choisissez une case valide : ";
+    private final String MSG_WINNER_USER = "VOUS AVEZ GAGNÉ!!!" + LINE_JUMP + "Félicitation!!!";
+    private final String MSG_WINNER_COMPUTER = "L'ordinateur a gagné" + LINE_JUMP + "Meilleur chance la prochaine fois...";
+    private final String MSG_DRAW = "Match nul" + LINE_JUMP + "Personne ne gagne...";
+    private final String MSG_PLAYER_STARTS = "Vous allez jouer en premier!";
+    private final String MSG_COMPUTER_STARTS = "L'ordinateur jouera en premier...";
+
     private final String ERROR_USED_CASE = Colors.FOND_ROUGE + "ERREUR! La case sélectionnée est déjà prise!" + Colors.RESET;
     private final String ERROR_WRONG_SELECTION = Colors.FOND_ROUGE + "ERREUR! La case sélectionnée n'est pas valide (entre 1 et 9)." + Colors.RESET;
-    private final String WINNER_USER = "Vous avez gagné !!!";
-    private final String WINNER_COMPUTER = "L'ordinateur a gagné ...";
-    private final String DRAW = "Match nul ...";
-
-
+    private final String ERROR_WRONG_INPUT = Colors.FOND_ROUGE + "ERREUR! La valeur rentrée n'est pas numérique! Recommencez..." + Colors.RESET;
 
     private final char LETTER_P1 = 'X';
     private final char LETTER_P2 = 'O';
-    private List<Integer> VALID_CASE_CHOICE = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private final List<Integer> VALID_POSITION_LIST = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    //VARIABLES
-    private Case[] tableau = new Case[9];
+    /*
+    //  +++++++++++++
+    //  + VARIABLES +
+    //  +++++++++++++
+    */
+    private Case[] gameBoard = new Case[9];
     private Random rand = new Random();
-    Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
 
+    /*
+    //  +++++++++++++++++++++++
+    //  + MÉTHODES VALIDATION +
+    //  +++++++++++++++++++++++
+    */
+
+    /**
+     * Cette méthode construit le tableau de jeu vide (case 1 à 9)
+     */
     public void initializeBoard(){
         int j = 1;
-        for(int i = 0; i < tableau.length; i++){
-            tableau[i] = new Case((char) (j + '0'));
+        for(int i = 0; i < gameBoard.length; i++){
+            gameBoard[i] = new Case((char) (j + '0'));
             j++;
         }
     }
 
-    //DÉTERMINE LE JOUEUR QUI COMMENCE
+    /**
+     * Cette méthode utilise un objet « Random » afin de déterminer quel joueur commencera.
+     * L'objet peut seulement retourner la valeur 0 ou 1. L'utilisateur commence si la valeur est 0.
+     */
     public boolean isUserStarting(){
         boolean result = false;
         int randomNumber = rand.nextInt(2);
@@ -41,7 +65,12 @@ public class JeuTicTacToe {
         return result;
     }
 
-    //DÉTERMINE SI LA CASE SÉLECTIONNÉE EST DISPONIBLE OU PAS
+    /**
+     * Cette méthode détermine si la case sélectionnée est disponible ou pas.
+     *
+     * @param c la case que l'on souhaite valider
+     * @return TRUE si la case est libre, FALSE si elle ne l'est pas
+     */
     public boolean isCaseAvailable(Case c){
         boolean result = true;
         if (c.getValue() == LETTER_P1 || c.getValue() == LETTER_P2) {
@@ -50,33 +79,61 @@ public class JeuTicTacToe {
         return result;
     }
 
-    public void computersTurn(Case[] tab, char character){
+    /**
+     * Cette méthode effectue le tour de l'ordinateur.
+     * On commence par créer une nouvelle ArrayList<>() et d'y ajouter toutes les cases encore disponible.
+     * Ensuite, avec un objet « Random », on va choisir aléatoirement une des cases de cette nouvelle liste
+     * et y ajouter la lettre qui correspond à l'ordinateur (X ou O).
+     *
+     * @param board le tableau de jeu déjà initialisé et actualisé.
+     * @param character le caractère qui correspond à l'ordinateur (dépends s'il commence ou pas).
+     */
+    public void computersTurn(Case[] board, char character){
         List<Character> available = new ArrayList<>();
-        for(Case c : tab){
+        for(Case c : board){
             if (c.getValue() != LETTER_P1 && c.getValue() != LETTER_P2) {
                 available.add(c.getValue());
             }
         }
         int selectedPosition = rand.nextInt(available.size());
         char selected = available.get(selectedPosition);
-        for(Case c : tab){
+        for(Case c : board){
             if (c.getValue() == selected) {
                 c.setValue(character);
             }
         }
     }
 
-    public void playersTurn(Case[] tab, char character){
+    /**
+     * Cette méthode effectue le tour de l'utilisateur.
+     * On commence par afficher le tableau actualisé et on demande à l'utilisateur de rentrer une valeur.
+     * Une validation est effectuée. Si jamais l'utilisateur rentre une valeur non-numérique, une valeur
+     * non conforme ou bien une valeur déjà prise, on affiche un message d'erreur et demande à nouveau.
+     *
+     * Si la valeur est conforme, on remplace sa valeur par le caractère de l'utilisateur (X ou O).
+     *
+     * @param board le tableau de jeu déjà initialisé et actualisé.
+     * @param character le charactère qui correspond à l'utilisateur (dépends s'il commence ou pas)
+     */
+    public void playersTurn(Case[] board, char character){
+        int position = 0;
         boolean ongoingTurn = true;
         while (true) {
-            System.out.print(tableauToString());
+            System.out.print(boardToString());
             System.out.println();
-            System.out.print(INPUT_CASE_SELECTION);
-            int position = input.nextInt();
+            System.out.print(MSG_INPUT_POSITION_SELECTION);
 
-            if (VALID_CASE_CHOICE.contains(position)) {
-                if (isCaseAvailable(tab[position-1])) {
-                    tab[position-1].setValue(character);
+            if (input.hasNextInt()) {
+                position = input.nextInt();
+            } else {
+                System.out.println(ERROR_WRONG_INPUT);
+                input.nextLine();
+                continue;
+            }
+
+            if (VALID_POSITION_LIST.contains(position)) {
+                if (isCaseAvailable(board[position-1])) {
+                    board[position-1].setValue(character);
                     break;
                 } else {
                     System.out.println(ERROR_USED_CASE);
@@ -87,12 +144,19 @@ public class JeuTicTacToe {
         }
     }
 
-
+    /**
+     * Cette méthode détermine si une égalité est survenue.
+     * On retourne TRUE de base. Si l'une des cases n'a pas été sélectionné ou
+     * si l'un des deux joueurs a gagné, on change la valeur pour faux.
+     *
+     * @param board le tableau de jeu déjà initialisé et actualisé.
+     * @return TRUE s'il y une égalité, FALSE si non.
+     */
     public boolean isDraw(Case[] board) {
         boolean result = true;
         // Vérifie s'il y a une case vide
-        for (int i = 0; i < tableau.length; i++) {
-            if (tableau[i].getValue() != LETTER_P1 && tableau[i].getValue() != LETTER_P2) {
+        for (int i = 0; i < gameBoard.length; i++) {
+            if (gameBoard[i].getValue() != LETTER_P1 && gameBoard[i].getValue() != LETTER_P2) {
                 result = false;
             }
         }
@@ -105,9 +169,18 @@ public class JeuTicTacToe {
         return result; // pas de case vide et pas de gagnant
     }
 
-    //VALIDE SI UNE LIGNE GAGNANTE EST SUR LE PLATEAU, RETOURNE VRAI SI C'EST LE CAS
+    /**
+     * Cette méthode détermine si l'un des deux joueurs possède une ligne gagnante.
+     * On retourne FALSE de base. Si l'un des joueurs possède une ligne horizontale, verticale ou diagonale complète,
+     * on change la valeur pour TRUE.
+     *
+     * @param board le tableau de jeu déjà initialisé et actualisé.
+     * @param player caractère du joueur que l'on souhaite analyser
+     * @return TRUE s'il y a une ligne gagnante, FALSE si non.
+     */
     public boolean hasWinner(Case[] board, char player) {
         boolean result = false;
+
         //LIGNES HORIZONTALES
         if(board[0].getValue() == player && board[1].getValue() == player && board[2].getValue() == player){
             result = true;
@@ -134,114 +207,163 @@ public class JeuTicTacToe {
         return result;
     }
 
+    /**
+     * Cette méthode effectue la partie de TicTacToe.
+     * On commence par appeler la méthode « initializeBoard() » pour initialiser le tableau.
+     * Ensuite, on appelle la méthode « isUserStarting() » pour déterminer qui commence.
+     *
+     * Après chaque coup, que ce soit par l'utilisateur ou l'ordinateur, on valide si son coup met fin
+     * à la partie (si cette personne a gagné ou si elle cause une égalité).
+     * Si ce n'est pas le cas, la boucle "while" continue.
+     */
     public void game(){
+        initializeBoard();
         boolean startingPlayer = isUserStarting();
         boolean ongoingGame = true;
 
         if(startingPlayer){
-            System.out.println("Vous allez jouer en premier!");
+            System.out.println(MSG_PLAYER_STARTS);
         } else {
-            System.out.println("L'ordinateur jouera en premier...");
+            System.out.println(MSG_COMPUTER_STARTS);
         }
 
         while (true){
+
+            //===================================
+            //JOUEUR EN PREMIER, ORDI EN DEUXIÈME
+            //===================================
             if(startingPlayer){
-                playersTurn(tableau, LETTER_P1);
+                //TOUR DE L'UTILISATEUR
+                playersTurn(gameBoard, LETTER_P1);
 
-                //verifie pour une ligne gagnante
-                if(hasWinner(tableau, LETTER_P1)) {
-                    System.out.println(tableauToString());
-                    System.out.println("JOUEUR GAGNANT!!!");
+                //SI LE JOUEUR A GAGNÉ
+                if(hasWinner(gameBoard, LETTER_P1)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_WINNER_USER);
                     break;
                 }
 
-                //verifie pour une egalite
-                if (isDraw(tableau)) {
-                    System.out.println(tableauToString());
-                    System.out.println("Match nul ...");
+                //SI UNE ÉGALITÉ
+                if (isDraw(gameBoard)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_DRAW);
                     break;
                 }
 
-                computersTurn(tableau, LETTER_P2);
+                //TOUR DE L'ORDINATEUR
+                computersTurn(gameBoard, LETTER_P2);
 
-                //verifie pour une ligne gagnante
-                if(hasWinner(tableau, LETTER_P2)) {
-                    System.out.println(tableauToString());
-                    System.out.println("Ordinateur gagnant...");
+                //SI L'ORDI A GAGNÉ
+                if(hasWinner(gameBoard, LETTER_P2)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_WINNER_COMPUTER);
                     break;
                 }
 
-                //verifie pour une egalite
-                if (isDraw(tableau)) {
-                    System.out.println(tableauToString());
-                    System.out.println("Match nul ...");
+                //SI UNE ÉGALITÉ
+                if (isDraw(gameBoard)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_DRAW);
                     break;
                 }
 
+            //===================================
+            //ORDI EN PREMIER, JOUEUR EN DEUXIÈME
+            //===================================
             } else {
-                computersTurn(tableau, LETTER_P1);
+                computersTurn(gameBoard, LETTER_P1);
 
-                //verifie pour une ligne gagnante
-                if(hasWinner(tableau, LETTER_P1)) {
-                    System.out.println(tableauToString());
-                    System.out.println("Ordinateur gagnant...");
+                //SI L'ORDI A GAGNÉ
+                if(hasWinner(gameBoard, LETTER_P1)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_WINNER_COMPUTER);
                     break;
                 }
 
-                //verifie pour une egalite
-                if (isDraw(tableau)) {
-                    System.out.println(tableauToString());
-                    System.out.println("Match nul ...");
+                //SI UNE ÉGALITÉ
+                if (isDraw(gameBoard)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_DRAW);
                     break;
                 }
 
-                playersTurn(tableau, LETTER_P2);
+                //TOUR DU JOUEUR
+                playersTurn(gameBoard, LETTER_P2);
 
-                //verifie pour une ligne gagnante
-                if(hasWinner(tableau, LETTER_P2)) {
-                    System.out.println(tableauToString());
-                    System.out.println("JOUEUR GAGNANT!!!");
+                //SI LE JOUEUR A GAGNÉ
+                if(hasWinner(gameBoard, LETTER_P2)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_WINNER_USER);
                     break;
                 }
 
-                //verifie pour une egalite
-                if (isDraw(tableau)) {
-                    System.out.println(tableauToString());
-                    System.out.println("Match nul ...");
+                //SI UNE ÉGALITÉ
+                if (isDraw(gameBoard)) {
+                    System.out.println(boardToString());
+                    System.out.println(MSG_DRAW);
                     break;
                 }
             }
         }
     }
 
-    public String tableauToString(){
-        String grille = "";
+    /**
+     * Cette méthode permet d'afficher le tableau actualisé.
+     *
+     * On commence par créer une nouvelle liste afin de mettre des couleurs aux 'X' et 'O'.
+     * (NOTE: choix personnel, je trouvais que c'était difficile à lire les coups lorsque tout était en blanc)
+     * (Les 'X' en rouge et les 'O' en bleu.)
+     *
+     * On effectue par la suite une concaténation de toutes les valeurs afin d'obtenir quelque chose comme ceci:
+     *
+     * ***********
+     *  1 | 2 | 3
+     * ---+---+---
+     *  4 | 5 | 6
+     * ---+---+---
+     *  7 | 8 | 9
+     * ***********
+     *
+     * (au fil de la partie, les chiffres seront remplacés par les 'X' et 'O')
+     *
+     * @return la concaténation de tout ce qui forme notre tableau.
+     */
+    public String boardToString(){
+        String board = "";
 
-        List<String> newTableau = new ArrayList<>();
-        for(int i = 0; i < tableau.length; i++){
-            if(tableau[i].getValue() == LETTER_P1){
-                newTableau.add(Colors.RED + tableau[i].getValue() + Colors.RESET);
-            } else if(tableau[i].getValue() == LETTER_P2){
-                newTableau.add(Colors.BLUE + tableau[i].getValue() + Colors.RESET);
+        List<String> newBoard = new ArrayList<>();
+        for(int i = 0; i < gameBoard.length; i++){
+            if(gameBoard[i].getValue() == LETTER_P1){
+                newBoard.add(Colors.RED + gameBoard[i].getValue() + Colors.RESET);
+            } else if(gameBoard[i].getValue() == LETTER_P2){
+                newBoard.add(Colors.BLUE + gameBoard[i].getValue() + Colors.RESET);
             } else {
-                newTableau.add("" + tableau[i].getValue());
+                newBoard.add("" + gameBoard[i].getValue());
             }
         }
+        board += LINE_JUMP + LINE_BREAK + LINE_JUMP;
+        board += " " + newBoard.get(0) + BOARD_VERTICAL_LINE + newBoard.get(1) + BOARD_VERTICAL_LINE + newBoard.get(2) + LINE_JUMP;
+        board += BOARD_HORIZONTAL_LINE + LINE_JUMP;
+        board += " " + newBoard.get(3) + BOARD_VERTICAL_LINE + newBoard.get(4) + BOARD_VERTICAL_LINE + newBoard.get(5) + LINE_JUMP;
+        board += BOARD_HORIZONTAL_LINE + LINE_JUMP;
+        board += " " + newBoard.get(6) + BOARD_VERTICAL_LINE + newBoard.get(7) + BOARD_VERTICAL_LINE + newBoard.get(8) + LINE_JUMP;
+        board += LINE_BREAK + LINE_JUMP;
 
-        grille += " " + newTableau.get(0) + LIGNE_VERTICALE + newTableau.get(1) + LIGNE_VERTICALE + newTableau.get(2) + " \n";
-        grille += LIGNE_HORIZONTALE + '\n';
-        grille += " " + newTableau.get(3) + LIGNE_VERTICALE + newTableau.get(4) + LIGNE_VERTICALE + newTableau.get(5) + " \n";
-        grille += LIGNE_HORIZONTALE + '\n';
-        grille += " " + newTableau.get(6) + LIGNE_VERTICALE + newTableau.get(7) + LIGNE_VERTICALE + newTableau.get(8) + " \n";
-
-        return grille;
+        return board;
     }
 
+    /*
+    //  ++++++++++++++++++++++++++
+    //  + CLASSE EXÉCUTABLE MAIN +
+    //  ++++++++++++++++++++++++++
+    */
+
+    /**
+     * Cette méthode est exécutable.
+     * On affiche seulement un message d'accueil ainsi que l'appel de la méthode « game() ».
+     */
     void main() {
-        //DÉROULEMENT DE LA PARTIE
-        System.out.println("Bienvenue sur le jeu TicTacToe!");
-
-        initializeBoard();
+        System.out.println(MSG_WELCOME + LINE_JUMP);
         game();
     }
 }
