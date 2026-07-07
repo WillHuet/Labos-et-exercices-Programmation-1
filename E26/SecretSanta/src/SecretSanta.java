@@ -5,6 +5,7 @@ public class SecretSanta {
     private ArrayList<Participant> participants;
     private ArrayList<Pairing> pairings;
     private boolean drawLocked;
+    private Scanner scanner = new Scanner(System.in);
 
     //CONSTRUCTEUR
     public SecretSanta() {
@@ -24,64 +25,128 @@ public class SecretSanta {
     }
     */
 
-    public void addParticipant(Participant participant) {
-        if(drawLocked) {
-            throw new IllegalStateException("Cannot add participant after the draw is locked!");
-        }
+    public void addParticipant() {
+        boolean valid = false;
 
-        for(Participant p : participants) {
-            if(p.getName().equalsIgnoreCase(participant.getName())) {
-                throw new IllegalArgumentException("Participant already exists!");
+        if(drawLocked) {
+            System.out.println("The draw is now locked. You cannot add any other participants!");
+        } else {
+            while (!valid) {
+                System.out.println("Please enter the name of the new Participant!");
+                while (scanner.hasNextInt() || scanner.hasNextDouble()) {
+                    System.out.println("Error: Numbers are not allowed!");
+                    System.out.print("Please enter a valid name : ");
+                    scanner.next();
+                }
+
+                String newName = scanner.next();
+                Participant newParticipant = new Participant(newName, null);
+
+                if(!validateNewParticipant(newParticipant)) {
+                    System.out.println("Participant already exists!");
+                } else {
+                    participants.add(newParticipant);
+                    valid = true;
+                }
             }
         }
-
-        participants.add(participant);
     }
 
-    public static void marry(Participant p1, Participant p2) {
-        p1.setSpouse(p2);
-        p2.setSpouse(p1);
+    public boolean validateNewParticipant(Participant newParticipant) {
+        boolean result = true;
+
+        for (Participant p : participants) {
+            if(p.getName().equalsIgnoreCase(newParticipant.getName())) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    public void defineCouple() {
+        int i = 0;
+        boolean valid = false;
+        Participant p1 = null;
+        Participant p2 = null;
+
+        if(participants.size() > 2){
+            System.out.println("ERROR! There's less than 2 person in the pool!");
+        } else {
+            for (Participant participant : participants) {
+                System.out.println(i++ + ") " + participant.getName());
+            }
+            System.out.println("Please enter the number of each person you want to match!");
+
+            System.out.print("First person : ");
+            while (!valid){
+                try {
+                    int number1 = scanner.nextInt();
+                    p1 = participants.get(number1);
+                    valid = true;
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println("Error: Please enter a number between 0 and " + (participants.size()-1));
+                }
+            }
+
+            valid = false;
+
+            System.out.print("Second person : ");
+            while (!valid){
+                try {
+                    int number2 = scanner.nextInt();
+                    p2 = participants.get(number2);
+                    valid = true;
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println("Error: Please enter a number between 0 and " + (participants.size()-1));
+                }
+            }
+
+            if (p1.getSpouse() != null || p2.getSpouse() != null) {
+                System.out.println("ERROR! One of the two person already has a spouse!");
+            } else if (p1.equals(p2)){
+                System.out.println("ERROR! You selected the same person 2 times!");
+            } else {
+                p1.setSpouse(p2);
+                p2.setSpouse(p1);
+            }
+        }
     }
 
     public void generateDraw(){
         if(participants.size() < 2) {
-            throw new IllegalStateException("Not enough participants!");
-        }
-
-        pairings.clear();
-
-        Random rand = new Random();
-
-        boolean valid = false;
-
-        while(!valid){
+            System.out.println("ERROR! There's less than 2 person in the pool!");
+        } else {
             pairings.clear();
+            Random rand = new Random();
+            boolean valid = false;
+            while(!valid){
+                pairings.clear();
 
-            ArrayList<Participant> receivers = new ArrayList<>(participants);
+                ArrayList<Participant> receivers = new ArrayList<>(participants);
 
-            Collections.shuffle(receivers, rand);
+                Collections.shuffle(receivers, rand);
 
-            valid = true;
+                valid = true;
 
-            for (int i = 0; i < participants.size(); i++) {
-                Participant giver = participants.get(i);
-                Participant receiver = receivers.get(i);
+                for (int i = 0; i < participants.size(); i++) {
+                    Participant giver = participants.get(i);
+                    Participant receiver = receivers.get(i);
 
-                if (giver == receiver) {
-                    valid = false;
-                    break;
+                    if (giver == receiver) {
+                        valid = false;
+                        break;
+                    }
+
+                    if (giver.getSpouse() == receiver) {
+                        valid = false;
+                        break;
+                    }
+
+                    pairings.add(new Pairing(giver, receiver));
                 }
-
-                if (giver.getSpouse() == receiver) {
-                    valid = false;
-                    break;
-                }
-
-                pairings.add(new Pairing(giver, receiver));
             }
+            drawLocked = true;
         }
-
-        drawLocked = true;
     }
 
     public void consultAllAssignments(){
@@ -131,11 +196,69 @@ public class SecretSanta {
         System.out.println("6. Show consultation stats");
         System.out.println("7. Reset");
         System.out.println("0. Exit");
+        System.out.println("");
         System.out.print("Choice: ");
     }
 
     //MAIN EXÉCUTABLE (POUR TESTER)
-    public static void main(String[] args) {
-        SecretSanta s = new SecretSanta();
+    public void main(String[] args) {
+        SecretSanta ss = new SecretSanta();
+        Participant will = new Participant("Will", null);
+        participants.add(will);
+        Participant caro = new Participant("Caro", null);
+        participants.add(caro);
+        will.setSpouse(caro);
+        caro.setSpouse(will);
+
+        Participant max = new Participant("Max", null);
+        participants.add(max);
+        Participant vero = new Participant("Vero", null);
+        participants.add(vero);
+        max.setSpouse(vero);
+        vero.setSpouse(max);
+
+        boolean running = true;
+
+        while (running) {
+            showMenu();
+            try{
+                int choice = scanner.nextInt();
+
+                if(choice < 0 || choice > 7) {
+                    System.out.println("Invalid choice! Must be between 0 and 7!");
+                }
+
+                switch (choice) {
+                    case 1 -> addParticipant();
+                    case 2 -> defineCouple();
+                    case 3 -> generateDraw();
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Invalid choice. Enter a value between 0 and 7");
+            }
+        }
+
+//        while (running) {
+//            showMenu();
+//            try{
+//                int choice = scanner.nextInt();
+//
+//                switch (choice) {
+//                    case 1 -> addParticipant();
+//                    case 2 -> defineCouple();
+//                    case 3 -> generateDraw();
+//                    case 4 -> consultAssignment();
+//                    case 5 -> consultAllAssignments();
+//                    case 6 -> displayConsultationCounter();
+//                    case 7 -> resetDraw();
+//                    case 0 -> running = false;
+//                    default -> System.out.println("Invalid choice.");
+//                }
+//            } catch (NumberFormatException e){
+//                System.out.println("Invalid choice. Enter a value between 0 and 7");
+//            }
+//
+//            System.out.println("Goodbye!");
+//        }
     }
 }

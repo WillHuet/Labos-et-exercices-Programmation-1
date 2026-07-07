@@ -18,9 +18,6 @@ public class Participant {
     }
 
     public Participant getSpouse() {
-        if (spouse == null) {
-            throw new IllegalStateException("This participant doesn't have a spouse!");
-        }
         return spouse;
     }
 
