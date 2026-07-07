@@ -1,4 +1,5 @@
 public class Participant {
+
     //VARIABLES
     private String name;
     private Participant spouse;

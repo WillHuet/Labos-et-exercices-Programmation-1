@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class ConsoleApp {
     private static Scanner scanner = new Scanner(System.in);
     private static SecretSanta SS = new SecretSanta();
-    private static Map<String, Participant> assignedParticipants = new HashMap<>();
 
     public static void main(String[] args) {
         boolean running = true;
