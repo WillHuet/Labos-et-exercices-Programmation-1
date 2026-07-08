@@ -1,6 +1,17 @@
 import java.util.*;
 
 public class SecretSanta {
+    //CONSTANTES (STRINGS)
+    //--------------------
+    //INPUT
+    private String INPUT_ENTER_NAME = Colors.FOND_CYAN + "Please enter the name of the new Participant!" +  Colors.RESET;
+
+    //ERRORS
+    private String ERR_DRAW_LOCKED = Colors.FOND_ROUGE + "ERROR! The draw is now locked. You cannot add any other participants!" + Colors.RESET;
+    private String ERR_NAME_NUMBER = Colors.FOND_ROUGE + "ERROR! Numbers are not allowed!" + Colors.RESET + "/n" + "Please enter a valid name : ";
+    private String ERR_NAME_EXISTS = Colors.FOND_ROUGE + "ERROR! Participant already exists!" + Colors.RESET;
+
+
     //VARIABLES
     private ArrayList<Participant> participants;
     private ArrayList<Pairing> pairings;
@@ -15,27 +26,16 @@ public class SecretSanta {
     }
 
     //MÉTHODES
-    /*
-    public void addParticipant(Participant p) {
-        if(drawLocked || participants.contains(p)) {
-            throw new IllegalStateException("Cannot add participant after the draw is locked!");
-        } else{
-            participants.add(p);
-        }
-    }
-    */
-
     public void addParticipant() {
         boolean valid = false;
 
         if(drawLocked) {
-            System.out.println("The draw is now locked. You cannot add any other participants!");
+            System.out.println(ERR_DRAW_LOCKED);
         } else {
             while (!valid) {
-                System.out.println("Please enter the name of the new Participant!");
+                System.out.println(INPUT_ENTER_NAME);
                 while (scanner.hasNextInt() || scanner.hasNextDouble()) {
-                    System.out.println("Error: Numbers are not allowed!");
-                    System.out.print("Please enter a valid name : ");
+                    System.out.println(ERR_NAME_NUMBER);
                     scanner.next();
                 }
 
@@ -43,7 +43,7 @@ public class SecretSanta {
                 Participant newParticipant = new Participant(newName, null);
 
                 if(!validateNewParticipant(newParticipant)) {
-                    System.out.println("Participant already exists!");
+                    System.out.println(ERR_NAME_EXISTS);
                 } else {
                     participants.add(newParticipant);
                     valid = true;
@@ -151,9 +151,8 @@ public class SecretSanta {
 
     public void consultAllAssignments(){
         for (Pairing pair : pairings) {
-            System.out.println(pair.getGiver() + " ==> " + pair.getReceiver());
+            System.out.println(pair.getGiver().getName() + " ==> " + pair.getReceiver().getName());
             pair.getGiver().incrementCounter();
-            pair.getReceiver().incrementCounter();
         }
     }
 
@@ -232,6 +231,11 @@ public class SecretSanta {
                     case 1 -> addParticipant();
                     case 2 -> defineCouple();
                     case 3 -> generateDraw();
+                    case 4 -> consultAssignment(will);  //a changer
+                    case 5 -> consultAllAssignments();
+                    case 6 -> displayConsultationCounter(will);     // a changer
+                    case 7 -> resetDraw();
+                    case 0 -> running = false;
                 }
             } catch (InputMismatchException e){
                 System.out.println("Invalid choice. Enter a value between 0 and 7");
