@@ -3,14 +3,21 @@ import java.util.*;
 public class SecretSanta {
     //CONSTANTES (STRINGS)
     //--------------------
+
     //INPUT
-    private String INPUT_ENTER_NAME = Colors.FOND_CYAN + "Please enter the name of the new Participant!" +  Colors.RESET;
+    private String INPUT_ENTER_NAME = Colors.FOND_VERT + "Please enter the name of the new Participant!" +  Colors.RESET;
+    private String INPUT_NUMBER_MATCH = Colors.FOND_VERT + "Please enter the number of each person you want to match!" +  Colors.RESET;
 
     //ERRORS
     private String ERR_DRAW_LOCKED = Colors.FOND_ROUGE + "ERROR! The draw is now locked. You cannot add any other participants!" + Colors.RESET;
     private String ERR_NAME_NUMBER = Colors.FOND_ROUGE + "ERROR! Numbers are not allowed!" + Colors.RESET + "/n" + "Please enter a valid name : ";
     private String ERR_NAME_EXISTS = Colors.FOND_ROUGE + "ERROR! Participant already exists!" + Colors.RESET;
-
+    private String ERR_LESS_THAN_TWO = Colors.FOND_ROUGE + "ERROR! There's less than 2 person in the pool!" + Colors.RESET;
+    private String ERR_WRONG_NUMBER = Colors.FOND_ROUGE + "ERROR! Please enter a number between 0 and ";
+    private String ERR_ALREADY_MATCHED = Colors.FOND_ROUGE + "ERROR! One of the two person already has a spouse!" + Colors.RESET;
+    private String ERR_SAME_PERSON = Colors.FOND_ROUGE + "ERROR! You selected the same person 2 times!" + Colors.RESET;
+    private String ERR_ZERO_TO_SEVEN = Colors.FOND_ROUGE + "Invalid choice! Must be between 0 and 7!" + Colors.RESET;
+    private String ERR_DRAW_UNLOCKED = Colors.FOND_ROUGE + "ERROR! The draw hasn't been done!" + Colors.RESET;
 
     //VARIABLES
     private ArrayList<Participant> participants;
@@ -70,12 +77,12 @@ public class SecretSanta {
         Participant p2 = null;
 
         if(participants.size() > 2){
-            System.out.println("ERROR! There's less than 2 person in the pool!");
+            System.out.println(ERR_LESS_THAN_TWO);
         } else {
             for (Participant participant : participants) {
                 System.out.println(i++ + ") " + participant.getName());
             }
-            System.out.println("Please enter the number of each person you want to match!");
+            System.out.println(INPUT_NUMBER_MATCH);
 
             System.out.print("First person : ");
             while (!valid){
@@ -84,7 +91,7 @@ public class SecretSanta {
                     p1 = participants.get(number1);
                     valid = true;
                 } catch (IndexOutOfBoundsException e){
-                    System.out.println("Error: Please enter a number between 0 and " + (participants.size()-1));
+                    System.out.println(ERR_WRONG_NUMBER + (participants.size()-1) + Colors.RESET);
                 }
             }
 
@@ -97,14 +104,14 @@ public class SecretSanta {
                     p2 = participants.get(number2);
                     valid = true;
                 } catch (IndexOutOfBoundsException e){
-                    System.out.println("Error: Please enter a number between 0 and " + (participants.size()-1));
+                    System.out.println(ERR_WRONG_NUMBER + (participants.size()-1) + Colors.RESET);
                 }
             }
 
             if (p1.getSpouse() != null || p2.getSpouse() != null) {
-                System.out.println("ERROR! One of the two person already has a spouse!");
+                System.out.println(ERR_ALREADY_MATCHED);
             } else if (p1.equals(p2)){
-                System.out.println("ERROR! You selected the same person 2 times!");
+                System.out.println(ERR_SAME_PERSON);
             } else {
                 p1.setSpouse(p2);
                 p2.setSpouse(p1);
@@ -114,7 +121,7 @@ public class SecretSanta {
 
     public void generateDraw(){
         if(participants.size() < 2) {
-            System.out.println("ERROR! There's less than 2 person in the pool!");
+            System.out.println(ERR_LESS_THAN_TWO);
         } else {
             pairings.clear();
             Random rand = new Random();
@@ -156,16 +163,35 @@ public class SecretSanta {
         }
     }
 
-    public Participant consultAssignment(Participant p){
-        p.incrementCounter();
-
-        for (Pairing pair : pairings) {
-            if(pair.getGiver().equals(p)) {
-                return pair.getReceiver();
+    public void consultAssignment(){
+        String value = "";
+        ArrayList<Pairing> reveiledPairs = new ArrayList<>();
+        if(!drawLocked) {
+            System.out.println(ERR_DRAW_UNLOCKED);
+        } else {
+            for (Pairing p : pairings) {
+                System.out.println(displayNames(p, false));
+            }
+            System.out.println("Enter the name of the person you want to reveil : ");
+            value = scanner.next();
+            while (value != "0"){
+                for (Pairing p : pairings) {
+                    if (p.getGiver().getName().equalsIgnoreCase(value)) {
+                        reveiledPairs.add(p);
+                    }
+                }
             }
         }
+    }
 
-        return null;
+    public String displayNames(Pairing pairing, boolean reveiled) {
+        String result = "";
+        if(reveiled) {
+            result += pairing.getGiver().getName() + " ==> " + pairing.getReceiver().getName();
+        } else {
+            System.out.println(pairing.getGiver().getName() + " ==> " + "***");
+        }
+        return result;
     }
 
     public int displayConsultationCounter(Participant p){
@@ -224,7 +250,7 @@ public class SecretSanta {
                 int choice = scanner.nextInt();
 
                 if(choice < 0 || choice > 7) {
-                    System.out.println("Invalid choice! Must be between 0 and 7!");
+                    System.out.println(ERR_ZERO_TO_SEVEN);
                 }
 
                 switch (choice) {
@@ -236,9 +262,10 @@ public class SecretSanta {
                     case 6 -> displayConsultationCounter(will);     // a changer
                     case 7 -> resetDraw();
                     case 0 -> running = false;
+                    default -> System.out.println(ERR_ZERO_TO_SEVEN);
                 }
             } catch (InputMismatchException e){
-                System.out.println("Invalid choice. Enter a value between 0 and 7");
+                System.out.println(ERR_ZERO_TO_SEVEN);
             }
         }
 
