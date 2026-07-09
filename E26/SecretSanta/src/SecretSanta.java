@@ -5,15 +5,23 @@ public class SecretSanta {
     //--------------------
 
     //INPUT
+    private String INPUT_ENTER_TO_CONTINUE = Colors.GREEN + "Press ENTER to continue" + Colors.RESET;
     private String INPUT_ENTER_NAME = Colors.FOND_VERT + "Please enter the name of the new Participant!" +  Colors.RESET;
     private String INPUT_NUMBER_MATCH = Colors.FOND_VERT + "Please enter the number of each person you want to match!" +  Colors.RESET;
+    private String INPUT_NUMBER_REVIEL = Colors.FOND_VERT + "Please enter the number of the person you want to reveil : " + Colors.RESET;
+    private String INPUT_NUMBER_COUNTER = Colors.FOND_VERT + "Please enter the number of the person you want to see the counter : " + Colors.RESET;
+    private String MENU_SECRET_SANTA = Colors.FOND_ROUGE + Colors.GREEN + "=== SECRET SANTA ===" + Colors.RESET;
+    private String MSG_LOCKED_DRAW = "The draw is now locked!";
+    private String MSG_DRAW_RESET = "Draw has been reset!";
+    //private String MSG_DRAW_RESET = "Draw has been reset!";
+    //private String MSG_DRAW_RESET = "Draw has been reset!";
 
     //ERRORS
     private String ERR_DRAW_LOCKED = Colors.FOND_ROUGE + "ERROR! The draw is now locked. You cannot add any other participants!" + Colors.RESET;
     private String ERR_NAME_NUMBER = Colors.FOND_ROUGE + "ERROR! Numbers are not allowed!" + Colors.RESET + "/n" + "Please enter a valid name : ";
     private String ERR_NAME_EXISTS = Colors.FOND_ROUGE + "ERROR! Participant already exists!" + Colors.RESET;
     private String ERR_LESS_THAN_TWO = Colors.FOND_ROUGE + "ERROR! There's less than 2 person in the pool!" + Colors.RESET;
-    private String ERR_WRONG_NUMBER = Colors.FOND_ROUGE + "ERROR! Please enter a number between 0 and ";
+    private String ERR_WRONG_NUMBER = Colors.FOND_ROUGE + "ERROR! Please enter a number between 1 and ";
     private String ERR_ALREADY_MATCHED = Colors.FOND_ROUGE + "ERROR! One of the two person already has a spouse!" + Colors.RESET;
     private String ERR_SAME_PERSON = Colors.FOND_ROUGE + "ERROR! You selected the same person 2 times!" + Colors.RESET;
     private String ERR_ZERO_TO_SEVEN = Colors.FOND_ROUGE + "Invalid choice! Must be between 0 and 7!" + Colors.RESET;
@@ -38,6 +46,7 @@ public class SecretSanta {
 
         if(drawLocked) {
             System.out.println(ERR_DRAW_LOCKED);
+            pause();
         } else {
             while (!valid) {
                 System.out.println(INPUT_ENTER_NAME);
@@ -54,6 +63,8 @@ public class SecretSanta {
                 } else {
                     participants.add(newParticipant);
                     valid = true;
+                    System.out.println(newParticipant.getName() + " has been added to the pool!");
+                    pause();
                 }
             }
         }
@@ -71,50 +82,54 @@ public class SecretSanta {
     }
 
     public void defineCouple() {
-        int i = 0;
         boolean valid = false;
         Participant p1 = null;
         Participant p2 = null;
 
-        if(participants.size() > 2){
+        if(participants.size() < 2){
             System.out.println(ERR_LESS_THAN_TWO);
+            pause();
         } else {
-            for (Participant participant : participants) {
-                System.out.println(i++ + ") " + participant.getName());
-            }
+            System.out.println(displayNameList(participants));
             System.out.println(INPUT_NUMBER_MATCH);
-
-            System.out.print("First person : ");
             while (!valid){
+                System.out.print("First person : ");
                 try {
                     int number1 = scanner.nextInt();
-                    p1 = participants.get(number1);
+                    p1 = participants.get(number1 - 1);
                     valid = true;
                 } catch (IndexOutOfBoundsException e){
                     System.out.println(ERR_WRONG_NUMBER + (participants.size()-1) + Colors.RESET);
+                    pause();
                 }
             }
 
             valid = false;
 
-            System.out.print("Second person : ");
             while (!valid){
+                System.out.print("Second person : ");
                 try {
                     int number2 = scanner.nextInt();
-                    p2 = participants.get(number2);
+                    p2 = participants.get(number2 -1);
                     valid = true;
                 } catch (IndexOutOfBoundsException e){
-                    System.out.println(ERR_WRONG_NUMBER + (participants.size()-1) + Colors.RESET);
+                    System.out.println(ERR_WRONG_NUMBER + (participants.size()) + Colors.RESET);
+                    pause();
                 }
             }
 
             if (p1.getSpouse() != null || p2.getSpouse() != null) {
                 System.out.println(ERR_ALREADY_MATCHED);
+                pause();
             } else if (p1.equals(p2)){
                 System.out.println(ERR_SAME_PERSON);
+                pause();
             } else {
                 p1.setSpouse(p2);
                 p2.setSpouse(p1);
+
+                System.out.println(p1.getName() + " and " + p2.getName() + " are now a couple!");
+                pause();
             }
         }
     }
@@ -122,6 +137,7 @@ public class SecretSanta {
     public void generateDraw(){
         if(participants.size() < 2) {
             System.out.println(ERR_LESS_THAN_TWO);
+            pause();
         } else {
             pairings.clear();
             Random rand = new Random();
@@ -153,6 +169,8 @@ public class SecretSanta {
                 }
             }
             drawLocked = true;
+            System.out.println(MSG_LOCKED_DRAW);
+            pause();
         }
     }
 
@@ -161,24 +179,34 @@ public class SecretSanta {
             System.out.println(pair.getGiver().getName() + " ==> " + pair.getReceiver().getName());
             pair.getGiver().incrementCounter();
         }
+
+        pause();
     }
 
     public void consultAssignment(){
-        String value = "";
-        ArrayList<Pairing> reveiledPairs = new ArrayList<>();
+        int value;
+        boolean valid = false;
         if(!drawLocked) {
             System.out.println(ERR_DRAW_UNLOCKED);
+            pause();
         } else {
-            for (Pairing p : pairings) {
-                System.out.println(displayNames(p, false));
-            }
-            System.out.println("Enter the name of the person you want to reveil : ");
-            value = scanner.next();
-            while (value != "0"){
-                for (Pairing p : pairings) {
-                    if (p.getGiver().getName().equalsIgnoreCase(value)) {
-                        reveiledPairs.add(p);
+            System.out.println(displayNameList(participants));
+            System.out.println(INPUT_NUMBER_REVIEL);
+            while (!valid){
+                try {
+                    value = scanner.nextInt();
+                    Participant selected = participants.get(value - 1);
+                    for (Pairing p : pairings) {
+                        if (p.getGiver().getName().equals(selected.getName())) {
+                            System.out.println(displayNames(p, true));
+                            p.getGiver().incrementCounter();
+                        }
                     }
+                    valid = true;
+                    pause();
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println(ERR_WRONG_NUMBER + (participants.size()) + Colors.RESET);
+                    pause();
                 }
             }
         }
@@ -194,25 +222,61 @@ public class SecretSanta {
         return result;
     }
 
-    public int displayConsultationCounter(Participant p){
-        int result = 0;
+    public String displayNameList(ArrayList<Participant> list) {
+        String result = "";
+        int i = 1;
+        for (Participant participant : participants) {
+            result += (i++) + ") " + participant.getName();
+            if (participant.getSpouse() == null) {
+                result += " (single)";
+            } else {
+                result += " (in couple)";
+            }
+            result += "\n";
+        }
+        return result;
+    }
 
-        for (Participant part :  participants) {
-            if(part.equals(p)) {
-                result = part.getConsultationCount();
+    public void displayConsultationCounter(){
+        int value;
+        boolean valid = false;
+        if(!drawLocked) {
+            System.out.println(ERR_DRAW_UNLOCKED);
+            pause();
+        } else {
+            displayNameList(participants);
+            System.out.println(INPUT_NUMBER_COUNTER);
+            while (!valid){
+                try {
+                    value = scanner.nextInt();
+                    Participant selected = participants.get(value - 1);
+                    System.out.println(selected.getName() + " has consulted his/her secret santa " + selected.getConsultationCount() + " time(s)!");
+                    valid = true;
+
+                    pause();
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println(ERR_WRONG_NUMBER + (participants.size()) + Colors.RESET);
+                    pause();
+                }
             }
         }
-
-        return result;
     }
 
     public void resetDraw(){
         pairings.clear();
         drawLocked = false;
+        System.out.println(MSG_DRAW_RESET);
+        pause();
     }
 
-    private static void showMenu() {
-        System.out.println("\n=== SECRET SANTA ===");
+    public void pause(){
+        scanner.nextLine();
+        System.out.println(INPUT_ENTER_TO_CONTINUE);
+        scanner.nextLine();
+    }
+
+    public void showMenu() {
+        System.out.println("\n" + MENU_SECRET_SANTA);
         System.out.println("1. Add participant");
         System.out.println("2. Define couple");
         System.out.println("3. Generate draw");
@@ -222,7 +286,7 @@ public class SecretSanta {
         System.out.println("7. Reset");
         System.out.println("0. Exit");
         System.out.println("");
-        System.out.print("Choice: ");
+        System.out.print("Select an option : ");
     }
 
     //MAIN EXÉCUTABLE (POUR TESTER)
@@ -257,9 +321,9 @@ public class SecretSanta {
                     case 1 -> addParticipant();
                     case 2 -> defineCouple();
                     case 3 -> generateDraw();
-                    case 4 -> consultAssignment(will);  //a changer
+                    case 4 -> consultAssignment();
                     case 5 -> consultAllAssignments();
-                    case 6 -> displayConsultationCounter(will);     // a changer
+                    case 6 -> displayConsultationCounter();
                     case 7 -> resetDraw();
                     case 0 -> running = false;
                     default -> System.out.println(ERR_ZERO_TO_SEVEN);
@@ -268,28 +332,6 @@ public class SecretSanta {
                 System.out.println(ERR_ZERO_TO_SEVEN);
             }
         }
-
-//        while (running) {
-//            showMenu();
-//            try{
-//                int choice = scanner.nextInt();
-//
-//                switch (choice) {
-//                    case 1 -> addParticipant();
-//                    case 2 -> defineCouple();
-//                    case 3 -> generateDraw();
-//                    case 4 -> consultAssignment();
-//                    case 5 -> consultAllAssignments();
-//                    case 6 -> displayConsultationCounter();
-//                    case 7 -> resetDraw();
-//                    case 0 -> running = false;
-//                    default -> System.out.println("Invalid choice.");
-//                }
-//            } catch (NumberFormatException e){
-//                System.out.println("Invalid choice. Enter a value between 0 and 7");
-//            }
-//
-//            System.out.println("Goodbye!");
-//        }
+        System.out.println("Goodbye!!!");
     }
 }
