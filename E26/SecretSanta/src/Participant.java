@@ -29,10 +29,6 @@ public class Participant {
         consultationCounter++;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setSpouse(Participant spouse) {
         this.spouse = spouse;
     }

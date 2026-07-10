@@ -13,8 +13,6 @@ public class SecretSanta {
     private String MENU_SECRET_SANTA = Colors.FOND_ROUGE + Colors.GREEN + "=== SECRET SANTA ===" + Colors.RESET;
     private String MSG_LOCKED_DRAW = "The draw is now locked!";
     private String MSG_DRAW_RESET = "Draw has been reset!";
-    //private String MSG_DRAW_RESET = "Draw has been reset!";
-    //private String MSG_DRAW_RESET = "Draw has been reset!";
 
     //ERRORS
     private String ERR_DRAW_LOCKED = Colors.FOND_ROUGE + "ERROR! The draw is now locked. You cannot add any other participants!" + Colors.RESET;
@@ -176,7 +174,7 @@ public class SecretSanta {
 
     public void consultAllAssignments(){
         for (Pairing pair : pairings) {
-            System.out.println(pair.getGiver().getName() + " ==> " + pair.getReceiver().getName());
+            System.out.println(displayNames(pair, true));
             pair.getGiver().incrementCounter();
         }
 
