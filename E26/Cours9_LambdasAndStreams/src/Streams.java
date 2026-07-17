@@ -1,4 +1,6 @@
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -76,6 +78,106 @@ public class Streams {
         System.out.printf("%nRandom numbers on one line: %s%n", numbers);
     }
 
+    /*============
+    DIAPO 50 -> 53
+    ============*/
+    public static void intStreamOperations(){
+        int[] values = {3, 10, 6, 1, 4, 8, 2, 5, 9, 7};
+
+        //display original values
+        System.out.print("Original values: ");
+        System.out.println(
+                IntStream.of(values)
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(" ")));
+
+        // count, min, max, sum and average of the values
+        System.out.printf("%nCount: %d%n", IntStream.of(values).count());
+        System.out.printf("Min: %d%n",  IntStream.of(values).min().getAsInt());
+        System.out.printf("Max: %d%n",  IntStream.of(values).max().getAsInt());
+        System.out.printf("Sum: %d%n", IntStream.of(values).sum());
+        System.out.printf("Average: %.2f%n", IntStream.of(values).average().getAsDouble());
+
+        // sum of values with REDUCE method
+        System.out.printf("%nProduct via reduce method: %d%n", IntStream.of(values)
+            .reduce((x,y) -> x * y).getAsInt());
+
+        // product of values with REDUCE method
+        System.out.printf("Sum via reduce method: %d%n", IntStream.of(values)
+                .reduce((x,y) -> x + y).getAsInt());
+
+        // sum of squares of values with map and sum method
+        System.out.printf("Sum of squares via map and sum method: %d%n%n", IntStream.of(values)
+                .map(x -> x * x)
+                .sum());
+
+        // display elements in sorted order
+        System.out.printf("%nValues displayed in sorted order: %s%n", IntStream.of(values)
+                .sorted()
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining(" ")));
+    }
+
+    public static void arraysAndStreams(){
+        Integer[] values = {2, 9, 5, 0, 3, 7, 1, 4, 8, 6};
+
+        //display original values
+        System.out.printf("Original values: %s%n", Arrays.asList(values));
+
+        //sort values in ascending order with streams
+        System.out.printf("Sorted values: %s%n",
+                Arrays.stream(values)
+                    .sorted()
+                    .toList());
+
+        // values greater than 4
+        List<Integer> greaterThan4 =
+                Arrays.stream(values)
+                    .filter(value -> value > 4)
+                    .collect(Collectors.toList());          // or .toList()
+        System.out.printf("Values greater than 4: %s%n", greaterThan4);
+
+        // values greater than 4 and then sorted
+        System.out.printf("Values greater than 4 and then sorted: %s%n",
+                Arrays.stream(values)
+                        .filter(value -> value > 4)
+                        .sorted()
+                        .collect(Collectors.toList()));     // or .toList()
+
+        // greaterThan4 List sorted with streams
+        System.out.printf("Values greater than 4 (acsending with streams): %s%n",
+                greaterThan4.stream()
+                    .sorted()
+                    .collect(Collectors.toList()));         // or .toList()
+    }
+
+    public static void arraysAndStreams2(){
+        String[] strings = {"Red", "orange", "Yellow", "green", "Blue", "indigo", "Violet"};
+
+        //display original strings
+        System.out.printf("Original strings: %s%n", Arrays.asList(strings));
+
+        //strings in uppercase
+        System.out.printf("Strings in uppercase: %s%n",
+                Arrays.stream(strings)
+                        .map(String::toUpperCase)
+                        .toList());
+
+        //strings less than 'n' (case-insensitive) sorted ascending
+        System.out.printf("Strings less than n sorted ascending: %s%n",
+                Arrays.stream(strings)
+                        .filter(s -> s.compareToIgnoreCase("n") < 0)
+                        .sorted(String.CASE_INSENSITIVE_ORDER)
+                        .toList());
+
+        //strings less than 'n' (case-insensitive) sorted descending
+        System.out.printf("Strings less than n sorted descending: %s%n",
+                Arrays.stream(strings)
+                        .filter(s -> s.compareToIgnoreCase("n") < 0)
+                        .sorted(String.CASE_INSENSITIVE_ORDER.reversed())
+                        .toList());
+    }
+
 
 
 
@@ -84,7 +186,11 @@ public class Streams {
         //classicLoop();
         //rangeClosedStream();
         //streamsOperations();
-        randomIntegers();
+        //randomIntegers();
+        //intStreamOperations();
+        //arraysAndStreams();
+        arraysAndStreams2();
+
     }
 }
 
