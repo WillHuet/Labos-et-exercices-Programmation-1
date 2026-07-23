@@ -1,3 +1,5 @@
+package models;
+
 import api.IScenario;
 
 public class Scenario implements IScenario {
