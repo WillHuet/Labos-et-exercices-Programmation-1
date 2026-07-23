@@ -4,6 +4,12 @@ import api.IElevator;
 import java.util.List;
 
 public class Building implements IBuilding {
+    private int numberOfFloors;
+    private int currentFloor;
+    private List<Elevator> elevators;
+
+    public Building(int numberOfFloors, int numberOfElevators, int currentFloor) {}
+
     @Override
     public int getNumberOfFloors() {
         return 0;
