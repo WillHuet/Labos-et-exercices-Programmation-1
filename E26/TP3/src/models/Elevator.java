@@ -16,11 +16,13 @@ public class Elevator implements IElevator {
     private Direction direction;
     private boolean openedDoorsAtCurrentFloor;
     private List<Passenger> passengers;
+    private int floorTravelTime;
 
-    public Elevator(int id, int maxPassengers, int maxWeight) {
+    public Elevator(int id, int maxPassengers, int maxWeight, int floorTravelTime) {
         this.id = id;
         this.maxPassengers = maxPassengers;
         this.maxWeight = maxWeight;
+        this.floorTravelTime = floorTravelTime;
 
         currentFloor = 0;
         direction = Direction.IDLE;
@@ -30,6 +32,18 @@ public class Elevator implements IElevator {
 
     public List<Passenger> getPassengers() {
         return passengers;
+    }
+
+    public int getMaxCapacity() {
+        return maxPassengers;
+    }
+
+    public int getMaxWieght() {
+        return maxWeight;
+    }
+
+    public int getFloorTravelTime() {
+        return floorTravelTime;
     }
 
     @Override

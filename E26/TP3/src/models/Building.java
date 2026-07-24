@@ -23,6 +23,7 @@ public class Building implements IBuilding {
     public int getNumberOfFloors() {
         return floors.size();
     }
+
     // *****
     @Override
     public int getWaitingPassengersGoingUp(int floor) {
