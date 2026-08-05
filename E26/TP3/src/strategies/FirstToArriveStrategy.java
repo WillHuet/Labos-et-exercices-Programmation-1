@@ -1,17 +1,17 @@
-package models;
+package strategies;
 
 import api.ElevatorContext;
 import api.ElevatorDecision;
 import api.IElevatorStrategy;
 
-public class ElevatorStrategy implements IElevatorStrategy {
+public class FirstToArriveStrategy implements IElevatorStrategy {
     @Override
     public String getName() {
-        return "";
+        return "First to Arrive Order";
     }
 
     @Override
     public ElevatorDecision chooseNextAction(ElevatorContext elevatorContext) {
-        return null;
+        return ElevatorDecision.STAY_IDLE;
     }
 }
