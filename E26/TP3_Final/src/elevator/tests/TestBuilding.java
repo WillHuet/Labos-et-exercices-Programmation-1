@@ -1,17 +1,22 @@
-import api.IBuilding;
-import api.IElevator;
+package elevator.tests;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class Building implements IBuilding {
+import elevator.api.IBuilding;
+import elevator.api.IElevator;
+
+class TestBuilding implements IBuilding {
+    private final IElevator elevator = new TestElevator();
+
     @Override
     public int getNumberOfFloors() {
-        return 0;
+        return 3;
     }
 
     @Override
     public int getWaitingPassengersGoingUp(int floor) {
-        return 0;
+        return floor == 1 ? 1 : 0;
     }
 
     @Override
@@ -21,11 +26,11 @@ public class Building implements IBuilding {
 
     @Override
     public long getOldestWaitingRequestTime(int floor) {
-        return 0;
+        return floor == 1 ? 1 : Long.MAX_VALUE;
     }
 
     @Override
     public List<IElevator> getElevators() {
-        return List.of();
+        return Arrays.asList(elevator);
     }
 }
