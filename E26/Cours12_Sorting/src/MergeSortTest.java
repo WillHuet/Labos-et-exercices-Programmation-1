@@ -38,26 +38,23 @@ public class MergeSortTest {
             else {
                 combined[combinedIndex++] = data[rightIndex++];
             }
-
-            if (leftIndex == middle2){
-                while (rightIndex <= right){
-                    combined[combinedIndex++] = data[rightIndex++];
-                }
+        }
+        if (leftIndex == middle2){
+            while (rightIndex <= right){
+                combined[combinedIndex++] = data[rightIndex++];
             }
-            else {
-                while (leftIndex <= middle1){
-                    combined[combinedIndex++] = data[leftIndex++];
-                }
+        }
+        else {
+            while (leftIndex <= middle1){
+                combined[combinedIndex++] = data[leftIndex++];
             }
-
-            for (int i = left; i <= right; i++){
-                data[i] = combined[i];
-            }
-
-            System.out.printf("          %s%n%n", subarrayString(data, left, right));
-
         }
 
+        for (int i = left; i <= right; i++){
+            data[i] = combined[i];
+        }
+
+        System.out.printf("          %s%n%n", subarrayString(data, left, right));
     }
 
     private static String subarrayString(int[] data, int low, int high) {
