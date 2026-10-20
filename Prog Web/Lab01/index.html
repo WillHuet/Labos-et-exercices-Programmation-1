@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Portfolio de William Huet — Développeur logiciel">
+
+    <title>William Huet | Développeur logiciel</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">WH</a>
+
+            <ul>
+                <li>
+                    <a href="#about">À propos</a>
+                </li>
+
+                <li>
+                    <a href="#experience">Expérience</a>
+                </li>
+
+                <li>
+                    <a href="#projects">Projets</a>
+                </li>
+
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Page principale -->
+    <main>
+
+        <!-- Section d'accueil -->
+        <section id="home">
+
+            <p>Bonjour, je suis</p>
+
+            <h1>William Huet.</h1>
+
+            <h2>Je développe des solutions logicielles.</h2>
+
+            <p>
+                Je suis étudiant en informatique et je m'intéresse
+                au développement logiciel, aux systèmes et aux
+                technologies Web.
+            </p>
+
+            <a href="#projects">
+                Découvrir mes projets
+            </a>
+
+        </section>
+
+
+        <!-- À propos -->
+        <section id="about">
+
+            <h2>01. À propos</h2>
+
+            <img src="img/IMG_2981.JPG" alt="Portrait de William Huet" class="profile-picture" width="200" height="200">
+
+            <p>
+                Je suis un étudiant passionné par l'informatique et
+                le développement logiciel. J'aime bien être face à un défi
+                et avoir la satisfaction de le résoudre.<br>Je vis pour ça, et je suis toujours à la recherche de nouvelles opportunités!
+            </p>
+
+        </section>
+
+
+        <!-- Expérience -->
+        <section id="experience">
+
+            <h2>02. Expérience</h2>
+
+            <p>
+                Cette section présentera mon parcours académique,
+                mes expériences professionnelles et les compétences
+                acquises au fil de mes projets.
+            </p>
+
+            <div role="tablist" aria-label="Expériences professionnelles">
+                <button role="tab" aria-selected="true" aria-controls="experience-1" id="experience-1-tab">Université du Québec à Montréal</button>
+                <button role="tab" aria-selected="false" aria-controls="experience-2" id="experience-2-tab">Travail personnel</button>
+                <button role="tab" aria-selected="false" aria-controls="experience-3" id="experience-3-tab">Cégep Édouard-Montpetit</button>
+            </div>
+
+            <div class="experiences">
+                <div class="experience" id="experience-1" role="tabpanel" aria-labelledby="experience-1-tab" aria-hidden="false">
+                    <h3>Université du Québec à Montréal</h3>
+                    <h4><i>2025 - Présent</i></h4>
+                    <p>Étudiant universitaire en informatique et développement de logiciels</p>
+                    <ul>
+                        <li>Apprentissage des concepts avancés en programmation et en développement logiciel</li>
+                        <li>Participation à des projets de recherche et développement</li>
+                        <li>Collaboration avec des équipes multidisciplinaires pour résoudre des problèmes complexes</li>
+                        <li>Développement de compétences en gestion de projet et en communication technique</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="experience" id="experience-2" role="tabpanel" aria-labelledby="experience-2-tab" aria-hidden="true">
+                    <h3>Travail personnel</h3>
+                    <h4><i>2023 - 2025</i></h4>
+                    <p>Développement personnel sur le côté</p>
+                    <ul>
+                        <li>Conception et développement d'applications web</li>
+                        <li>Implémentation, maintenance et amélioration de bases de données</li>
+                        <li>Exploration de nouvelles technologies et frameworks</li>
+                        <li>Participation à des communautés en ligne pour partager des connaissances et apprendre des autres</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="experience" id="experience-3" role="tabpanel" aria-labelledby="experience-3-tab" aria-hidden="true">
+                    <h3>Cégep Édouard-Montpetit</h3>
+                    <h4><i>2020 - 2023</i></h4>
+                    <p>Étudiant collégiale en développement informatique</p>
+                    <ul>
+                        <li>Acquisition de compétences de bases en programmation et en développement logiciel</li>
+                        <li>Participation à des projets académiques et collaboratifs</li>
+                        <li>Développement de compétences en résolution de problèmes et en pensée critique</li>
+                        <li>Acquis de connaissances en matière de gestion de projet et de communication technique</li>
+                    </ul>
+                    <br>
+                </div>
+            </div>
+
+
+
+        </section>
+
+
+        <!-- Projets -->
+        <section id="projects">
+
+            <h2>03. Projets</h2>
+
+            <p>
+                Voici quelques-uns des projets sur lesquels j'ai
+                travaillé.
+            </p>
+
+            <ul>
+                <li>
+                    <a href="file:///Users/willhuet/Downloads/A22-WebDesign-TP1/stack_etudiants/dist/index.html">Projet 1</a>
+                </li>
+                <li>
+                    <a href="project2.html">Projet 2</a>
+                </li>
+                <li>
+                    <a href="project3.html">Projet 3</a>
+                </li>
+            </ul>
+
+        </section>
+
+
+        <!-- Contact -->
+    <section id="contact">
+
+        <h2>04. Contactez-moi</h2>
+
+        <p class="contact-introduction">
+            Vous avez une question, une opportunité ou souhaitez simplement
+            entrer en contact avec moi? N'hésitez pas à m'envoyer un message.
+        </p>
+
+    <!-- Formulaire -->
+    <form id="contact-form">
+
+        <!-- Nom et prénom -->
+        <div class="form-group">
+            <label for="name">Nom et prénom</label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Votre nom et prénom"
+                required
+            >
+        </div>
+
+
+        <!-- Adresse courriel -->
+        <div class="form-group">
+            <label for="email">Adresse courriel</label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="votre.email@example.com"
+                required
+            >
+        </div>
+
+
+        <!-- Message -->
+        <div class="form-group">
+            <label for="message">Message</label>
+
+            <textarea
+                id="message"
+                name="message"
+                rows="8"
+                placeholder="Écrivez votre message ici..."
+                required
+            ></textarea>
+        </div>
+
+
+        <!-- Boutons -->
+        <div class="form-buttons">
+
+            <button type="submit">
+                Envoyer
+            </button>
+
+            <button type="reset">
+                Effacer
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- Liens externes -->
+    <div class="contact-links">
+
+        <p>Vous pouvez également me rejoindre ici :</p>
+
+        <ul>
+
+            <li>
+                <a
+                    href="https://www.linkedin.com/in/VOTRE-PROFIL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    LinkedIn
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="https://github.com/VOTRE-NOM"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+            </li>
+
+            <li>
+                <a href="mailto:votre.email@example.com">
+                    M'envoyer un courriel
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    </section>
+
+
+    </main>
+
+
+    <!-- Pied de page -->
+    <footer>
+        <p>
+            © 2026 William Huet
+        </p>
+    </footer>
+
+</body>
+
+</html>
